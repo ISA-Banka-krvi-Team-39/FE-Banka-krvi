@@ -1,6 +1,6 @@
 const Footer: React.FC = () => {
     return(
-     <footer className="bg-slate-300 h-9">
+     <footer className="bg-emerald-800 h-56">
 
     </footer>)
 }
