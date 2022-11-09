@@ -4,6 +4,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
+before running use this commands
+```bash
+npm istall --global yarn
+yarn add next react react-dom
+```
+
+to run frontend app run
 ```bash
 npm run dev
 # or
