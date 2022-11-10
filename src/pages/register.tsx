@@ -29,7 +29,7 @@ export default function Home() {
   return (
       <div className=" w-full bg-gray-800 px-6 mt-20 justify-center inline-flex">
         <div className=" bg-gray-800 justify-center">
-          <CustomInput 
+          <CustomInput
             type='text'
             onChange={(event) => {
               setName(event.target.value);
@@ -53,7 +53,7 @@ export default function Home() {
             nameToSet='Uuid'
           ></CustomInput>
 
-          <CustomInput 
+          <CustomInput
             type='number'
             onChange={(event) => {
               setPhoneNumber(event.target.value);
@@ -70,7 +70,7 @@ export default function Home() {
             nameToSet='City'
           ></CustomInput>
 
-          <CustomInput 
+          <CustomInput
             type='text'
             onChange={(event) => {
               setCountry(event.target.value);
