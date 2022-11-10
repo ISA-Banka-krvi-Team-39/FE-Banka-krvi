@@ -1,6 +1,6 @@
 const Links = [
     { Href: "/", text: "Main Page" },
-    { Href: "/stranica/bruh", text: "Link2" },
+    { Href: "/stranica/MyProfile", text: "My profile" },
     { Href: "/Link3", text: " Link3" },
     { Href: "/Link4", text: "Link4" },
   ];
