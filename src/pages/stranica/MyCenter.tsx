@@ -1,21 +1,53 @@
+import axios from 'axios';
 import {  useState, useEffect} from 'react'
 import CustomInput from '../../shared-components/Inputs/CustomInput'
+import { Center } from '../../shared-components/model/shared/center';
+import { PersonDTO } from "../../shared-components/model/shared/Person";
 
 const fetcher = (url: string) => fetch(url,{mode: 'no-cors'}).then((res) => res.json());
 
+var collectedCenter : Center;
+var pers : string;
+pers = "";
+
+
 export default function Home() {
 
-  const [name,setName] = useState('Centar');
-  const [description,setDescription] = useState('xd');
-  const [avg_grade,setAvg_grade] = useState('2.0');
+  const [name,setName] = useState('');
+  const [description,setDescription] = useState('');
+  const [avg_grade,setAvg_grade] = useState('');
   const [country,setCountry] = useState('');
   const [city,setCity] = useState('');
   const [streetName,setStreetName] = useState('');
   const [streetNumber,setStreetNumber] = useState('');
+  const [persons,setPersons] = useState('');
 
+  function doSomething() { }
+    axios.get("http://localhost:8080/api/center/1")
+    .then(res => {
 
-  function doSomething() {
-  }
+      collectedCenter = res.data;
+      //console.log(collectedCenter);
+      setName(collectedCenter.name);
+      setDescription(collectedCenter.description);
+      setAvg_grade(collectedCenter.avg_grade);
+      setCountry(collectedCenter.address.country);
+      setCity(collectedCenter.address.city);
+      setStreetName(collectedCenter.address.streetName);
+      setStreetNumber(collectedCenter.address.streetNumber + "");
+      
+      collectedCenter.workingMedicalStaff.forEach((el)=>{
+        if(!pers.includes(el.name))
+        pers = pers + " " + el.name;
+    })
+      
+    })
+    .catch(err => console.log(err))
+    
+  
+
+  
+  
 
   return (
     <div className=" w-full bg-gray-800 px-6 mt-20 justify-center inline-flex">
@@ -79,6 +111,14 @@ export default function Home() {
             setStreetNumber(event.target.value);
           }}
           nameToSet='Street Number'
+        ></CustomInput>
+        <CustomInput 
+          value = {pers}
+          type='Person'
+          onChange={(event) => {
+            setPersons(event.target.value);
+          }}
+          nameToSet='Workers'
         ></CustomInput>
 
         <div className='w-full inline-flex justify-center mt-5 mb-28'>

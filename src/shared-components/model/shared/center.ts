@@ -1,15 +1,19 @@
-import { Address } from "./address";
+import { Address } from "../shared/Address";
+import { PersonDTO } from "../shared/Person";
 
 export class Center {
     address:Address;
     name:string;
     description:string;
-    avg_grade:number;
+    avg_grade:string;
+    workingMedicalStaff:PersonDTO[];
 
-    constructor(address: Address,name:string,description:string,email:string,password:string,school:string,uuid:number,avg_grade:number) {
+
+    constructor(address: Address,name:string,description:string,avg_grade:string,persons:PersonDTO[]) {
       this.address = address;
       this.name = name;
       this.description = description;
       this.avg_grade = avg_grade;
+      this.workingMedicalStaff = persons;
     }
   }
