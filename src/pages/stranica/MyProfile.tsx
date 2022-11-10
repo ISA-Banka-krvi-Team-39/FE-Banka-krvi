@@ -3,7 +3,7 @@ import Image from 'next/image'
 import {  useState, useEffect} from 'react'
 import styles from '../styles/Home.module.css'
 import CustomInput from '../../shared-components/Inputs/CustomInput'
-import { Person } from '../../shared-components/model/person/person'
+import { User } from '../../shared-components/model/user/User'
 
 const fetcher = (url: string) => fetch(url,{mode: 'no-cors'}).then((res) => res.json());
 
