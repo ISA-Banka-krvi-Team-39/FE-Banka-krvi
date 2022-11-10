@@ -1,8 +1,9 @@
+import axios, { AxiosResponse } from 'axios';
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
-import { Person } from '../shared-components/model/person/person';
+import { User } from '../shared-components/model/user/User';
 import styles from '../styles/Home.module.css'
 
 
@@ -19,12 +20,18 @@ export default function Home() {
   const [city,setCity] = useState('');
   const [streetName,setStreetName] = useState('');
   const [streetNumber,setStreetNumber] = useState('');
+  const [gender,setGender] = useState('');
 
   function doSomething() {
-    var person: Person = {address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
-  name:name,surname:surname,school:school,email:email,password:password,uuid:Number(uuid),phoneNumber:Number(phoneNumber)
-  };
-    console.log(person)
+    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
+    name:name,surname:surname,school:school,email:email,password:password,uuid:uuid,phoneNumber:phoneNumber,
+    personGender:Number(gender),personType: 0
+    };
+    axios.post("http://localhost:8080/api/user", user)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => console.log(err))
   }
   return (
       <div className=" w-full bg-gray-800 px-6 mt-20 justify-center inline-flex">
@@ -46,7 +53,7 @@ export default function Home() {
           ></CustomInput>
 
           <CustomInput 
-            type='number'
+            type='text'
             onChange={(event) => {
               setUuid(event.target.value);
             }}
@@ -54,7 +61,7 @@ export default function Home() {
           ></CustomInput>
 
           <CustomInput
-            type='number'
+            type='text'
             onChange={(event) => {
               setPhoneNumber(event.target.value);
             }}
@@ -115,6 +122,23 @@ export default function Home() {
             }}
             nameToSet='Password'
           ></CustomInput>
+          <div className="my-5 w-[700px]">
+            <div className="w-48 inline-flex justify-end">
+            <span className="text text-4xl mr-4 min-w-max">Gender:</span>
+            </div>
+            <select 
+            id="gender" 
+            name="gender" 
+            className="text-emerald-200 text-4xl w-[416px] bg-gray-800 border-2 pb-1 border-emerald-800"
+            onChange={(e) => {
+              setGender(e.target.value);
+            }}
+            >
+              <option value="0">Male</option>
+              <option value="1">Female</option>
+              <option value="2">Alien</option>
+            </select>
+          </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
           <button onClick={doSomething} className="bg-emerald-900 rounded-[32px] px-8 py-4 text-emerald-200 font-medium text-2xl">
             Register
