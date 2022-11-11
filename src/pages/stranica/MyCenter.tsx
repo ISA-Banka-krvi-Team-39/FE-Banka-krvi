@@ -8,8 +8,9 @@ const fetcher = (url: string) => fetch(url,{mode: 'no-cors'}).then((res) => res.
 
 var collectedCenter : Center;
 var pers : string;
+var htmvar : string;
 pers = "";
-
+htmvar = "";
 
 export default function Home() {
 
@@ -22,7 +23,7 @@ export default function Home() {
   const [streetNumber,setStreetNumber] = useState('');
   const [persons,setPersons] = useState('');
 
-  function doSomething() { }
+  function doSomething() { 
     axios.get("http://localhost:8080/api/center/1")
     .then(res => {
 
@@ -38,11 +39,33 @@ export default function Home() {
       
       collectedCenter.workingMedicalStaff.forEach((el)=>{
         if(!pers.includes(el.name))
-        pers = pers + " " + el.name;
+        pers = pers + " " + el.name + " " + el.surname;
+        
     })
       
     })
     .catch(err => console.log(err))
+    
+  }
+  useEffect(()=>{
+
+   doSomething();
+    
+    }, [])
+  function updateCenter() { 
+    axios.put("http://localhost:8080/api/center/1",collectedCenter)
+    .then(res => {
+      collectedCenter.name = name;
+      collectedCenter.description = description;
+      collectedCenter.avg_grade = avg_grade;
+      collectedCenter.address.city = city;
+      collectedCenter.address.country = country;
+      collectedCenter.address.streetName = streetName;
+      var convertedToNumber: number = +streetNumber;
+      collectedCenter.address.streetNumber = convertedToNumber;
+
+    }).catch(err => console.log(err))
+  }
     
   
 
@@ -56,6 +79,7 @@ export default function Home() {
           value = {name}
           type='text'
           onChange={(event) => {
+            collectedCenter.name = event.target.value;
             setName(event.target.value);
           }}
           nameToSet='Name'
@@ -65,6 +89,7 @@ export default function Home() {
           value = {description}
           type='text'
           onChange={(event) => {
+            collectedCenter.description = event.target.value;
             setDescription(event.target.value);
           }}
           nameToSet='Description'
@@ -74,6 +99,7 @@ export default function Home() {
           value = {avg_grade}
           type='number'
           onChange={(event) => {
+            collectedCenter.avg_grade = event.target.value;
             setAvg_grade(event.target.value);
           }}
           nameToSet='Avg_grade'
@@ -83,6 +109,7 @@ export default function Home() {
           value = {city}
           type='text'
           onChange={(event) => {
+            collectedCenter.address.city = event.target.value;
             setCity(event.target.value);
           }}
           nameToSet='City'
@@ -92,6 +119,7 @@ export default function Home() {
           value = {country}
           type='text'
           onChange={(event) => {
+            collectedCenter.address.country = event.target.value;
             setCountry(event.target.value);
           }}
           nameToSet='Country'
@@ -100,6 +128,7 @@ export default function Home() {
           value = {streetName}
           type='text'
           onChange={(event) => {
+            collectedCenter.address.streetName = event.target.value;
             setStreetName(event.target.value);
           }}
           nameToSet='Street Name'
@@ -108,27 +137,22 @@ export default function Home() {
           value = {streetNumber}
           type='number'
           onChange={(event) => {
+            var convertedToNumber: number = +event.target.value;
+            collectedCenter.address.streetNumber = convertedToNumber  ;
             setStreetNumber(event.target.value);
           }}
           nameToSet='Street Number'
         ></CustomInput>
-        <CustomInput 
-          value = {pers}
-          type='Person'
-          onChange={(event) => {
-            setPersons(event.target.value);
-          }}
-          nameToSet='Workers'
-        ></CustomInput>
-
-        <div className='w-full inline-flex justify-center mt-5 mb-28'>
-        <button onClick={doSomething} className="bg-emerald-900 rounded-[32px] px-8 py-4 text-emerald-200 font-medium text-2xl">
+        
+        <div  className='w-full inline-flex justify-center mt-5 mb-28'>
+        <button onClick={updateCenter} className="bg-emerald-900 rounded-[32px] px-8 py-4 text-emerald-200 font-medium text-2xl">
           Confirm changes 
         </button>
         </div>
       </div>
       <div className='h-[750px] w-[600px] rounded-2xl py-5 px-5 border-4 border-black bg-emerald-800 text-slate-300 text-3xl break-words overflow-hidden'>
-        Vi ste  i imate poena, mozete da dobijete cak do 20l krvi :)
+        
+        <p id='proba'>{pers}</p>
       </div>
     </div>
 )
