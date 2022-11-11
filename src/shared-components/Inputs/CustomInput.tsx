@@ -40,7 +40,7 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
       className={classNames('text-4xl bg-gray-800 border-b-2 pb-1 placeholder-emerald-500',props.className,validInput)}
       ></input>
       <br/>
-      <div className={classNames("text-red-700 w-full text-lg my-2",hidden)}>{props.notValidText}</div>
+      <div className={classNames("text-red-700 w-full text-lg my-2 text-right pr-7",hidden)}>{props.notValidText}</div>
     </div>
   );
 };
