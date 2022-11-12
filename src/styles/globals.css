@@ -11,3 +11,59 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none; 
     margin: 0; 
   }
+
+  .page-link {
+    position: relative;
+    display: inline-flex;
+    border: 1px solid #15803d;
+    background-color: #1e293b;
+    padding: 10px 15px;
+    color: #15803d;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.page-link:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.page-link:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.page-link:not(:first-child) {
+    margin-left: -1px;
+}
+
+.page-link:hover,
+.page-link:focus {
+    color: #1e293b;
+    background-color: #4ade80;
+}
+
+.page-link:focus {
+    z-index: 3;
+}
+
+.page-link.active {
+    z-index: 2;
+    color: #1e293b;
+    border-color: #15803d;
+    background-color: #15803d;
+}
+
+.page-link.disabled {
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+  }

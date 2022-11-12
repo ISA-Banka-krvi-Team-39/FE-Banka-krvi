@@ -9,7 +9,7 @@ import { User } from '../shared-components/model/user/User';
 import styles from '../styles/Home.module.css'
 
 
-export default function Home() {
+export default function Register() {
 
   const [name,setName] = useState('');
   const [surname,setSurname] = useState('');

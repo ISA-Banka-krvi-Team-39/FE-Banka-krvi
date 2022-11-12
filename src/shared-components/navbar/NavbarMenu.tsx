@@ -14,7 +14,7 @@ const NavbarMenu: React.FC = () => {
           );
         })}
       </div>
-      <div className="inline-flex w-full mx-auto justify-end mr-10">
+      <div className="inline-flex mx-auto justify-end mr-10">
             <NavbarMenuItem href="/register">
               Register
             </NavbarMenuItem>
