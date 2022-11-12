@@ -95,7 +95,7 @@ export default function Centers() {
                 <div key={index} className="flex py-4 border-b-2 border-x-2 border-emerald-800">
                     <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{(center).name}</p>
                     <p className='text px-4 text-xl w-[665px] text-center h-[28px] my-auto'>{center.description}</p>
-                    <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{center.avg_grade}</p>
+                    <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{center.avgGrade}</p>
                     <p className='text px-4 text-xl w-[230px] text-center my-auto'>
                         {center.address.country},<br/>{center.address.city},<br/>{center.address.streetName}{" "}{center.address.streetNumber}
                     </p>
