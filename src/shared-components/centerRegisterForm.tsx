@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import CustomInput from './Inputs/CustomInput';
-import axios, { AxiosResponse } from 'axios';
 import {CreateCenterDTO} from './model/center/CreateCenterDTO'
 import React, { ReactNode } from "react";
 import AssignButton from './AssignButton';
 import { WorkingStaff } from './model/shared/WorkingStaff';
 import { MedicalStaff } from './model/shared/MedicalStaff';
+import { useRouter } from 'next/router'
 
 interface props {
     admins: WorkingStaff[];
@@ -22,28 +22,33 @@ const CenterRegisterForm: React.FC<props> = (props) => {
     const [description,setDescription] = useState('');
     const availableAdmins: WorkingStaff[] = props.admins
     let medicalStaff: MedicalStaff[] = []
+    const router = useRouter()
     
     
     function registerCenter(){
+      
       
         const center:CreateCenterDTO = {
             address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
             name:name, description:description, avgGrade:0,workingMedicalStaff:medicalStaff
         }
 
-        axios.post("http://localhost:8080/api/center", center)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => console.log(err))
+        fetch('http://localhost:8080/api/center',{
+            method:'POST',
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(center)
+        }).then(res=>{
+            console.log(res)
+            
+        }).catch(err=>console.log(err))
 
+        router.push('/centers')
     }
 
     function assignAdmins(assignedAdmin:WorkingStaff){
         medicalStaff.push(new MedicalStaff(assignedAdmin));
         console.log(medicalStaff)
         
-      
     }
 
     function undoAdmin(assignedAdmin:WorkingStaff){
