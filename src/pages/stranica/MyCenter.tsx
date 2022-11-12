@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {  useState, useEffect} from 'react'
 import CustomInput from '../../shared-components/Inputs/CustomInput'
-import { Center } from '../../shared-components/model/shared/center';
+import { Center } from '../../shared-components/model/center/center';
 import { PersonDTO } from "../../shared-components/model/shared/Person";
 
 const fetcher = (url: string) => fetch(url,{mode: 'no-cors'}).then((res) => res.json());
