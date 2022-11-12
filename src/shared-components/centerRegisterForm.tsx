@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import CustomInput from './Inputs/CustomInput';
 import axios, { AxiosResponse } from 'axios';
-import {Center} from './model/center/Center'
-import {PersonDTO} from './model/shared/Person'
+import {CreateCenterDTO} from './model/center/CreateCenterDTO'
 import React, { ReactNode } from "react";
 import AssignButton from './AssignButton';
 import { WorkingStaff } from './model/shared/WorkingStaff';
@@ -21,23 +20,20 @@ const CenterRegisterForm: React.FC<props> = (props) => {
     const [streetName,setStreetName] = useState('');
     const [streetNumber,setStreetNumber] = useState('');
     const [description,setDescription] = useState('');
-    const [showModal, setShowModal] = useState(false);
     const availableAdmins: WorkingStaff[] = props.admins
     let medicalStaff: MedicalStaff[] = []
     
     
     function registerCenter(){
       
-        const center:Center = {
+        const center:CreateCenterDTO = {
             address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
             name:name, description:description, avgGrade:0,workingMedicalStaff:medicalStaff
         }
 
-        
         axios.post("http://localhost:8080/api/center", center)
         .then(res => {
-          console.log(center)
-      console.log(res);
+          console.log(res);
         })
         .catch(err => console.log(err))
 
@@ -46,6 +42,7 @@ const CenterRegisterForm: React.FC<props> = (props) => {
     function assignAdmins(assignedAdmin:WorkingStaff){
         medicalStaff.push(new MedicalStaff(assignedAdmin));
         console.log(medicalStaff)
+        
       
     }
 
@@ -59,10 +56,6 @@ const CenterRegisterForm: React.FC<props> = (props) => {
       console.log(medicalStaff)
     }
 
-    function closeModal(){
-        
-        setShowModal(false);
-    }
 
     return ( <div className=" w-full bg-gray-800 px-6 mt-20 justify-center inline-flex">
     <div className=" bg-gray-800 justify-center">
@@ -113,13 +106,13 @@ const CenterRegisterForm: React.FC<props> = (props) => {
       ></CustomInput>
 
       <label className='text-4xl text-emerald-600'>Available administrators:</label>
-      
-        {availableAdmins.map((admin,index)=>(
-            <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col rounded-[15px] text-2xl text-emerald-200" key={index}>       
-              <p>{admin.name} {admin.surname}</p>
-              <AssignButton value="Assign"  handleAssign={()=>assignAdmins(admin)} handleUndo={()=>undoAdmin(admin)}></AssignButton>
-              </div>
-        ))}
+      {availableAdmins.map((admin,index)=>(
+        
+          <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col rounded-[15px] text-2xl text-emerald-200" key={index}>       
+            <p>{admin.name} {admin.surname}</p>
+            <AssignButton value="Assign"  handleAssign={()=>assignAdmins(admin)} handleUndo={()=>undoAdmin(admin)}></AssignButton>
+          </div>
+      ))}
               
       
       <div className='w-full inline-flex justify-center mt-5 mb-28'>

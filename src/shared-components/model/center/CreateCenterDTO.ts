@@ -2,7 +2,7 @@ import { Address } from "../shared/Address";
 
 import { MedicalStaff } from "../shared/MedicalStaff";
 
-export class Center {
+export class CreateCenterDTO {
     address:Address;
     name:string;
     description:string;
