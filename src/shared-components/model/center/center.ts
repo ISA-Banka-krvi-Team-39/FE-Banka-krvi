@@ -1,6 +1,7 @@
 import { Address } from "../shared/Address";
 import { PersonDTO } from "../shared/Person";
 
+
 export class Center {
     address:Address;
     name:string;
