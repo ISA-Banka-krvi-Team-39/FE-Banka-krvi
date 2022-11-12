@@ -1,18 +1,27 @@
 
-import CenterRegisterForm from './centerRegisterForm';
+import CenterRegisterForm from '../shared-components/centerRegisterForm';
 import useFetch from '../shared-components/useFetch';
-import { PersonDTO } from '../shared-components/model/shared/Person';
+import { GetStaticProps, NextPage } from 'next';
+import { WorkingStaff } from '../shared-components/model/shared/WorkingStaff';
 
 
-const CenterRegister = () => {
+const CenterRegister:NextPage<{admins:WorkingStaff[]}> = ({admins}) => {
 
-    const data = useFetch("http://localhost:8080/api/person/admins");
-    
     return (
-      <div>{data && <CenterRegisterForm admins = {data}/>}
-      </div>
-      
+      <CenterRegisterForm admins = {admins}/>
+       
     );
 }
  
+export const getStaticProps:GetStaticProps =async () => {
+  const res = await fetch("http://localhost:8080/api/person/admins");
+  const admins:WorkingStaff[] = await res.json()
+
+  return {
+    props:{
+      admins:admins
+    },
+  };
+};
+
 export default CenterRegister ;

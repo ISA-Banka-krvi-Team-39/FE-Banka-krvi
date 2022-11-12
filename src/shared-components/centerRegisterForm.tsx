@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import CustomInput from '../shared-components/Inputs/CustomInput';
+import CustomInput from './Inputs/CustomInput';
 import axios, { AxiosResponse } from 'axios';
-import {Center} from '../shared-components/model/center/Center'
-import {PersonDTO} from '../shared-components/model/shared/Person'
+import {Center} from './model/center/Center'
+import {PersonDTO} from './model/shared/Person'
 import React, { ReactNode } from "react";
-import Button from '../shared-components/Button';
+import AssignButton from './AssignButton';
+import { WorkingStaff } from './model/shared/WorkingStaff';
+import { MedicalStaff } from './model/shared/MedicalStaff';
 
 interface props {
-    admins: PersonDTO[];
+    admins: WorkingStaff[];
    
 }
 
@@ -20,29 +22,41 @@ const CenterRegisterForm: React.FC<props> = (props) => {
     const [streetNumber,setStreetNumber] = useState('');
     const [description,setDescription] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const availableAdmins: PersonDTO[] = props.admins
-   
-    let medicalStaff: PersonDTO[] = []
+    const availableAdmins: WorkingStaff[] = props.admins
+    let medicalStaff: MedicalStaff[] = []
     
     
     function registerCenter(){
+      
         const center:Center = {
             address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
-            name:name, description:description, avg_grade: 0
+            name:name, description:description, avgGrade:0,workingMedicalStaff:medicalStaff
         }
+
+        
         axios.post("http://localhost:8080/api/center", center)
         .then(res => {
+          console.log(center)
       console.log(res);
         })
         .catch(err => console.log(err))
 
     }
 
-    function assignAdmins(assignedAdmin:PersonDTO){
-        medicalStaff.push(assignedAdmin);
+    function assignAdmins(assignedAdmin:WorkingStaff){
+        medicalStaff.push(new MedicalStaff(assignedAdmin));
         console.log(medicalStaff)
       
+    }
+
+    function undoAdmin(assignedAdmin:WorkingStaff){
+      medicalStaff.forEach((ms,index) => {
+        if(ms.person.personId === assignedAdmin.personId){
+          medicalStaff.splice(index,1)
+        }
         
+      });
+      console.log(medicalStaff)
     }
 
     function closeModal(){
@@ -98,15 +112,14 @@ const CenterRegisterForm: React.FC<props> = (props) => {
         nameToSet='Description'
       ></CustomInput>
 
+      <label className='text-4xl text-emerald-600'>Available administrators:</label>
       
-      
-              {availableAdmins.map((admin,index)=>(
-                <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col" key={index}>
-                    
-                    <p>{admin.name} {admin.surname}</p>
-                    <Button value="Assign" className="bg-emerald-700" handleAssign={()=>assignAdmins(admin)}></Button>
-                </div>
-            ))}
+        {availableAdmins.map((admin,index)=>(
+            <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col rounded-[15px] text-2xl text-emerald-200" key={index}>       
+              <p>{admin.name} {admin.surname}</p>
+              <AssignButton value="Assign"  handleAssign={()=>assignAdmins(admin)} handleUndo={()=>undoAdmin(admin)}></AssignButton>
+              </div>
+        ))}
               
       
       <div className='w-full inline-flex justify-center mt-5 mb-28'>
