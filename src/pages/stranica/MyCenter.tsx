@@ -16,7 +16,7 @@ export default function Home() {
 
   const [name,setName] = useState('');
   const [description,setDescription] = useState('');
-  const [avg_grade,setAvg_grade] = useState('');
+  const [avgGrade,setAvgGrade] = useState('');
   const [country,setCountry] = useState('');
   const [city,setCity] = useState('');
   const [streetName,setStreetName] = useState('');
@@ -31,7 +31,7 @@ export default function Home() {
       //console.log(collectedCenter);
       setName(collectedCenter.name);
       setDescription(collectedCenter.description);
-      setAvg_grade(collectedCenter.avg_grade);
+      setAvgGrade(collectedCenter.avgGrade);
       setCountry(collectedCenter.address.country);
       setCity(collectedCenter.address.city);
       setStreetName(collectedCenter.address.streetName);
@@ -57,7 +57,7 @@ export default function Home() {
     .then(res => {
       collectedCenter.name = name;
       collectedCenter.description = description;
-      collectedCenter.avg_grade = avg_grade;
+      collectedCenter.avgGrade = avgGrade;
       collectedCenter.address.city = city;
       collectedCenter.address.country = country;
       collectedCenter.address.streetName = streetName;
@@ -96,13 +96,13 @@ export default function Home() {
         ></CustomInput>
 
         <CustomInput 
-          value = {avg_grade}
+          value = {avgGrade}
           type='number'
           onChange={(event) => {
-            collectedCenter.avg_grade = event.target.value;
-            setAvg_grade(event.target.value);
+            collectedCenter.avgGrade = event.target.value;
+            setAvgGrade(event.target.value);
           }}
-          nameToSet='Avg_grade'
+          nameToSet='avgGrade'
         ></CustomInput>
 
         <CustomInput 
