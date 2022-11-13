@@ -9,6 +9,7 @@ before running use this commands
 npm istall --global yarn
 yarn add next react react-dom
 yarn add axios
+yarn add classnames
 ```
 
 to run frontend app run
