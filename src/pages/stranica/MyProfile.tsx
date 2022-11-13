@@ -38,7 +38,7 @@ export default  function MyProfile() {
     setCountry(user.address.country);
     setCity(user.address.city);
     setStreetName(user.address.streetName);
-    setStreetNumber(user.address.streetNumber.toString());
+    setStreetNumber(user.address.streetNumber);
     setEmail(user.email);
     setRole(user.personType.toString());
     setPoints(user.points.toString());
@@ -61,6 +61,7 @@ export default  function MyProfile() {
   }
 
   function doSomething() {
+    console.log(user);
     axios.put("http://localhost:8080/api/person/1", user)
       .then(res => {
     })
@@ -142,7 +143,7 @@ export default  function MyProfile() {
           value = {streetNumber}
           type='number'
           onChange={(event) => {
-            user.address.streetNumber = Number(event.target.value);
+            user.address.streetNumber = event.target.value;
             setStreetNumber(event.target.value);
           }}
           nameToSet='Street Number'
