@@ -29,7 +29,7 @@ const Button:React.FC<props> = (props) => {
         {props.value}
     </button> 
     <button onClick={undoAssign}  className={`${!isAssigned?'hidden':'bg-red-500 place-self-end rounded-lg px-2 py-2 hover:bg-slate-600'}`}>
-        Undo
+    {props.value}
     </button> 
     </>
     );
