@@ -31,16 +31,16 @@ export default function Register() {
       alert("password and confirma password must be same!");
       return;
     }
-    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
+    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
     name:name,surname:surname,school:school,email:email,password:password,uuid:uuid,phoneNumber:phoneNumber,
-    personGender:Number(gender),personType: 2
+    personGender:Number(gender),personType: 1
     };
     const config = {
       headers:{
       'Access-Control-Allow-Origin' : '*',
       }
     }
-    axios.post("http://localhost:8080/api/user", user,config)
+    axios.post("http://localhost:8080/api/user/createAdmin", user,config)
     .then(res => {
       console.log(res);
     })

@@ -29,7 +29,7 @@ const CenterRegisterForm: React.FC<props> = (props) => {
       
       
         const center:CreateCenterDTO = {
-            address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
+            address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
             name:name, description:description, avgGrade:0,workingMedicalStaff:medicalStaff
         }
 

@@ -15,7 +15,7 @@ export class User {
     school:string;
     personGender:PersonGender;
     personType:PersonType;
-    bloodType:BloodType;
+    bloodType?:BloodType;
 
     constructor(address: Address,name:string,surname:string,email:string,
       password:string,school:string,uuid:string,phoneNumber:string,personGender:PersonGender,personType:PersonType,bloodType:BloodType) {
