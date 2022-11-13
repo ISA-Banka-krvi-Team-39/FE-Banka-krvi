@@ -50,7 +50,7 @@ export default function Questionnaire() {
         </div>
       })}
     <div className="flex justify-center mb-16 mt-16">
-      <button className="text-emerald-200 bg-emerald-900 rounded-[32px] px-8 py-4 font-medium text-2xl" onClick={sendQuestionnaire}>
+      <button className="text-emerald-200 bg-emerald-900 rounded-[48px] px-12 py-6 font-medium text-4xl" onClick={sendQuestionnaire}>
         Send questionnaire
       </button>
     </div>

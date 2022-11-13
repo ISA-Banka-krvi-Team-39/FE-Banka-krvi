@@ -24,6 +24,7 @@ export default function Register() {
   const [streetName,setStreetName] = useState('');
   const [streetNumber,setStreetNumber] = useState('');
   const [gender,setGender] = useState('');
+  const [bloodType,setBloodType] = useState('');
   const [formValid,setFormValid] = useState(false);
 
   function Register() {
@@ -31,9 +32,9 @@ export default function Register() {
       alert("password and confirma password must be same!");
       return;
     }
-    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
+    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
     name:name,surname:surname,school:school,email:email,password:password,uuid:uuid,phoneNumber:phoneNumber,
-    personGender:Number(gender),personType: 0
+    personGender:Number(gender),personType: 0,bloodType:Number(bloodType)
     };
     const config = {
       headers:{
@@ -180,7 +181,7 @@ export default function Register() {
             }}
             nameToSet='Confirm Password'
           ></CustomInput>
-          <div className="my-5 w-[700px]">
+          <div className="mt-5 mb-14 w-[700px]">
             <div className="w-[256px] inline-flex justify-end">
             <span className="text text-4xl mr-4 min-w-max">Gender:</span>
             </div>
@@ -197,8 +198,30 @@ export default function Register() {
               <option value="2">Alien</option>
             </select>
           </div>
+          <div className="mt-5 mb-12 w-[700px]">
+            <div className="w-[256px] inline-flex justify-end">
+            <span className="text text-4xl mr-4 min-w-max">Blood Type:</span>
+            </div>
+            <select 
+            id="bloodType" 
+            name="bloodType" 
+            className="text-emerald-200 text-4xl w-[415px] bg-gray-800 border-2 pb-1 border-emerald-800"
+            onChange={(e) => {
+              setBloodType(e.target.value);
+            }}
+            >
+              <option value="0">A+</option>
+              <option value="1">B+</option>
+              <option value="2">O+</option>
+              <option value="3">AB+</option>
+              <option value="4">A-</option>
+              <option value="5">B-</option>
+              <option value="6">O-</option>
+              <option value="7">AB-</option>
+            </select>
+          </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
-          <button onClick={Register} disabled={!valid} className={classNames(" rounded-[32px] px-8 py-4 font-medium text-2xl",validButton)}>
+          <button onClick={Register} disabled={!formValid} className={classNames("rounded-[48px] px-12 py-6 font-medium text-4xl",validButton)}>
             Register
           </button>
           </div>
