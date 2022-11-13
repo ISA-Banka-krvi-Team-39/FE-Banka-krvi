@@ -7,8 +7,7 @@ import { WorkingStaff } from '../shared-components/model/shared/WorkingStaff';
 const CenterRegister:React.FC<{admins:WorkingStaff[]}> = ({admins}) => {
 
     return (
-      <CenterRegisterForm admins = {admins}/>
-       
+      <CenterRegisterForm admins = {admins}/>   
     );
 }
  
