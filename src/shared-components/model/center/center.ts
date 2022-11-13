@@ -6,15 +6,15 @@ export class Center {
     address:Address;
     name:string;
     description:string;
-    avg_grade:string;
+    avgGrade:string;
     workingMedicalStaff:PersonDTO[];
 
 
-    constructor(address: Address,name:string,description:string,avg_grade:string,persons:PersonDTO[]) {
+    constructor(address: Address,name:string,description:string,avgGrade:string,persons:PersonDTO[]) {
       this.address = address;
       this.name = name;
       this.description = description;
-      this.avg_grade = avg_grade;
+      this.avgGrade = avgGrade;
       this.workingMedicalStaff = persons;
     }
   }
