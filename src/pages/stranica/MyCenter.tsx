@@ -103,10 +103,7 @@ function undooAdmin(assignedAdmin:WorkingStaff){
       collectedCenter.address.streetName = streetName;
       var convertedToNumber: number = +streetNumber;
       collectedCenter.address.streetNumber = streetNumber;
-<<<<<<< HEAD
-=======
       collectedCenter.workingMedicalStaff = medicalStaff;
->>>>>>> 659bd56 (Add and delete admins from centers added)
 
     }).catch(err => console.log(err))
   }
