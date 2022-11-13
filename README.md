@@ -8,6 +8,7 @@ before running use this commands
 ```bash
 npm istall --global yarn
 yarn add next react react-dom
+yarn add axios
 ```
 
 to run frontend app run
