@@ -23,25 +23,24 @@ const UserList:React.FC<props> = (props) => {
 
     return (
     <div>
-            <input className="border-2 mt-3 ml-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        <input className="border-2 mt-3 ml-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                 onChange={(e)=>setSearchText(e.target.value)} type="search" name="search" placeholder="Search"></input>
             
             
             
-            
-            <div className="w-full bg-gray-800 px-6 mt-20 justify-center mb-16 my-auto h-[800px]">
+        <div className="w-full bg-gray-800 px-6 mt-20 justify-center mb-16 my-auto h-[800px]">
             {filtered.map((user,index)=>(
         
-        <div className="flex px-2 py-1 border-2 border-x-2 border-emerald-800" key={index}>       
-          <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{user.name}</p>
+                <div className="flex px-2 py-1 border-2 border-x-2 border-emerald-800" key={index}>       
+                    <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{user.name}</p>
                     <p className='text px-4 text-xl w-[665px] text-center h-[28px] my-auto'>{user.surname}</p>
                     <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{user.phoneNumber}</p>
                     <p className='text px-4 text-xl w-[830px] text-center my-auto'>
                         {user.address.country},<br/>{user.address.city},<br/>{user.address.streetName}{" "}{user.address.streetNumber}
                     </p>
           
-        </div>
-        ))}
+                </div>
+            ))}
         </div>
 
     </div>
