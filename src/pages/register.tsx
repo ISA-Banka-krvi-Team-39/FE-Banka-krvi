@@ -3,14 +3,14 @@ import classNames from 'classnames';
 import Head from 'next/head'
 import Image from 'next/image'
 import { config } from 'process';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
 import { User } from '../shared-components/model/user/User';
 import styles from '../styles/Home.module.css'
 
 
 export default function Register() {
-
+  var valid = false;
   const [name,setName] = useState('');
   const [surname,setSurname] = useState('');
   const [password,setPassword] = useState('');
@@ -24,33 +24,31 @@ export default function Register() {
   const [streetName,setStreetName] = useState('');
   const [streetNumber,setStreetNumber] = useState('');
   const [gender,setGender] = useState('');
+  const [bloodType,setBloodType] = useState('');
   const [formValid,setFormValid] = useState(false);
 
-  function doSomething() {
+  function Register() {
     if(password !== confirmPassword){
       alert("password and confirma password must be same!");
       return;
     }
-    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:Number(streetNumber)},
+    var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
     name:name,surname:surname,school:school,email:email,password:password,uuid:uuid,phoneNumber:phoneNumber,
-    personGender:Number(gender),personType: 0
+    personGender:Number(gender),personType: 0,bloodType:Number(bloodType)
     };
     const config = {
       headers:{
       'Access-Control-Allow-Origin' : '*',
       }
     }
-    axios.post("http://localhost:8080/api/user", user,config)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.log(err)
+    axios.post("http://localhost:8080/api/user", user,config).then(res => {console.log(res);})
+    .catch(err => {console.log(err)
       alert(err.toString());
-    }
-      )
-    
+    })
   }
+  useEffect(()=>{
+    validate();
+  });
   function validate(){
     var regexNames = new RegExp("^[A-Z][a-z]+$");
     var regexStreetName = new RegExp("^[A-Z][A-Za-z( )]+$");
@@ -73,7 +71,6 @@ export default function Register() {
             notValidText='Name is not valid'
             onChange={(event) => {
               setName(event.target.value);
-              validate();
             }}
             nameToSet='Name'
           ></CustomInput>
@@ -84,7 +81,6 @@ export default function Register() {
             notValidText='Surname is not valid'
             onChange={(event) => {
               setSurname(event.target.value);
-              validate();
             }}
             nameToSet='Surname'
           ></CustomInput>
@@ -95,7 +91,6 @@ export default function Register() {
             notValidText='Uuid is not valid must be exactly 5 numbers'
             onChange={(event) => {
               setUuid(event.target.value);
-              validate();
             }}
             nameToSet='Uuid'
           ></CustomInput>
@@ -106,7 +101,6 @@ export default function Register() {
             notValidText='Phone number is not valid'
             onChange={(event) => {
               setPhoneNumber(event.target.value);
-              validate();
             }}
             nameToSet='Phone Number'
           ></CustomInput>
@@ -117,7 +111,6 @@ export default function Register() {
             notValidText='City name is not valid'
             onChange={(event) => {
               setCity(event.target.value);
-              validate();
             }}
             nameToSet='City'
           ></CustomInput>
@@ -128,7 +121,6 @@ export default function Register() {
             notValidText='Country name is not valid'
             onChange={(event) => {
               setCountry(event.target.value);
-              validate();
             }}
             nameToSet='Country'
           ></CustomInput>
@@ -138,7 +130,6 @@ export default function Register() {
             notValidText='Street name is not valid'
             onChange={(event) => {
               setStreetName(event.target.value);
-              validate();
             }}
             nameToSet='Street Name'
           ></CustomInput>
@@ -148,7 +139,6 @@ export default function Register() {
             notValidText='Street number is not valid'
             onChange={(event) => {
               setStreetNumber(event.target.value);
-              validate();
             }}
             nameToSet='Street Number'
           ></CustomInput>
@@ -159,7 +149,6 @@ export default function Register() {
             notValidText='School name is not valid'
             onChange={(event) => {
               setSchool(event.target.value);
-              validate();
             }}
             nameToSet='School'
           ></CustomInput>
@@ -170,7 +159,6 @@ export default function Register() {
             notValidText='Email is not valid'
             onChange={(event) => {
               setEmail(event.target.value);
-              validate();
             }}
             nameToSet='Email'
           ></CustomInput>
@@ -181,7 +169,6 @@ export default function Register() {
             regex='^[A-Za-z0-9]{5}[A-Za-z0-9]+$'
             onChange={(event) => {
               setPassword(event.target.value);
-              validate();
             }}
             nameToSet='Password'
           ></CustomInput>
@@ -191,11 +178,10 @@ export default function Register() {
             regex='^[A-Za-z0-9]{5}[A-Za-z0-9]+$'
             onChange={(event) => {
               setConfirmPassword(event.target.value);
-              validate();
             }}
             nameToSet='Confirm Password'
           ></CustomInput>
-          <div className="my-5 w-[700px]">
+          <div className="mt-5 mb-14 w-[700px]">
             <div className="w-[256px] inline-flex justify-end">
             <span className="text text-4xl mr-4 min-w-max">Gender:</span>
             </div>
@@ -212,8 +198,30 @@ export default function Register() {
               <option value="2">Alien</option>
             </select>
           </div>
+          <div className="mt-5 mb-12 w-[700px]">
+            <div className="w-[256px] inline-flex justify-end">
+            <span className="text text-4xl mr-4 min-w-max">Blood Type:</span>
+            </div>
+            <select 
+            id="bloodType" 
+            name="bloodType" 
+            className="text-emerald-200 text-4xl w-[415px] bg-gray-800 border-2 pb-1 border-emerald-800"
+            onChange={(e) => {
+              setBloodType(e.target.value);
+            }}
+            >
+              <option value="0">A+</option>
+              <option value="1">B+</option>
+              <option value="2">O+</option>
+              <option value="3">AB+</option>
+              <option value="4">A-</option>
+              <option value="5">B-</option>
+              <option value="6">O-</option>
+              <option value="7">AB-</option>
+            </select>
+          </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
-          <button onClick={doSomething} disabled={!formValid} className={classNames(" rounded-[32px] px-8 py-4 font-medium text-2xl",validButton)}>
+          <button onClick={Register} disabled={!formValid} className={classNames("rounded-[48px] px-12 py-6 font-medium text-4xl",validButton)}>
             Register
           </button>
           </div>

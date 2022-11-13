@@ -1,6 +1,7 @@
 import { PersonType } from './PersonType';
 import { PersonGender } from './PersonGender';
 import { Address } from "../shared/Address";
+import { BloodType } from './BloodType';
 
 
 export class User {
@@ -14,9 +15,10 @@ export class User {
     school:string;
     personGender:PersonGender;
     personType:PersonType;
+    bloodType:BloodType;
 
     constructor(address: Address,name:string,surname:string,email:string,
-      password:string,school:string,uuid:string,phoneNumber:string,personGender:PersonGender,personType:PersonType) {
+      password:string,school:string,uuid:string,phoneNumber:string,personGender:PersonGender,personType:PersonType,bloodType:BloodType) {
       this.address = address;
       this.name = name;
       this.surname = surname;
@@ -27,5 +29,6 @@ export class User {
       this.phoneNumber = phoneNumber;
       this.personGender = personGender;
       this.personType = personType;
+      this.bloodType = bloodType;
     }
   }

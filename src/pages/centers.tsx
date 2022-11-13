@@ -22,7 +22,6 @@ export default function Centers() {
     .then(res => {
         setLastPage(res.data.totalPages);
         setCenters(res.data.content);
-        console.log(centers);
     })
     .catch(err => {
       console.log(err)
@@ -31,7 +30,7 @@ export default function Centers() {
   }
   if(lastPage == undefined){
     getCenters(0,"","");
-    return <div> Loading</div>
+    return <div className="text text-4xl text-center my-80">Loading</div>
   }
   return (
       <div className="w-full bg-gray-800 px-6 mt-20 justify-center mb-16 my-auto h-[800px]">

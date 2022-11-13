@@ -5,6 +5,7 @@ const Links = [
     { Href: "/stranica/AdminLanding", text: "Admin Landing" },
     { Href: "/centers", text: "Centers" },
     { Href: "/centerRegister", text: "Register center" },
+    { Href: "/patient/questionnaire", text: "Questionnaire" },
   ];
   
   export default Links;
