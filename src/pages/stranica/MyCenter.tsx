@@ -30,6 +30,7 @@ const MyCenter: React.FC<props> = (props: props) => {
   const [streetName,setStreetName] = useState('');
   const [streetNumber,setStreetNumber] = useState('');
   const [persons,setPersons] = useState('');
+  //const [scheduledAdmins,setScheduledAdmins] = useState<WorkingStaff[]>(props.scheduledAdmins);
   const availableAdmins: WorkingStaff[] = props.admins
   const scheduledAdmins: WorkingStaff[] = props.scheduledAdmins
   let medicalStaff: MedicalStaff[] = []
