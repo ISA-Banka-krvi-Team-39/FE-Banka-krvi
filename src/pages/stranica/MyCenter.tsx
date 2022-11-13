@@ -62,7 +62,7 @@ export default function Home() {
       collectedCenter.address.country = country;
       collectedCenter.address.streetName = streetName;
       var convertedToNumber: number = +streetNumber;
-      collectedCenter.address.streetNumber = convertedToNumber;
+      collectedCenter.address.streetNumber = streetNumber;
 
     }).catch(err => console.log(err))
   }
@@ -138,7 +138,7 @@ export default function Home() {
           type='number'
           onChange={(event) => {
             var convertedToNumber: number = +event.target.value;
-            collectedCenter.address.streetNumber = convertedToNumber  ;
+            collectedCenter.address.streetNumber = event.target.value  ;
             setStreetNumber(event.target.value);
           }}
           nameToSet='Street Number'

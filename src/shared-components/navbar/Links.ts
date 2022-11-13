@@ -8,6 +8,8 @@ const Links = [
     { Href: "/centerRegister", text: "Register center" },
     { Href: "/patient/questionnaire", text: "Questionnaire" },
     { Href: "/stranica/Terms", text: "Terms" },
+    { Href: "/users", text: "Users" },
+    { Href: "/adminRegister", text: "Register admins" },
 ];
   
   export default Links;
