@@ -61,7 +61,7 @@ export default  function MyProfile() {
   }
 
   function doSomething() {
-    console.log(user);
+
     axios.put("http://localhost:8080/api/person/1", user)
       .then(res => {
     })
