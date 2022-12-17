@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { CenterWithoutPersons } from '../shared-components/model/center/CenterWithoutPersons';
 import Pagination from '../shared-components/paging/Pagination/Pagination';
 import Sort from '../public/sort.png'
-import CustomInput from '../shared-components/Inputs/CustomInput';
 import CustomInputSearch from '../shared-components/Inputs/CustomInputForSearch';
 
 export default function Centers() {
@@ -41,67 +40,65 @@ export default function Centers() {
   }
 
   return (
-      <div className="w-full bg-gray-800 px-6 mt-20 justify-center mb-16 my-auto h-[800px] inline-flex">
-        <div className='w-[450px] mr-3 '>
-        <div className=' flex justify-center'>
-            <label className='text-5xl text-emerald-800 '>Search:</label>
+      <div className="w-full bg-gray-800 px-6 mt-20 justify-center mb-16 my-auto flex">
+        <div className='mr-3 w-[350px] justify-center mt-4'>
+            <div className='flex justify-center'>
+                <label className='text-5xl text-emerald-800 '>Search:</label>
+            </div>
+            <br/>
+            <div>
+                <CustomInputSearch
+            type='text'
+            onChange={(event) => {
+                setSearchName(event.target.value);
+            }}
+            nameToSet='Name'
+            ></CustomInputSearch>
+            </div >  
+            <div>
+                <CustomInputSearch
+            type='text'
+            onChange={(event) => {
+                setSearchCity(event.target.value);
+            }}
+            nameToSet='City'
+            ></CustomInputSearch>
+            </div>  
+            <br/>
+            <div className='text-2xl text-emerald-800 flex justify-center'>
+                <label>Filter by grade:</label>
+            </div>
+            <br/>
+            <div className='text-2xl text-emerald-800 flex content-evenly justify-center'>
+                <select className='bg-emerald-700 rounded-md text-emerald-100' name="grade1" id="grade1" onChange={(e) => {setgradeFilterFrom(Number(e.target.value));}}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <label className='mx-2'>to</label>
+                <select className='bg-emerald-700 rounded-md text-emerald-100' name="grade2" id="grade2" onChange={(e) => {setgradeFilterTo(Number(e.target.value));}}>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected>5</option>
+                </select>
+            </div>
+            <br/>
+            <br/>
+            <div className='mx-auto flex justify-center'>
+                <button onClick={ ()=> { setCurrentPage(1); 
+                    getCenters(1,sortedBy,sortDirection);} } 
+                    className='text-2xl duration-150 pt-2 pb-3 px-4 bg-emerald-400 text-emerald-900 hover:bg-emerald-200 rounded-[4px] font-bold '>Apply
+                </button>
+            </div>
         </div>
-        <br/>
-        <div className='inline-flex justify-start'>
-            <CustomInputSearch
-          type='text'
-          onChange={(event) => {
-            setSearchName(event.target.value);
-          }}
-          nameToSet='Name'
-        ></CustomInputSearch>
-        </div >  
-        <div className='inline-flex justify-start'>
-            <CustomInputSearch
-          type='text'
-          onChange={(event) => {
-            setSearchCity(event.target.value);
-          }}
-          nameToSet='City'
-        ></CustomInputSearch>
-        </div>  
-        <br/>
-        <div className='text-5xl text-emerald-800 flex justify-center'>
-            <label>Filter by grade:</label>
-        </div>
-        <br/>
-        <div className='text-5xl text-emerald-800 flex content-evenly justify-center'>
-        <select className='bg-emerald-700 text-emerald-100' name="grade1" id="grade1" onChange={(e) => {setgradeFilterFrom(Number(e.target.value));}}>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <label className='w-[30px]'></label>
-        <label>to</label>
-        <label className='w-[30px]'></label>
-        <select className='bg-emerald-700 text-emerald-100' name="grade2" id="grade2" onChange={(e) => {setgradeFilterTo(Number(e.target.value));}}>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5" selected>5</option>
-        </select>
-        </div>
-        <br/>
-        <br/>
-        <div className='flex justify-center'>
-        <button onClick={ ()=> { setCurrentPage(1); 
-            getCenters(1,sortedBy,sortDirection);} } 
-            className='w-[200px] h-[70px] justify-center text-5xl bg-emerald-400 text-emerald-900 hover:bg-emerald-200 rounded-xl ring-gray-500 ring-2'>Apply
-            </button>
-        </div>
-        </div>
-        <div className=" bg-gray-800 justify-center w-[1200px] mx-auto ">
+        <div className=" justify-center mx-auto">
             <div className='border-2 rounded-t-md border-emerald-800 flex'>
                 <div className='w-[150px] flex justify-center'>
-                    <p className='text px-4 text-3xl text-center py-2 font-bold'>Name</p>
+                    <p className='text px-4 text-xl text-center py-2 font-bold'>Name</p>
                     <img src={Sort.src} alt="sort" className='w-6 h-6 my-auto cursor-pointer' onClick={() =>{
                         setCurrentPage(1);
                         if(sortedBy === "name"){
@@ -117,8 +114,8 @@ export default function Centers() {
                         }
                     }}/>
                 </div>
-                <div className='w-[665px] flex justify-center'>
-                    <p className='text px-4 text-3xl text-center py-2 font-bold'>Description</p>
+                <div className='w-[500px] flex justify-center'>
+                    <p className='text px-4 text-2xl text-center py-2 font-bold'>Description</p>
                     <img src={Sort.src} alt="sort" className='w-6 h-6 my-auto cursor-pointer' onClick={() =>{
                         setCurrentPage(1);
                         if(sortedBy === "description"){
@@ -135,7 +132,7 @@ export default function Centers() {
                     }}/>
                 </div>
                 <div className='w-[150px] flex justify-center'>
-                    <p className='text px-4 text-3xl text-center py-2 font-bold'>Grade</p>
+                    <p className='text px-4 text-2xl text-center py-2 font-bold'>Grade</p>
                     <img src={Sort.src} alt="sort" className='w-6 h-6 my-auto cursor-pointer' onClick={() =>{
                         setCurrentPage(1);
                         if(sortedBy === "avgGrade"){
@@ -152,17 +149,17 @@ export default function Centers() {
                     }}/>
                 </div>
                 <div className='w-[230px] flex justify-center'>
-                    <p className='text px-4 text-3xl text-center py-2 font-bold'>Address</p>
+                    <p className='text px-4 text-2xl text-center py-2 font-bold'>Address</p>
                 </div>
             </div>
-            <div className='h-[600px]'>
+            <div className='h-[550px]'>
             {centers.map((center, index) => {
                 return (
                 <div key={index} className="flex py-4 border-b-2 border-x-2 border-emerald-800">
-                    <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{(center).name}</p>
-                    <p className='text px-4 text-xl w-[665px] text-center h-[28px] my-auto'>{center.description}</p>
-                    <p className='text px-4 text-xl w-[150px] text-center h-[28px] my-auto'>{center.avgGrade}</p>
-                    <p className='text px-4 text-xl w-[230px] text-center my-auto'>
+                    <p className='text px-4 text-l w-[150px] text-center h-[28px] my-auto'>{(center).name}</p>
+                    <p className='text px-4 text-l w-[500px] text-center h-[28px] my-auto'>{center.description}</p>
+                    <p className='text px-4 text-l w-[150px] text-center h-[28px] my-auto'>{center.avgGrade}</p>
+                    <p className='text px-4 text-l w-[230px] text-center my-auto'>
                         {center.address.country},<br/>{center.address.city},<br/>{center.address.streetName}{" "}{center.address.streetNumber}
                     </p>
                 </div>

@@ -1,16 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
-import Head from 'next/head'
-import Image from 'next/image'
-import { config } from 'process';
 import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
 import { User } from '../shared-components/model/user/User';
-import styles from '../styles/Home.module.css'
-
+import Blood from '../public/blood.jpg'
 
 export default function Register() {
-  var valid = false;
   const [name,setName] = useState('');
   const [surname,setSurname] = useState('');
   const [password,setPassword] = useState('');
@@ -55,20 +51,33 @@ export default function Register() {
     var regexPhoneNumber = new RegExp("^[+]*[0-9-]+$");
     var regexStreetNumber = new RegExp("^[1-9]+[a-b]{0,1}$");
     var regexPassword = new RegExp("^[A-Za-z0-9]{5}[A-Za-z0-9]+$");
-    setFormValid(regexNames.test(name) && regexNames.test(surname) && regexPassword.test(password) 
-                && regexPhoneNumber.test(phoneNumber) && /^[A-Z][A-Za-z( )]+$/.test(city) && regexNames.test(country)
-                && regexStreetName.test(streetName) && /^[A-Z][A-Za-z( )]+$/.test(school) && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
-                && /^\d{5}$/.test(uuid) && regexStreetNumber.test(streetNumber));
+    if(!(regexNames.test(name) && regexNames.test(surname) && regexPassword.test(password) && regexPassword.test(confirmPassword)
+    && regexPhoneNumber.test(phoneNumber) && /^[A-Z][A-Za-z( )]+$/.test(city) && regexNames.test(country)
+    && regexStreetName.test(streetName) && /^[A-Z][A-Za-z0-9( )]+$/.test(school) && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+    && /^\d{5}$/.test(uuid) && regexStreetNumber.test(streetNumber)))
+        setFormValid(false);
+    else
+        if(password != confirmPassword)
+        {
+            setFormValid(false);
+        }
+        else
+            setFormValid(true);
   }
   var validButton = formValid ? "text-emerald-200 bg-emerald-900": "text-gray-800 bg-gray-400 cursor-default";
 
   return (
-      <div className=" w-full bg-gray-800 px-6 mt-20 justify-center inline-flex">
-        <div className=" bg-gray-800 justify-center">
+      <div className=" w-full bg-gray-800 justify-center flex">
+        <div className='overflow-hidden flex w-5/12'>
+            <img src={Blood.src} alt="blood" className='min-w-[2080px] h-full my-auto cursor-pointer'/>
+        </div>
+        <div className="mx-auto flex flex-col justify-center bg-gray-800 mt-20 px-auto">
+            <h1 className='text-center text-emerald-200 text-6xl mb-16 font-bold'>Registration</h1>
           <CustomInput
             type='text'
             regex='^[A-Z][a-z]+$'
             notValidText='Name is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setName(event.target.value);
             }}
@@ -79,6 +88,7 @@ export default function Register() {
             type='text'
             regex='^[A-Z][a-z]+$'
             notValidText='Surname is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setSurname(event.target.value);
             }}
@@ -89,6 +99,7 @@ export default function Register() {
             type='text'
             regex='^\d{5}$'
             notValidText='Uuid is not valid must be exactly 5 numbers'
+            className='w-[430px]'
             onChange={(event) => {
               setUuid(event.target.value);
             }}
@@ -99,6 +110,7 @@ export default function Register() {
             type='text'
             regex='^[+]*[0-9-]+$'
             notValidText='Phone number is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setPhoneNumber(event.target.value);
             }}
@@ -109,6 +121,7 @@ export default function Register() {
             type='text'
             regex='^[A-Z][A-Za-z( )]+$'
             notValidText='City name is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setCity(event.target.value);
             }}
@@ -119,6 +132,7 @@ export default function Register() {
             type='text'
             regex='^[A-Z][a-z]+$'
             notValidText='Country name is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setCountry(event.target.value);
             }}
@@ -128,6 +142,7 @@ export default function Register() {
             type='text'
             regex='^[A-Z][A-Za-z( )]+$'
             notValidText='Street name is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setStreetName(event.target.value);
             }}
@@ -137,6 +152,7 @@ export default function Register() {
             type='text'
             regex='^[1-9]+[a-b]{0,1}$'
             notValidText='Street number is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setStreetNumber(event.target.value);
             }}
@@ -147,6 +163,7 @@ export default function Register() {
             type='text'
             regex='^[A-Z][A-Za-z( )]+$'
             notValidText='School name is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setSchool(event.target.value);
             }}
@@ -157,6 +174,7 @@ export default function Register() {
             type='text'
             regex='^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
             notValidText='Email is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setEmail(event.target.value);
             }}
@@ -165,8 +183,9 @@ export default function Register() {
 
           <CustomInput 
             type='password'
-            notValidText='Password is not valid'
             regex='^[A-Za-z0-9]{5}[A-Za-z0-9]+$'
+            notValidText='Password is not valid'
+            className='w-[430px]'
             onChange={(event) => {
               setPassword(event.target.value);
             }}
@@ -176,6 +195,7 @@ export default function Register() {
             type='password'
             notValidText='Confirm password is not valid'
             regex='^[A-Za-z0-9]{5}[A-Za-z0-9]+$'
+            className='w-[430px]'
             onChange={(event) => {
               setConfirmPassword(event.target.value);
             }}
@@ -183,12 +203,12 @@ export default function Register() {
           ></CustomInput>
           <div className="mt-5 mb-14 w-[700px]">
             <div className="w-[256px] inline-flex justify-end">
-            <span className="text text-4xl mr-4 min-w-max">Gender:</span>
+            <span className="text text-xl mr-4 min-w-max">Gender:</span>
             </div>
             <select 
             id="gender" 
             name="gender" 
-            className="text-emerald-200 text-4xl w-[415px] bg-gray-800 border-2 pb-1 border-emerald-800"
+            className="text-emerald-200 text-xl rounded-[6px] w-[432px] bg-gray-800 border-2 pb-1 border-emerald-800"
             onChange={(e) => {
               setGender(e.target.value);
             }}
@@ -200,12 +220,12 @@ export default function Register() {
           </div>
           <div className="mt-5 mb-12 w-[700px]">
             <div className="w-[256px] inline-flex justify-end">
-            <span className="text text-4xl mr-4 min-w-max">Blood Type:</span>
+            <span className="text text-xl mr-4 min-w-max">Blood Type:</span>
             </div>
             <select 
             id="bloodType" 
             name="bloodType" 
-            className="text-emerald-200 text-4xl w-[415px] bg-gray-800 border-2 pb-1 border-emerald-800"
+            className="text-emerald-200 text-xl rounded-[6px] w-[432px] bg-gray-800 border-2 pb-1 border-emerald-800"
             onChange={(e) => {
               setBloodType(e.target.value);
             }}
@@ -221,7 +241,7 @@ export default function Register() {
             </select>
           </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
-          <button onClick={Register} disabled={!formValid} className={classNames("rounded-[48px] px-12 py-6 font-medium text-4xl",validButton)}>
+          <button onClick={Register} disabled={!formValid} className={classNames("duration-150 rounded-[48px] pt-4 pb-5 font-bold px-6 text-2xl",validButton)}>
             Register
           </button>
           </div>

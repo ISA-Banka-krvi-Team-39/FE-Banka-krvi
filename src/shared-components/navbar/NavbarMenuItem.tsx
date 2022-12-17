@@ -15,7 +15,7 @@ const NavbarMenuItem: React.FC<props> = (props: props) => {
 
   const style = classNames(
     isActive,
-    "ml-10 text-xl font-bold text-emerald-200"
+    "ml-6 text-md font-bold text-emerald-200"
   );
   return (
     <Link href={props.href} className={style}>
