@@ -15,10 +15,10 @@ const NavbarMenu: React.FC = () => {
         })}
       </div>
       <div className="inline-flex mx-auto justify-end mr-10">
-            <NavbarMenuItem href="/register">
+            <NavbarMenuItem href="/auth/register">
               Register
             </NavbarMenuItem>
-            <NavbarMenuItem href="/login">
+            <NavbarMenuItem href="/auth/login">
               Login
             </NavbarMenuItem>
       </div>

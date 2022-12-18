@@ -1,0 +1,56 @@
+/* eslint-disable @next/next/no-img-element */
+import classNames from "classnames";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import BloodDonation from '../../public/bloodDonation.jpg'
+import CustomInput from "../../shared-components/Inputs/CustomInput";
+
+const config = {
+    headers:{
+    'Access-Control-Allow-Origin' : '*',
+    }
+}
+export default function Login() {
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    function Login(){
+
+    }
+
+    const router = useRouter();
+    return (
+        <div className=" w-full bg-gray-800 justify-center flex">
+            <div className='overflow-hidden flex w-5/12'>
+                <img src={BloodDonation.src} alt="blood" className=' h-full my-auto cursor-pointer'/>
+            </div>
+            <div className="mx-auto flex flex-col justify-center bg-gray-800 mb-36 px-auto">
+            <h1 className='text-center text-emerald-200 text-6xl mb-16 mt-16 font-bold'>Login</h1>
+            <div className="mr-24">
+                <CustomInput 
+                type='text'
+                notValidText='Email is not valid'
+                className='w-[430px]'
+                onChange={(event) => {
+                setEmail(event.target.value);
+                }}
+                nameToSet='Email'
+                ></CustomInput>
+                <CustomInput 
+                type='password'
+                notValidText='Password is not valid'
+                className='w-[430px]'
+                onChange={(event) => {
+                setPassword(event.target.value);
+                }}
+                nameToSet='Password'
+                ></CustomInput>
+            </div>
+            <div className='w-full inline-flex justify-center mt-5 mb-28'>
+                <button onClick={Login} className="duration-150 rounded-[48px] pt-4 pb-5 font-bold px-24  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
+                    Login
+                </button>
+            </div>
+          </div>
+        </div>
+    )
+}

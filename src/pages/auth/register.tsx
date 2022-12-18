@@ -2,9 +2,9 @@
 import axios from 'axios';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react'
-import CustomInput from '../shared-components/Inputs/CustomInput';
-import { User } from '../shared-components/model/user/User';
-import Blood from '../public/blood.jpg'
+import CustomInput from '../../shared-components/Inputs/CustomInput';
+import { User } from '../../shared-components/model/user/User';
+import Blood from '../../public/blood.jpg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
@@ -38,7 +38,7 @@ async function RegisterUser(user:User):Promise<Boolean> {
     }).catch(err => {console.log(err)})
     if(!emailUnique || !uidUnique)
       return false;
-    axios.post("http://localhost:8080/api/user", user,config).then(res => {
+    axios.post("http://localhost:8080/api/auth", user,config).then(res => {
       toast.success('You successfuly registered!', {
         position: toast.POSITION.TOP_RIGHT
         });
@@ -80,8 +80,8 @@ export default function Register() {
     });
       return;
     }
-    if(await RegisterUser(user))
-      router.push("/login");
+     if(await RegisterUser(user))
+       router.push("/login");
   }
   useEffect(()=>{
     validate();
@@ -97,7 +97,7 @@ export default function Register() {
     && regexStreetName.test(streetName) && /^[A-Z][A-Za-z0-9( )]+$/.test(school) && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
     && /^\d{5}$/.test(uid) && regexStreetNumber.test(streetNumber)));
   }
-  var validButton = formValid ? "text-emerald-200 bg-emerald-900": "text-gray-800 bg-gray-400 cursor-default";
+  var validButton = formValid ? "duration-150 hover:scale-105 text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200": "text-gray-800 bg-gray-400 cursor-default";
 
   return (
       <div className=" w-full bg-gray-800 justify-center flex">
