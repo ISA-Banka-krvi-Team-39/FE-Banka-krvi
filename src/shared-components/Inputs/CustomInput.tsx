@@ -25,9 +25,9 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
   const validText = isValid ? "text-emerald-600" : "text-red-700";
   const hidden = isValid ? "invisible" : "";
   return (
-    <div className="my-5 w-[700px]">
+    <div className="my-5 w-[715px]">
       <div className="w-[256px] inline-flex justify-end">
-      <span className={classNames("text-4xl mr-4 min-w-max",validText)}>{props.nameToSet}:</span>
+      <span className={classNames("text-xl mr-4 min-w-max",validText)}>{props.nameToSet}:</span>
       </div>
       <input
       value = {props.value}
@@ -37,7 +37,7 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
         props.onChange(event);
         setInput(event.target.value);
       }}
-      className={classNames('text-4xl bg-gray-800 border-b-2 pb-1 placeholder-emerald-500',props.className,validInput)}
+      className={classNames('text-xl bg-gray-800 border-b-2 pb-1 placeholder-emerald-500',props.className,validInput)}
       ></input>
       <br/>
       <div className={classNames("text-red-700 w-full text-lg my-2 text-right pr-7",hidden)}>{props.notValidText}</div>
