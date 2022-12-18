@@ -1,10 +1,54 @@
 /* eslint-disable @next/next/no-img-element */
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
 import { User } from '../shared-components/model/user/User';
 import Blood from '../public/blood.jpg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router'
+
+const config = {
+    headers:{
+    'Access-Control-Allow-Origin' : '*',
+    }
+}
+async function RegisterUser(user:User):Promise<Boolean> {
+    let uidUnique:Boolean = true;
+    var emailUnique:Boolean = true;
+    await axios.get<Boolean>("http://localhost:8080/api/person/check-uid/"+user.uid,config).then(res => {
+      uidUnique=res.data;
+      if(!uidUnique)
+      {
+          toast.error('Uid not unique!', {
+              position: toast.POSITION.TOP_RIGHT
+          });
+      }
+    }).catch(err => {console.log(err)})
+
+    await axios.get<Boolean>("http://localhost:8080/api/user/check-email/"+user.email,config).then(res => {
+      emailUnique=res.data;
+      if(!emailUnique)
+      {
+          toast.error('Email not unique!', {
+              position: toast.POSITION.TOP_RIGHT
+          });
+      }
+    }).catch(err => {console.log(err)})
+    if(!emailUnique || !uidUnique)
+      return false;
+    axios.post("http://localhost:8080/api/user", user,config).then(res => {
+      toast.success('You successfuly registered!', {
+        position: toast.POSITION.TOP_RIGHT
+        });
+      ;}).catch(err => {
+      toast.error('Oops! Something went wrong', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+    })
+    return true;
+  }
 
 export default function Register() {
   const [name,setName] = useState('');
@@ -12,7 +56,7 @@ export default function Register() {
   const [password,setPassword] = useState('');
   const [confirmPassword,setConfirmPassword] = useState('');
   const [email,setEmail] = useState('');
-  const [uuid,setUuid] = useState('');
+  const [uid,setUid] = useState('');
   const [phoneNumber,setPhoneNumber] = useState('');
   const [school,setSchool] = useState('');
   const [country,setCountry] = useState('');
@@ -22,25 +66,22 @@ export default function Register() {
   const [gender,setGender] = useState('');
   const [bloodType,setBloodType] = useState('');
   const [formValid,setFormValid] = useState(false);
+  
+  const router = useRouter();
 
-  function Register() {
-    if(password !== confirmPassword){
-      alert("password and confirma password must be same!");
-      return;
-    }
+  async function Register(){
     var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
-    name:name,surname:surname,school:school,email:email,password:password,uuid:uuid,phoneNumber:phoneNumber,
+    name:name,surname:surname,school:school,email:email,password:password,uid:uid,phoneNumber:phoneNumber,
     personGender:Number(gender),personType: 0,bloodType:Number(bloodType)
     };
-    const config = {
-      headers:{
-      'Access-Control-Allow-Origin' : '*',
-      }
+    if(password !== confirmPassword){
+      toast.error('Password and confirm password must be same!', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+      return;
     }
-    axios.post("http://localhost:8080/api/user", user,config).then(res => {console.log(res);})
-    .catch(err => {console.log(err)
-      alert(err.toString());
-    })
+    if(await RegisterUser(user))
+      router.push("/login");
   }
   useEffect(()=>{
     validate();
@@ -51,18 +92,10 @@ export default function Register() {
     var regexPhoneNumber = new RegExp("^[+]*[0-9-]+$");
     var regexStreetNumber = new RegExp("^[1-9]+[a-b]{0,1}$");
     var regexPassword = new RegExp("^[A-Za-z0-9]{5}[A-Za-z0-9]+$");
-    if(!(regexNames.test(name) && regexNames.test(surname) && regexPassword.test(password) && regexPassword.test(confirmPassword)
+    setFormValid((regexNames.test(name) && regexNames.test(surname) && regexPassword.test(password) && regexPassword.test(confirmPassword)
     && regexPhoneNumber.test(phoneNumber) && /^[A-Z][A-Za-z( )]+$/.test(city) && regexNames.test(country)
     && regexStreetName.test(streetName) && /^[A-Z][A-Za-z0-9( )]+$/.test(school) && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
-    && /^\d{5}$/.test(uuid) && regexStreetNumber.test(streetNumber)))
-        setFormValid(false);
-    else
-        if(password != confirmPassword)
-        {
-            setFormValid(false);
-        }
-        else
-            setFormValid(true);
+    && /^\d{5}$/.test(uid) && regexStreetNumber.test(streetNumber)));
   }
   var validButton = formValid ? "text-emerald-200 bg-emerald-900": "text-gray-800 bg-gray-400 cursor-default";
 
@@ -98,12 +131,12 @@ export default function Register() {
           <CustomInput 
             type='text'
             regex='^\d{5}$'
-            notValidText='Uuid is not valid must be exactly 5 numbers'
+            notValidText='Uid is not valid must be exactly 5 numbers'
             className='w-[430px]'
             onChange={(event) => {
-              setUuid(event.target.value);
+              setUid(event.target.value);
             }}
-            nameToSet='Uuid'
+            nameToSet='Uid'
           ></CustomInput>
 
           <CustomInput
@@ -246,6 +279,7 @@ export default function Register() {
           </button>
           </div>
         </div>
+        <ToastContainer theme="dark" />
       </div>
   )
 }
