@@ -16,7 +16,7 @@ export default function Register() {
   const [password,setPassword] = useState('');
   const [confirmPassword,setConfirmPassword] = useState('');
   const [email,setEmail] = useState('');
-  const [uuid,setUuid] = useState('');
+  const [uid,setUid] = useState('');
   const [phoneNumber,setPhoneNumber] = useState('');
   const [school,setSchool] = useState('');
   const [country,setCountry] = useState('');
@@ -32,7 +32,7 @@ export default function Register() {
       return;
     }
     var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
-    name:name,surname:surname,school:school,email:email,password:password,uuid:uuid,phoneNumber:phoneNumber,
+    name:name,surname:surname,school:school,email:email,password:password,uid:uid,phoneNumber:phoneNumber,
     personGender:Number(gender),personType: 1
     };
     const config = {
@@ -60,7 +60,7 @@ export default function Register() {
     setFormValid(regexNames.test(name) && regexNames.test(surname) && regexPassword.test(password) 
                 && regexPhoneNumber.test(phoneNumber) && /^[A-Z][A-Za-z( )]+$/.test(city) && regexNames.test(country)
                 && regexStreetName.test(streetName) && /^[A-Z][A-Za-z( )]+$/.test(school) && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
-                && /^\d{5}$/.test(uuid) && regexStreetNumber.test(streetNumber));
+                && /^\d{5}$/.test(uid) && regexStreetNumber.test(streetNumber));
   }
   var validButton = formValid ? "text-emerald-200 bg-emerald-900": "text-gray-800 bg-gray-400 cursor-default";
 
@@ -94,7 +94,7 @@ export default function Register() {
             regex='^\d{5}$'
             notValidText='Uuid is not valid must be exactly 5 numbers'
             onChange={(event) => {
-              setUuid(event.target.value);
+              setUid(event.target.value);
               validate();
             }}
             nameToSet='Uuid'
