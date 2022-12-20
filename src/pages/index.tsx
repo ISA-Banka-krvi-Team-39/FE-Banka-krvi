@@ -7,13 +7,20 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
     useEffect(() => {
         let isLogin = localStorage.getItem("login");
-        console.log(isLogin);
+        let isActivationFalied = localStorage.getItem("activationFalied");
         if(isLogin == "true"){
             toast.success('You successfuly logged in!', {
                 position: toast.POSITION.TOP_RIGHT
-                });
-                localStorage.setItem("login", "false");
-        }});
+            });
+        }
+        if(isActivationFalied == "true"){
+            toast.error('Accout activation failed! Check email again or contact support!', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+        localStorage.removeItem('login');
+        localStorage.removeItem('activationFalied');
+    });
   return (
     <div>
       <Head>
