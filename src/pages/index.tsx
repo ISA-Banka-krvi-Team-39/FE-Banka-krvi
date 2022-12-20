@@ -1,8 +1,19 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+    useEffect(() => {
+        let isLogin = localStorage.getItem("login");
+        console.log(isLogin);
+        if(isLogin == "true"){
+            toast.success('You successfuly logged in!', {
+                position: toast.POSITION.TOP_RIGHT
+                });
+                localStorage.setItem("login", "false");
+        }});
   return (
     <div>
       <Head>
@@ -15,6 +26,7 @@ export default function Home() {
       Neki tekst
       </div>
     </main>
+    <ToastContainer theme="dark" />
   </div>
   )
 }
