@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
-import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import BloodDonation from '../../public/bloodDonation.jpg'
 import CustomInput from "../../shared-components/Inputs/CustomInput";
 import { LoginUser } from "../../shared-components/model/user/LoginUser";
@@ -18,21 +17,17 @@ export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const router = useRouter();
-
-    function Login(){
-        axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
+    
+    async function Login(){
+        await axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
             localStorage.setItem("auth", res.data.accessToken);
+            localStorage.setItem("login", "true");
             console.log(getDataFromToken(res.data.accessToken));
-            setTimeout(() => {
-                router.push("/");
-            }, res.data.expiresIn);
-            toast.success('You successfuly registered!', {
-              position: toast.POSITION.TOP_RIGHT
-              });
+            router.push('/')
             ;}).catch(err => {
-            toast.error('Oops! Something went wrong', {
-              position: toast.POSITION.TOP_RIGHT
-          });
+                toast.error('Password or email not valid!', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
         });
     }
     return (
@@ -66,6 +61,7 @@ export default function Login() {
                 </button>
             </div>
           </div>
+          <ToastContainer theme="dark" />
         </div>
     )
 }

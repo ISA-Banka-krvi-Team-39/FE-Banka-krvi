@@ -67,10 +67,3 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     flex-wrap: wrap;
   }
-.toast-message {
-    background: darkblue !important;
-    color: #fff;
-    font-size: 20px;
-    width: 34vw;
-    padding: 30px 20px;
-}
