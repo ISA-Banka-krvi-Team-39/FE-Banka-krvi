@@ -81,7 +81,7 @@ export default function Register() {
       return;
     }
      if(await RegisterUser(user))
-       router.push("/login");
+       router.push("/auth/login");
   }
   useEffect(()=>{
     validate();

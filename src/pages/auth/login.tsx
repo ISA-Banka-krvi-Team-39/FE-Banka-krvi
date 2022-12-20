@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import BloodDonation from '../../public/bloodDonation.jpg'
 import CustomInput from "../../shared-components/Inputs/CustomInput";
@@ -17,6 +17,15 @@ export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const router = useRouter();
+    useEffect(() => {
+        let isActivationSuccess = localStorage.getItem("activationSuccess");
+        if(isActivationSuccess == "true"){
+            toast.success('Accout successfuly activated!', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+        localStorage.removeItem('activationSuccess');
+    });
     
     async function Login(){
         await axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
