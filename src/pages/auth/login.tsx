@@ -1,9 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import axios from "axios";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import BloodDonation from '../../public/bloodDonation.jpg'
 import CustomInput from "../../shared-components/Inputs/CustomInput";
+import { LoginUser } from "../../shared-components/model/user/LoginUser";
+import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
 const config = {
     headers:{
@@ -13,11 +17,24 @@ const config = {
 export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    function Login(){
-
-    }
-
     const router = useRouter();
+
+    function Login(){
+        axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
+            localStorage.setItem("auth", res.data.accessToken);
+            console.log(getDataFromToken(res.data.accessToken));
+            setTimeout(() => {
+                router.push("/");
+            }, res.data.expiresIn);
+            toast.success('You successfuly registered!', {
+              position: toast.POSITION.TOP_RIGHT
+              });
+            ;}).catch(err => {
+            toast.error('Oops! Something went wrong', {
+              position: toast.POSITION.TOP_RIGHT
+          });
+        });
+    }
     return (
         <div className=" w-full bg-gray-800 justify-center flex">
             <div className='overflow-hidden flex w-5/12'>
@@ -28,7 +45,6 @@ export default function Login() {
             <div className="mr-24">
                 <CustomInput 
                 type='text'
-                notValidText='Email is not valid'
                 className='w-[430px]'
                 onChange={(event) => {
                 setEmail(event.target.value);
@@ -37,7 +53,6 @@ export default function Login() {
                 ></CustomInput>
                 <CustomInput 
                 type='password'
-                notValidText='Password is not valid'
                 className='w-[430px]'
                 onChange={(event) => {
                 setPassword(event.target.value);
