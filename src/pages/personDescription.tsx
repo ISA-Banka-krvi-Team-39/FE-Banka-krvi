@@ -53,8 +53,8 @@ export default function MakeInfo() {
         if(localStorage.getItem('AppointmentId') == null) localStorage.setItem('AppointmentId', '1');
         })
         .catch(err => {
-        //console.log(err)
-        //alert(err.toString());
+        console.log(err)
+        alert(err.toString());
 
         });
       
