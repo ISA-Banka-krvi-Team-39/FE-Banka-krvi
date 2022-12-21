@@ -9,6 +9,7 @@ interface CustomInputProps {
   type: string;
   disabled?: boolean;
   value?: string;
+  checked? : boolean;
   className?: string;
   regex?:string;
   notValidText?:string;
@@ -31,6 +32,7 @@ const CustomInput: React.FC<CustomInputProps> = (props) => {
       </div>
       <input
       value = {props.value}
+      checked = {props.checked}
       disabled={props.disabled}
       type={props.type}
       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

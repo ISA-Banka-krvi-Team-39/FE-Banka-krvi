@@ -10,6 +10,7 @@ const Links = [
     { Href: "/stranica/Terms", text: "Terms" },
     { Href: "/users", text: "Users" },
     { Href: "/adminRegister", text: "Register admins" },
+    { Href: "/personDescription", text: "Description" },
 ];
   
   export default Links;
