@@ -2,28 +2,56 @@
 import MyCenter from '../pages/stranica/MyCenter';
 import { GetStaticProps, NextPage } from 'next';
 import { WorkingStaff } from '../shared-components/model/shared/WorkingStaff';
+import { useEffect, useState } from "react";
+import axios from 'axios';
 
 
-const MyCenterAdmins:React.FC<{admins:WorkingStaff[],scheduledAdmins:WorkingStaff[]}> = ({admins ,scheduledAdmins}) => {
+const MyCenterAdmins = () => {
+  let admins:WorkingStaff[] = [];
+  let scheduledAdmins:WorkingStaff[] = [];
+  
+    useEffect(()=>{
+      var token = localStorage.getItem("auth")
+      const tokenNotNull = token != null ? token : "";
+      const config = {
+      headers:{
+      'Access-Control-Allow-Origin' : '*',
+      'Authorization': `Bearer ${token}`
+      }
+      }
+    axios.get("http://localhost:8080/api/person/admins",config).then(res => {
+  
+    admins = res.data
+  
+    }).catch(err => {
+      console.log(err)
+    });
+  
+    }, [])
 
-    return (
+    useEffect(()=>{
+      var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+    headers:{
+    'Access-Control-Allow-Origin' : '*',
+    'Authorization': `Bearer ${token}`
+    }
+    }
+      axios.get("http://localhost:8080/api/person/scheduledAdmins",config).then(res => {
+    
+      scheduledAdmins = res.data
+    
+      }).catch(err => {
+        console.log(err)
+      });
+    
+      }, [])
+   
+  return (
       <MyCenter admins={admins} scheduledAdmins={scheduledAdmins}/>   
-    );
+  );
 }
  
-export const getStaticProps:GetStaticProps =async () => {
-  const res = await fetch("http://localhost:8080/api/person/admins");
-  const admins:WorkingStaff[] = await res.json();
-
-  const ress = await fetch("http://localhost:8080/api/person/scheduledAdmins");
-  const scheduledAdmins:WorkingStaff[] = await ress.json()
-
-  return {
-    props:{
-      admins:admins,
-      scheduledAdmins : scheduledAdmins
-    },
-  };
-};
 
 export default MyCenterAdmins ;
