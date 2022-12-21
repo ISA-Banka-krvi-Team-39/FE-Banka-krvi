@@ -11,7 +11,6 @@ const UserList:React.FC<props> = (props) => {
     const users:PersonDTO[] = props.users;
     const [searchText,setSearchText] = useState('');
     
-    
 
     const search = (users:PersonDTO[]) => {
       return users.filter(
@@ -25,7 +24,6 @@ const UserList:React.FC<props> = (props) => {
     <div>
         <input className="border-2 mt-3 ml-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                 onChange={(e)=>setSearchText(e.target.value)} type="search" name="search" placeholder="Search"></input>
-            
             
             
         <div className="w-full bg-gray-800 px-6 mt-20 justify-center mb-16 my-auto h-[800px]">
