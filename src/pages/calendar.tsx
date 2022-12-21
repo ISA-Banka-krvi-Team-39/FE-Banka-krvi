@@ -23,11 +23,11 @@ const TermCalendar = () => {
         for(let i = 0;i<terms.length;i++){
             let name:string = terms[i].bloodDonors[0].name
             let surname:string = terms[i].bloodDonors[0].surname
+            
             const ev = {title:name+' '+surname,start:new Date(Number(terms[i].dateTime[0]),Number(terms[i].dateTime[1])-1,Number(terms[i].dateTime[2]),Number(terms[i].dateTime[3]),Number(terms[i].dateTime[4])),
                                          end:new Date(Number(terms[i].dateTime[0]),Number(terms[i].dateTime[1])-1,Number(terms[i].dateTime[2]),Number(terms[i].dateTime[3]),Number(terms[i].dateTime[4])+Number(terms[i].durationInMinutes))
-                                         
-                                         ,termId:terms[i].termId,
-                                         personId:terms[i].bloodDonors[0].personId
+                                         ,personId:terms[i].bloodDonors[0].personId
+                                         ,termId: terms[i].termId
                                         }
             event.push(ev); 
         
