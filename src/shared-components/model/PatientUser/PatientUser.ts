@@ -4,6 +4,7 @@ import { Address } from "../shared/Address";
 
 
 export class PatientUser {
+    personId?:number;
     address:Address;
     name:string;
     surname:string;
@@ -16,8 +17,9 @@ export class PatientUser {
     personType:PersonType;
     points:Number;
 
-    constructor(address: Address,name:string,surname:string,email:string,
+    constructor(id:number,address: Address,name:string,surname:string,email:string,
       password:string,school:string,uid:string,phoneNumber:string,personGender:PersonGender,personType:PersonType,points:Number) {
+      this.personId = id;
       this.address = address;
       this.name = name;
       this.surname = surname;

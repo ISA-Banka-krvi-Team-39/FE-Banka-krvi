@@ -1,14 +1,19 @@
+import { PatientUser } from "../PatientUser/PatientUser";
 import { Center } from "./center";
 
 
 export class Term {
+    termId?:number;
     dateTime:string;
-    duration:string;
+    durationInMinutes:string;
+    bloodDonors:PatientUser[]
     center:Center;
 
-    constructor(dateTime:string,duration:string,center:Center) {
+    constructor(id:number,dateTime:string,duration:string,center:Center,bloodDonors:PatientUser[]) {
+      this.termId = id;
       this.dateTime = dateTime;
-      this.duration = duration;
+      this.durationInMinutes = duration;
       this.center = center;
+      this.bloodDonors = bloodDonors;
     }
   }

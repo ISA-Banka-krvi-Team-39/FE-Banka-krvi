@@ -61,7 +61,7 @@ export default  function MyProfile() {
           value = {duration}
           type='text'
           onChange={(event) => {
-            term.duration = event.target.value;
+            term.durationInMinutes = event.target.value;
             setDuration(event.target.value);
           }}
           nameToSet='Duration'

@@ -263,6 +263,7 @@ button.rbc-input::-moz-focus-inner {
   color: #fff;
   cursor: pointer;
   width: 100%;
+  height: 100%;
   text-align: left;
 }
 .rbc-slot-selecting .rbc-event, .rbc-slot-selecting .rbc-day-slot .rbc-background-event, .rbc-day-slot .rbc-slot-selecting .rbc-background-event {
