@@ -77,6 +77,32 @@ export default function MakeInfo() {
                 });
 
         }
+        
+        function penal() {
+            var token = localStorage.getItem("auth")
+            const tokenNotNull = token != null ? token : "";
+            const config = {
+                headers:{
+                'Access-Control-Allow-Origin' : '*',
+                'Authorization': `Bearer ${token}`
+                }
+            }
+            appointmentDto.personId = Number(localStorage.getItem("personId"));
+            appointmentDto.termId = Number(localStorage.getItem("termId"));
+            console.log(appointmentDto.personId + " " + appointmentDto.termId);
+            axios.post("http://localhost:8080/api/appointment/penal", appointmentDto, config)
+                .then(res => {
+                    localStorage.setItem('AppointmentId', res.data.appointmentId);
+                    if (localStorage.getItem('AppointmentId') == null)
+                        localStorage.setItem('AppointmentId', '1');
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert(err.toString());
+
+                });
+
+        }
         useEffect(() => {
             var token = localStorage.getItem("auth")
             appointmentDto.personId = Number(localStorage.getItem("personId"));
@@ -192,7 +218,7 @@ export default function MakeInfo() {
                         <button onClick={descr} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
                             <a href="/">Forbid</a>
                         </button>
-                        <button onClick={descr} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
+                        <button onClick={penal} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
                             <a href="/">Penal</a>
                         </button>
                     </div>
