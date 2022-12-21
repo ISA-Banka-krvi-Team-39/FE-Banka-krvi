@@ -8,11 +8,6 @@ import CustomInput from "../../shared-components/Inputs/CustomInput";
 import { LoginUser } from "../../shared-components/model/user/LoginUser";
 import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
-const config = {
-    headers:{
-    'Access-Control-Allow-Origin' : '*',
-    }
-}
 export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -28,6 +23,11 @@ export default function Login() {
     });
     
     async function Login(){
+        const config = {
+            headers:{
+            'Access-Control-Allow-Origin' : '*',
+            }
+        }
         await axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
             localStorage.setItem("auth", res.data.accessToken);
             localStorage.setItem("login", "true");

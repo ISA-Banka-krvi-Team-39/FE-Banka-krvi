@@ -9,14 +9,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
 
-const config = {
-    headers:{
-    'Access-Control-Allow-Origin' : '*',
-    }
-}
 async function RegisterUser(user:User):Promise<Boolean> {
     let uidUnique:Boolean = true;
     var emailUnique:Boolean = true;
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        }
+    }
     await axios.get<Boolean>("http://localhost:8080/api/person/check-uid/"+user.uid,config).then(res => {
       uidUnique=res.data;
       if(!uidUnique)

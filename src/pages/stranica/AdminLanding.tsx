@@ -8,35 +8,53 @@ import axios from 'axios'
 import { PersonGender } from '../../shared-components/model/user/PersonGender'
 import { PatientUser } from '../../shared-components/model/PatientUser/PatientUser'
 import { setTokenSourceMapRange } from 'typescript'
+import { getDataFromToken } from '../../shared-components/navbar/getToken'
+import { UserInfo } from '../../shared-components/model/shared/userInfo'
 
 
 var user: PatientUser;
-var userName : string;
 
 export default  function MyProfile() {
 
   const [repeatpassword,setRepeatPassword] = useState('');
   const [password,setPassword] = useState('');
+  const [userName,setUserName] = useState('');
 
   function setProfile() {
     setPassword(user.password);
     setRepeatPassword(user.password);
   }
 
-
   useEffect(() => {
-    axios.get("http://localhost:8080/api/person/1")
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.get("http://localhost:8080/api/person/"+userInfo.id,config)
       .then(res => {
       user = res.data;
-      userName = user.name;
-      //setProfile();
+      console.log(user)
+      setUserName(user.name);
     })
     .catch(err => console.log(err));
   }, []);
   function doSomething() {
-    axios.put("http://localhost:8080/api/person/landing/1", user)
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Basic ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.put("http://localhost:8080/api/person/landing/"+userInfo.id, user,config)
       .then(res => {
-
     })
     .catch(err => console.log(err));
     setPassword("");

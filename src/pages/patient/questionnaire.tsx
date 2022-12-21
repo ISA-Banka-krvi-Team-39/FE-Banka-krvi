@@ -4,27 +4,35 @@ import Container from "../../shared-components/container/Container";
 import { Answer } from "../../shared-components/model/questionnaire/Answer";
 import { Question } from "../../shared-components/model/questionnaire/Question";
 import { QuestionnaireClass } from "../../shared-components/model/questionnaire/QuestionnaireClass";
+import { UserInfo } from "../../shared-components/model/shared/userInfo";
+import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
 export default function Questionnaire() {
     const [questions,setQuestions] = useState([Question]);
     const [answers,setAnswers] = useState([] as Answer[]);
     function sendQuestionnaire(){
-      console.log(new QuestionnaireClass(2,answers));
+      var token = localStorage.getItem("auth")
+      const tokenNotNull = token != null ? token : "";
       const config = {
-        headers:{
-        'Access-Control-Allow-Origin' : '*',
-        }
+          headers: {
+          'Access-Control-Allow-Origin' : '*',
+          'Authorization': `Bearer ${token}`
+          }
       }
-      axios.post("http://localhost:8080/api/questionnaire/save", new QuestionnaireClass(2,answers),config).then(res => {console.log(res);})
+      var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+      axios.post("http://localhost:8080/api/questionnaire/save", new QuestionnaireClass(userInfo.id,answers),config).then(res => {console.log(res);})
       .catch(err => {console.log(err)
         alert(err.toString());
       })
     }
+    var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
     const config = {
         headers:{
         'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
         }
-      }
+    }
     if(questions.length == 1){
     axios.get("http://localhost:8080/api/questionnaire/questions",config)
     .then(res => {

@@ -7,6 +7,9 @@ import { User } from '../../shared-components/model/user/User'
 import axios from 'axios'
 import { PersonGender } from '../../shared-components/model/user/PersonGender'
 import { PatientUser } from '../../shared-components/model/PatientUser/PatientUser'
+import { getDataFromToken } from '../../shared-components/navbar/getToken'
+import { UserInfo } from '../../shared-components/model/shared/userInfo'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 var user: PatientUser;
@@ -16,7 +19,7 @@ export default  function MyProfile() {
   const [name,setName] = useState('');
   const [surname,setSurname] = useState('');
   const [password,setPassword] = useState('');
-  const [uuid,setUuid] = useState('');
+  const [uid,setUid] = useState('');
   const [phoneNumber,setPhoneNumber] = useState('');
   const [school,setSchool] = useState('');
   const [country,setCountry] = useState('');
@@ -32,7 +35,7 @@ export default  function MyProfile() {
     setName(user.name);
     setSurname(user.surname);
     setPassword(user.password);
-    setUuid(user.uuid);
+    setUid(user.uid);
     setPhoneNumber(user.phoneNumber);
     setSchool(user.school);
     setCountry(user.address.country);
@@ -48,7 +51,16 @@ export default  function MyProfile() {
   }
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/person/1")
+    var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.get("http://localhost:8080/api/person/"+ userInfo.id,config)
       .then(res => {
       user = res.data;
       setProfile();
@@ -61,9 +73,20 @@ export default  function MyProfile() {
   }
 
   function doSomething() {
-
-    axios.put("http://localhost:8080/api/person/1", user)
+    var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.put("http://localhost:8080/api/person/"+ userInfo.id, user, config)
       .then(res => {
+        toast.success('Your information has been updated!', {
+            position: toast.POSITION.TOP_RIGHT
+        });
     })
     .catch(err => console.log(err));
   }
@@ -92,13 +115,13 @@ export default  function MyProfile() {
         ></CustomInput>
 
         <CustomInput 
-          value = {uuid}
+          value = {uid}
           type='number'
           onChange={(event) => {
-            user.uuid = event.target.value;
-            setUuid(event.target.value);
+            user.uid = event.target.value;
+            setUid(event.target.value);
           }}
-          nameToSet='Uuid'
+          nameToSet='Uid'
         ></CustomInput>
 
         <CustomInput 
@@ -209,6 +232,7 @@ export default  function MyProfile() {
       <div id="patient" className='h-[750px] w-[600px] rounded-2xl py-5 px-5 border-4 border-black bg-emerald-800 text-slate-300 text-3xl break-words overflow-hidden'>
         <p>Vi ste {role} i imate {points} poena, mozete da dobijete cak do 20l krvi :)</p>
       </div>
+      <ToastContainer theme="dark" />
     </div>
 )
 }

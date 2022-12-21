@@ -4,12 +4,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
-
-const config = {
-    headers:{
-    'Access-Control-Allow-Origin' : '*',
-    }
-}
 export default function Login() {
     const router = useRouter();
     const { code } = router.query;
@@ -18,6 +12,12 @@ export default function Login() {
     });
     if(code == undefined)
         return;
+    
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        }
+    }
     axios.put(`http://localhost:8080/api/user/activate/${code}` ,config).then(res => {
         localStorage.setItem("activationSuccess", "true");
         toast.error('Activation success! You can now login', {
