@@ -23,18 +23,30 @@ export default  function MyProfile() {
     setRepeatPassword(user.password);
   }
 
-
   useEffect(() => {
-    axios.get("http://localhost:8080/api/person/1")
+    const token = localStorage.getItem("auth");
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Basic ${token}`
+        }
+    }
+    axios.get("http://localhost:8080/api/person/1",config)
       .then(res => {
       user = res.data;
       userName = user.name;
-      //setProfile();
     })
     .catch(err => console.log(err));
-  }, []);
+  });
   function doSomething() {
-    axios.put("http://localhost:8080/api/person/landing/1", user)
+    const token = localStorage.getItem("auth");
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Basic ${token}`
+        }
+    }
+    axios.put("http://localhost:8080/api/person/landing/1", user,config)
       .then(res => {
 
     })
