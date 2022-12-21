@@ -9,7 +9,7 @@ export class PatientUser {
     surname:string;
     email:string;
     phoneNumber:string;
-    uuid:string;
+    uid:string;
     password:string;
     school:string;
     personGender:PersonGender;
@@ -17,12 +17,12 @@ export class PatientUser {
     points:Number;
 
     constructor(address: Address,name:string,surname:string,email:string,
-      password:string,school:string,uuid:string,phoneNumber:string,personGender:PersonGender,personType:PersonType,points:Number) {
+      password:string,school:string,uid:string,phoneNumber:string,personGender:PersonGender,personType:PersonType,points:Number) {
       this.address = address;
       this.name = name;
       this.surname = surname;
       this.password = password;
-      this.uuid = uuid;
+      this.uid = uid;
       this.school = school;
       this.email = email;
       this.phoneNumber = phoneNumber;

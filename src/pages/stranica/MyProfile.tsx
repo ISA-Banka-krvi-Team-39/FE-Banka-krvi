@@ -19,7 +19,7 @@ export default  function MyProfile() {
   const [name,setName] = useState('');
   const [surname,setSurname] = useState('');
   const [password,setPassword] = useState('');
-  const [uuid,setUuid] = useState('');
+  const [uid,setUid] = useState('');
   const [phoneNumber,setPhoneNumber] = useState('');
   const [school,setSchool] = useState('');
   const [country,setCountry] = useState('');
@@ -35,7 +35,7 @@ export default  function MyProfile() {
     setName(user.name);
     setSurname(user.surname);
     setPassword(user.password);
-    setUuid(user.uuid);
+    setUid(user.uid);
     setPhoneNumber(user.phoneNumber);
     setSchool(user.school);
     setCountry(user.address.country);
@@ -115,13 +115,13 @@ export default  function MyProfile() {
         ></CustomInput>
 
         <CustomInput 
-          value = {uuid}
+          value = {uid}
           type='number'
           onChange={(event) => {
-            user.uuid = event.target.value;
-            setUuid(event.target.value);
+            user.uid = event.target.value;
+            setUid(event.target.value);
           }}
-          nameToSet='Uuid'
+          nameToSet='Uid'
         ></CustomInput>
 
         <CustomInput 
