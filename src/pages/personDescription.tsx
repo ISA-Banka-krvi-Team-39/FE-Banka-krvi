@@ -49,7 +49,8 @@ export default function MakeInfo() {
         console.log(appointmentDto.personId + " " + appointmentDto.termId);
         axios.post("http://localhost:8080/api/appointment/create", appointmentDto)
         .then(res => {
-        localStorage.setItem('AppointmentId', '' + res.data.appointmentId); 
+        localStorage.setItem('AppointmentId', res.data.appointmentId);
+        if(localStorage.getItem('AppointmentId') == null) localStorage.setItem('AppointmentId', '1');
         })
         .catch(err => {
         //console.log(err)

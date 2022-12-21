@@ -38,6 +38,8 @@ export default function MakeInfo() {
         {
             retA = ajdi;
         }
+        else
+            retA = '1';
         info.appointmentId = retA;
         axios.post("http://localhost:8080/api/appointment/info", info,config)
         .then(res => {
