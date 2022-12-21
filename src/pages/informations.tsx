@@ -31,6 +31,14 @@ export default function MakeInfo() {
     }
     function informat()
     {
+        var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
+        const config = {
+            headers:{
+            'Access-Control-Allow-Origin' : '*',
+            'Authorization': `Bearer ${token}`
+            }
+        }
         var ajdi;
         var retA : string = "";
         ajdi = localStorage.getItem("AppointmentId");
@@ -38,6 +46,8 @@ export default function MakeInfo() {
         {
             retA = ajdi;
         }
+        else
+            retA = '1';
         info.appointmentId = retA;
         axios.post("http://localhost:8080/api/appointment/info", info,config)
         .then(res => {
