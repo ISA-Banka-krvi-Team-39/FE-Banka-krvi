@@ -31,6 +31,14 @@ export default function MakeInfo() {
     }
     function informat()
     {
+        var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
+        const config = {
+            headers:{
+            'Access-Control-Allow-Origin' : '*',
+            'Authorization': `Bearer ${token}`
+            }
+        }
         var ajdi;
         var retA : string = "";
         ajdi = localStorage.getItem("AppointmentId");
