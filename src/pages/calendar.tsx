@@ -16,7 +16,15 @@ const TermCalendar = () => {
     
     useEffect(()=>{
         let event:any[] = [];
-        axios.get("http://localhost:8080/api/term/all").then(res => {
+        var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
+        const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+        }
+        axios.get("http://localhost:8080/api/term/all",config).then(res => {
         
         terms = res.data
         console.log(terms)
