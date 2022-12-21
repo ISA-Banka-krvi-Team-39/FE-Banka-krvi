@@ -3,6 +3,7 @@ import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import {Term} from "../shared-components/model/center/Term"
@@ -13,6 +14,7 @@ const localizer = momentLocalizer(moment);
 const TermCalendar = () => {
     let terms:Term[] = [];
     const[events,setEvents] = useState<any[]>([]);
+    const router = useRouter();
     
     useEffect(()=>{
         let event:any[] = [];
@@ -27,21 +29,20 @@ const TermCalendar = () => {
         axios.get("http://localhost:8080/api/term/all",config).then(res => {
         
         terms = res.data
-        console.log(terms)
-        for(let i = 0;i<terms.length;i++){
-            let name:string = terms[i].bloodDonors[0].name
-            let surname:string = terms[i].bloodDonors[0].surname
-            
-            const ev = {title:name+' '+surname,start:new Date(Number(terms[i].dateTime[0]),Number(terms[i].dateTime[1])-1,Number(terms[i].dateTime[2]),Number(terms[i].dateTime[3]),Number(terms[i].dateTime[4])),
-                                         end:new Date(Number(terms[i].dateTime[0]),Number(terms[i].dateTime[1])-1,Number(terms[i].dateTime[2]),Number(terms[i].dateTime[3]),Number(terms[i].dateTime[4])+Number(terms[i].durationInMinutes))
-                                         ,personId:terms[i].bloodDonors[0].personId
-                                         ,termId: terms[i].termId
+        
+        terms.forEach(function (term){
+            let name:string = term.bloodDonor.name;
+            let surname:string = term.bloodDonor.surname;
+            const ev = {title:name+' '+surname,start:new Date(Number(term.dateTime[0]),Number(term.dateTime[1])-1,Number(term.dateTime[2]),Number(term.dateTime[3]),Number(term.dateTime[4])),
+                                         end:new Date(Number(term.dateTime[0]),Number(term.dateTime[1])-1,Number(term.dateTime[2]),Number(term.dateTime[3]),Number(term.dateTime[4])+Number(term.durationInMinutes))
+                                         ,personId: term.bloodDonor.personId
+                                         ,termId: term.termId
                                         }
             event.push(ev); 
+            
         
-        }
-        
-        setEvents(event);
+        })
+        setEvents(event)
         
         }).catch(err => {
             console.log(err)
@@ -52,6 +53,7 @@ const TermCalendar = () => {
     function handleSelected(event:any){
         localStorage.setItem('personId',event.personId)
         localStorage.setItem('termId',event.termId)
+        router.push('/personDescription')
     }
 
     return (
