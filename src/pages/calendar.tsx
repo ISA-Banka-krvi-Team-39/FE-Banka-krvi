@@ -20,6 +20,7 @@ const TermCalendar = () => {
     useEffect(()=>{
         let event:any[] = [];
         var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
         const config = {
         headers:{
         'Access-Control-Allow-Origin' : '*',
