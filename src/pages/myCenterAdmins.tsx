@@ -7,9 +7,8 @@ import axios from 'axios';
 
 
 const MyCenterAdmins = () => {
-  let admins:WorkingStaff[] = [];
-  let scheduledAdmins:WorkingStaff[] = [];
-  
+  const [admins,setAdmins] = useState<WorkingStaff[]>([]);
+  const [scheduledAdmins,setScheduledAdmins] = useState<WorkingStaff[]>([]);
     useEffect(()=>{
       var token = localStorage.getItem("auth")
       const tokenNotNull = token != null ? token : "";
@@ -21,7 +20,7 @@ const MyCenterAdmins = () => {
       }
     axios.get("http://localhost:8080/api/person/admins",config).then(res => {
   
-    admins = res.data
+    setAdmins(res.data)
   
     }).catch(err => {
       console.log(err)
@@ -40,7 +39,7 @@ const MyCenterAdmins = () => {
     }
       axios.get("http://localhost:8080/api/person/scheduledAdmins",config).then(res => {
     
-      scheduledAdmins = res.data
+      setScheduledAdmins(res.data)
     
       }).catch(err => {
         console.log(err)

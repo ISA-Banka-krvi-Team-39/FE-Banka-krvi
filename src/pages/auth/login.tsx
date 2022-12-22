@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import BloodDonation from '../../public/bloodDonation.jpg'
 import CustomInput from "../../shared-components/Inputs/CustomInput";
+import { UserInfo } from "../../shared-components/model/shared/UserInfo";
+import { AdminUser } from "../../shared-components/model/user/AdminUser";
 import { LoginUser } from "../../shared-components/model/user/LoginUser";
 import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
@@ -22,7 +24,30 @@ export default function Login() {
         }
         localStorage.removeItem('activationSuccess');
     });
-   
+    
+    async function checkIfWasLogged(user:UserInfo){
+        const token = localStorage.getItem("auth");
+        const tokenNotNull = token != null ? token : "";
+        const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+        }
+        let admin:AdminUser;
+        await axios.get("http://localhost:8080/api/systemAdmin/"+user.id,config)
+        .then(res => {
+            admin = res.data;
+            if(admin.wasLoggedIn == false){
+                router.push('/stranica/SystemAdminLanding')
+            }else{
+                router.push('/')
+            }
+          })
+          .catch(err => console.log(err));
+        
+    }
+
     
     async function Login(){
         const config = {
@@ -33,14 +58,23 @@ export default function Login() {
         await axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
             localStorage.setItem("auth", res.data.accessToken);
             localStorage.setItem("login", "true");
-            var roles = getDataFromToken(res.data.accessToken).roles
 
-          
+            var roles = getDataFromToken(res.data.accessToken).roles
+            const user:UserInfo = getDataFromToken(res.data.accessToken);
+             
             console.log(getDataFromToken(res.data.accessToken));
             console.log(roles);
             localStorage.setItem("role",roles.toString());
-            router.push('/');
-            window.location.href = '/';
+            if (user.roles.toString().split('"')[1] == "ROLE_ADMIN"){
+                
+                checkIfWasLogged(user)
+                
+            }else{
+                router.push('/');
+                window.location.href = '/';
+            }
+            
+
             ;}).catch(err => {
                 toast.error('Password or email not valid!', {
                     position: toast.POSITION.TOP_RIGHT

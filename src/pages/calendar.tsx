@@ -20,6 +20,7 @@ const TermCalendar = () => {
     useEffect(()=>{
         let event:any[] = [];
         var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
         const config = {
         headers:{
         'Access-Control-Allow-Origin' : '*',
@@ -30,8 +31,9 @@ const TermCalendar = () => {
         if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
         axios.get("http://localhost:8080/api/term/all",config).then(res => {
         terms = res.data
-        
+        console.log(terms)
         terms.forEach(function (term){
+            if(term.state === "PENDING"){
             let name:string = term.bloodDonor.name;
             let surname:string = term.bloodDonor.surname;
             const ev = {title:name+' '+surname,start:new Date(Number(term.dateTime[0]),Number(term.dateTime[1])-1,Number(term.dateTime[2]),Number(term.dateTime[3]),Number(term.dateTime[4])),
@@ -40,7 +42,7 @@ const TermCalendar = () => {
                                          ,termId: term.termId
                                         }
             event.push(ev); 
-        
+            }
         })
         setEvents(event)
         
