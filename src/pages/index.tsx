@@ -1,11 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify'
 import styles from '../styles/Home.module.css'
 
+
 export default function Home() {
+  const router = useRouter();
     useEffect(() => {
+      
         let isLogin = localStorage.getItem("login");
         let isActivationFalied = localStorage.getItem("activationFalied");
         if(isLogin == "true"){
@@ -17,6 +21,9 @@ export default function Home() {
             toast.error('Accout activation failed! Check email again or contact support!', {
                 position: toast.POSITION.TOP_RIGHT
             });
+        }
+        if(localStorage.getItem('wasLogged')==='false'){
+          router.push('/stranica/SystemAdminLanding')
         }
         localStorage.removeItem('login');
         localStorage.removeItem('activationFalied');

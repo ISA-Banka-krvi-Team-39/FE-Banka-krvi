@@ -21,6 +21,9 @@ const TermCalendar = () => {
     const router = useRouter();
     
     useEffect(()=>{
+        if(localStorage.getItem('wasLogged')==='false'){
+            router.push('/stranica/SystemAdminLanding')
+        }
         let event:any[] = [];
         var token = localStorage.getItem("auth")
         const tokenNotNull = token != null ? token : "";
@@ -36,16 +39,22 @@ const TermCalendar = () => {
         terms = res.data
         console.log(terms)
         terms.forEach(function (term){
-            if(term.state === "PENDING"){
-            let name:string = term.bloodDonor.name;
-            let surname:string = term.bloodDonor.surname;
-            const ev = {title:name+' '+surname,start:new Date(Number(term.dateTime[0]),Number(term.dateTime[1])-1,Number(term.dateTime[2]),Number(term.dateTime[3]),Number(term.dateTime[4])),
+            let name:string = ""
+            let surname:string = ""
+            if(term.bloodDonor.name!==null){
+            name = term.bloodDonor.name;
+            }
+            if(term.bloodDonor.surname!==null){
+            surname = term.bloodDonor.surname;
+            }
+            let fullname = name + ' ' + surname;
+            const ev = {title:fullname,start:new Date(Number(term.dateTime[0]),Number(term.dateTime[1])-1,Number(term.dateTime[2]),Number(term.dateTime[3]),Number(term.dateTime[4])),
                                          end:new Date(Number(term.dateTime[0]),Number(term.dateTime[1])-1,Number(term.dateTime[2]),Number(term.dateTime[3]),Number(term.dateTime[4])+Number(term.durationInMinutes))
                                          ,personId: term.bloodDonor.personId
                                          ,termId: term.termId
                                         }
             event.push(ev); 
-            }
+            
         })
         setEvents(event)
         
@@ -83,7 +92,7 @@ const TermCalendar = () => {
         </div>
             )}
         <div className="self-center">
-        {!showYearly &&<button className="ml-[71%] w-[4.7%] h-[3.45%] absolute mt-[0.1%] rounded-l-sm active:bg-slate-600 hover:bg-slate-400 border text-emerald-200" onClick={selectYearly}>Year</button>}
+        {!showYearly &&<button className="ml-[72%] w-[4.7%] h-[3.4%] absolute mt-[0.05em] rounded-l-sm active:bg-slate-600 hover:bg-slate-400 border text-emerald-200" onClick={selectYearly}>Year</button>}
         {!showYearly &&<Calendar  localizer={localizer} startAccessor="start"
             endAccessor="end" events={events}   defaultView={"month"} date={dat} onNavigate={dat=>setDate(dat)} onSelectEvent={handleSelected} style={{ height: 500, margin: "50px" }} />
             }

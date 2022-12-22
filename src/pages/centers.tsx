@@ -5,6 +5,7 @@ import { CenterWithoutPersons } from '../shared-components/model/center/CenterWi
 import Pagination from '../shared-components/paging/Pagination/Pagination';
 import Sort from '../public/sort.png'
 import CustomInputSearch from '../shared-components/Inputs/CustomInputForSearch';
+import { useRouter } from 'next/router';
 
 export default function Centers() {
   const [currentPage,setCurrentPage] = useState(1);
@@ -17,6 +18,11 @@ export default function Centers() {
   const [searchCity,setSearchCity] = useState('');
   const [gradeFilterFrom,setgradeFilterFrom] = useState(1);
   const [gradeFilterTo,setgradeFilterTo] = useState(5);
+  const router = useRouter();
+  if(localStorage.getItem('wasLogged')==='false'){
+    router.push('/stranica/SystemAdminLanding')
+  }
+  
 
   function getCenters(page:number,sortBy:string,sortDirection:string) {
     const config = {

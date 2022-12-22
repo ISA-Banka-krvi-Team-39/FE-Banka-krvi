@@ -27,6 +27,7 @@ export default function Login() {
     
     async function checkIfWasLogged(user:UserInfo){
         const token = localStorage.getItem("auth");
+        
         const tokenNotNull = token != null ? token : "";
         const config = {
         headers:{
@@ -39,9 +40,12 @@ export default function Login() {
         .then(res => {
             admin = res.data;
             if(admin.wasLoggedIn == false){
-                router.push('/stranica/SystemAdminLanding')
+                localStorage.setItem('wasLogged','false')
+                window.location.href='/'
+                
             }else{
                 router.push('/')
+                window.location.href = '/';
             }
           })
           .catch(err => console.log(err));
@@ -67,8 +71,8 @@ export default function Login() {
             localStorage.setItem("role",roles.toString());
             if (user.roles.toString().split('"')[1] == "ROLE_ADMIN"){
                 
-                checkIfWasLogged(user)
-                window.location.href = '/';
+               checkIfWasLogged(user)
+               
                 
             }else{
                 router.push('/');

@@ -15,6 +15,7 @@ export default function Terms() {
     const [terms,setTerms] = useState([] as TermForPatient[]);
     const router = useRouter();
     useEffect(()=>{
+        
         var token = localStorage.getItem("auth")
         const tokenNotNull = token != null ? token : "";
         const config = {

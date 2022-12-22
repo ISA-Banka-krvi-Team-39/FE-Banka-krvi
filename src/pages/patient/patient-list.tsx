@@ -24,6 +24,9 @@ export default function ScheduleExisting() {
 
     
     useEffect(()=>{
+      if(localStorage.getItem('wasLogged')==='false'){
+        router.push('/stranica/SystemAdminLanding')
+      }
         let event:any[] = [];
         var token = localStorage.getItem("auth")
         const config = {
