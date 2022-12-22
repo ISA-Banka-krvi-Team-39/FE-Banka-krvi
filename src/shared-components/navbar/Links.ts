@@ -1,5 +1,7 @@
 const Links = [
     { Href: "/stranica/MyProfile", text: "My profile", role:"ROLE_USER" },
+    { Href: "/patient/app-history", text: "App history", role:"ROLE_USER" },
+    { Href: "/patient/patient-list", text: "Patient list", role:"ROLE_ADMIN" },
     { Href: "/myCenterAdmins", text: "My center", role:"ROLE_ADMIN" },
     { Href: "/stranica/MyBloodBag", text: "My blood bags", role:"ROLE_ADMIN" },
     { Href: "/stranica/SystemAdminLanding", text: "Admin Landing" , role:"ROLE_ADMIN" },
