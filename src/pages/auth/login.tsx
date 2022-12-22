@@ -61,13 +61,11 @@ export default function Login() {
 
             var roles = getDataFromToken(res.data.accessToken).roles
             const user:UserInfo = getDataFromToken(res.data.accessToken);
-            const adminRole:string[]=['["ROLE_ADMIN"]']
-            const role  = String(user.roles)
-          
+             
             console.log(getDataFromToken(res.data.accessToken));
             console.log(roles);
             localStorage.setItem("role",roles.toString());
-            if (role === adminRole[0]){
+            if (user.roles.toString().split('"')[1] == "ROLE_ADMIN"){
                 
                 checkIfWasLogged(user)
                 
@@ -76,7 +74,6 @@ export default function Login() {
                 window.location.href = '/';
             }
             
-         
 
             ;}).catch(err => {
                 toast.error('Password or email not valid!', {
