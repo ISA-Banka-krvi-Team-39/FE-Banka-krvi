@@ -116,7 +116,7 @@ export default function MakeInfo() {
                 'Authorization': `Bearer ${token}`
                 }
             }
-            axios.get("http://localhost:8080/api/appointment/description", config)
+            axios.get("http://localhost:8080/api/appointment/description/" + appointmentDto.personId, config)
             .then(res => {
                 setAntibiotics(res.data.antibiotics);
                 setInfections(res.data.infections);
