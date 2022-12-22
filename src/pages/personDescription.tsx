@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
+import { useRouter } from 'next/dist/client/router';
 import Link from 'next/link';
 import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
@@ -11,7 +12,7 @@ import { PersonDescription } from '../shared-components/model/user/PersonDescrip
 import { getDataFromToken } from '../shared-components/navbar/getToken';
 
 export default function MakeInfo() {
-
+  const router = useRouter();
   const [antibiotics,setAntibiotics] = useState(false);
   const [infections,setInfections] = useState(false);
   const [kilograms,setKilograms] = useState('');
@@ -42,7 +43,7 @@ export default function MakeInfo() {
             console.log(appointmentDto.personId + " " + appointmentDto.termId);      
             axios.post("http://localhost:8080/api/appointment/cancel", appointmentDto, config)
                 .then(res => {
-                    console.log(res);
+                    router.push('/');
                 })
                 .catch(err => {
                     console.log(err)
@@ -50,9 +51,6 @@ export default function MakeInfo() {
                 });
 
         }
-       
-       
-
 
         function cret() {
             var token = localStorage.getItem("auth")
@@ -69,8 +67,10 @@ export default function MakeInfo() {
             axios.post("http://localhost:8080/api/appointment/create", appointmentDto, config)
                 .then(res => {
                     localStorage.setItem('AppointmentId', res.data.appointmentId);
+                    router
                     if (localStorage.getItem('AppointmentId') == null)
                         localStorage.setItem('AppointmentId', '1');
+                    router.push('/informations');
                 })
                 .catch(err => {
                     console.log(err);
@@ -97,6 +97,7 @@ export default function MakeInfo() {
                     localStorage.setItem('AppointmentId', res.data.appointmentId);
                     if (localStorage.getItem('AppointmentId') == null)
                         localStorage.setItem('AppointmentId', '1');
+                    router.push('/');
                 })
                 .catch(err => {
                     console.log(err);
@@ -215,13 +216,13 @@ export default function MakeInfo() {
 
                     <div className='w-full inline-flex justify-center mt-5 mb-28'>
                         <button onClick={cret} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                            <Link href="/informations">Continue</Link>
+                            Continue
                         </button>
                         <button onClick={descr} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                            <Link href="/">Forbid</Link>
+                            Forbid
                         </button>
                         <button onClick={penal} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                            <Link href="/">Penal</Link>
+                            Penal
                         </button>
                     </div>
                 </div>
