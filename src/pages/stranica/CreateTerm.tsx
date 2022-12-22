@@ -105,7 +105,7 @@ export default function Register() {
           ></CustomInput>
           <div className="my-5 w-[700px]">
             <div className="w-[256px] inline-flex justify-end">
-            <span className="text text-4xl mr-4 min-w-max">Center:</span>
+            <span className="text text-4xl mr-4 min-w-max">Medical Staff:</span>
             </div>
             <select 
             id="center" 
