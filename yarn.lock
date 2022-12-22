@@ -1439,6 +1439,11 @@ jose@^4.10.0, jose@^4.9.3:
   resolved "https://registry.npmjs.org/jose/-/jose-4.11.1.tgz"
   integrity sha512-YRv4Tk/Wlug8qicwqFNFVEZSdbROCHRAC6qu/i0dyNKr5JQdoa2pIGoS04lLO/jXQX7Z9omoNewYIVIxqZBd9Q==
 
+js-joda@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/js-joda/-/js-joda-1.11.0.tgz#e0e424b049cf7a9db3ed7729a6ca1f7d96b2486e"
+  integrity sha512-/HJpRhwP2fPyuSsCaZuoVJuaSIt8tUXykV4wOMRXrFk7RP9h9VWaFdS9YHKdMepxb/3TdXpL6IhfC9L0sqYVBw==
+
 js-sdsl@^4.1.4:
   version "4.2.0"
   resolved "https://registry.npmjs.org/js-sdsl/-/js-sdsl-4.2.0.tgz"
@@ -2063,7 +2068,7 @@ react-big-calendar@^1.5.2:
 
 react-datepicker@^4.8.0:
   version "4.8.0"
-  resolved "https://registry.npmjs.org/react-datepicker/-/react-datepicker-4.8.0.tgz"
+  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-4.8.0.tgz#11b8918d085a1ce4781eee4c8e4641b3cd592010"
   integrity sha512-u69zXGHMpxAa4LeYR83vucQoUCJQ6m/WBsSxmUMu/M8ahTSVMMyiyQzauHgZA2NUr9y0FUgOAix71hGYUb6tvg==
   dependencies:
     "@popperjs/core" "^2.9.2"
