@@ -23,10 +23,7 @@
     "next-auth": "^4.18.6",
     "node-localstorage": "^2.2.1",
     "react": "18.2.0",
-<<<<<<< HEAD
     "react-big-calendar": "^1.5.2",
-=======
->>>>>>> 45be3a8 (radim)
     "react-datepicker": "^4.8.0",
     "react-dom": "18.2.0",
     "react-toastify": "^9.1.1",

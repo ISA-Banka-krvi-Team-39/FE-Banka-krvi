@@ -3,12 +3,12 @@ export class CreateTermDTO {
     dateTime:LocalDateTime;
     medicalStaffId:number;
     durationInMinutes:number;
-    centerId:number;
+    managerId:number;
 
-    constructor(medicalStaffId:number,durationInMinutes:number,centerId:number,dateTime:LocalDateTime) {
+    constructor(medicalStaffId:number,durationInMinutes:number,managerId:number,dateTime:LocalDateTime) {
       this.dateTime = dateTime;
       this.medicalStaffId = medicalStaffId;
       this.durationInMinutes = durationInMinutes;
-      this.centerId = centerId;
+      this.managerId = managerId;
     }
 }

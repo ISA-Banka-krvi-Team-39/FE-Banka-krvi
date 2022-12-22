@@ -14,7 +14,7 @@ interface CustomInputProps {
 }
 
 const CustomInput: React.FC<CustomInputProps> = (props) => {
-  const [input,setInput]= useState("");
+  const [input,setInput]= useState(""); 
   let isValid = true;
   if(props.regex != undefined){
     var regex = new RegExp(props.regex);
