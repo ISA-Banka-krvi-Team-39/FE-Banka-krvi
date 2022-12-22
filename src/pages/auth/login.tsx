@@ -12,6 +12,7 @@ export default function Login() {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const router = useRouter();
+
     useEffect(() => {
         let isActivationSuccess = localStorage.getItem("activationSuccess");
         if(isActivationSuccess == "true"){
@@ -21,6 +22,7 @@ export default function Login() {
         }
         localStorage.removeItem('activationSuccess');
     });
+   
     
     async function Login(){
         const config = {
@@ -31,14 +33,21 @@ export default function Login() {
         await axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
             localStorage.setItem("auth", res.data.accessToken);
             localStorage.setItem("login", "true");
+            var roles = getDataFromToken(res.data.accessToken).roles
+
+          
             console.log(getDataFromToken(res.data.accessToken));
-            router.push('/')
+            console.log(roles);
+            localStorage.setItem("role",roles.toString());
+            router.push('/');
+            window.location.href = '/';
             ;}).catch(err => {
                 toast.error('Password or email not valid!', {
                     position: toast.POSITION.TOP_RIGHT
                 });
         });
     }
+    
     return (
         <div className=" w-full bg-gray-800 justify-center flex">
             <div className='overflow-hidden flex w-5/12'>

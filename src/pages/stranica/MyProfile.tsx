@@ -60,6 +60,7 @@ export default  function MyProfile() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.length == 0)window.location.href = '/';
     axios.get("http://localhost:8080/api/person/"+ userInfo.id,config)
       .then(res => {
       user = res.data;

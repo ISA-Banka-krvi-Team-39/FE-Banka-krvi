@@ -3,9 +3,11 @@ import classNames from 'classnames';
 import Head from 'next/head'
 import Image from 'next/image'
 import { config } from 'process';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
+import { UserInfo } from '../shared-components/model/shared/UserInfo';
 import { User } from '../shared-components/model/user/User';
+import { getDataFromToken } from '../shared-components/navbar/getToken';
 import styles from '../styles/Home.module.css'
 
 
@@ -26,6 +28,18 @@ export default function Register() {
   const [gender,setGender] = useState('');
   const [formValid,setFormValid] = useState(false);
 
+  useEffect(() => {
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
+    });
   function registerAdmin() {
     if(password !== confirmPassword){
       alert("password and confirma password must be same!");
@@ -51,6 +65,7 @@ export default function Register() {
       )
     
   }
+  
   function validate(){
     var regexNames = new RegExp("^[A-Z][a-z]+$");
     var regexStreetName = new RegExp("^[A-Z][A-Za-z( )]+$");

@@ -9,7 +9,8 @@ import { PersonGender } from '../../shared-components/model/user/PersonGender'
 import { PatientUser } from '../../shared-components/model/PatientUser/PatientUser'
 import { setTokenSourceMapRange } from 'typescript'
 import { getDataFromToken } from '../../shared-components/navbar/getToken'
-import { UserInfo } from '../../shared-components/model/shared/userInfo'
+import { UserInfo } from '../../shared-components/model/shared/UserInfo'
+import { Router } from 'next/dist/client/router'
 
 
 var user: PatientUser;
@@ -35,6 +36,7 @@ export default  function MyProfile() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
     axios.get("http://localhost:8080/api/person/"+userInfo.id,config)
       .then(res => {
       user = res.data;
