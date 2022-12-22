@@ -9,7 +9,7 @@ const Links = [
     { Href: "/stranica/Terms", text: "Terms" , role:"ROLE_ADMIN"},
     { Href: "/users", text: "Users" , role:"ROLE_ADMIN"},
     { Href: "/adminRegister", text: "Register admins" , role:"ROLE_ADMIN" },
-    { Href: "/personDescription", text: "Description" , role:"ROLE_ADMIN" },
+    { Href: "/calendar", text: "Calendar" , role:"ROLE_ADMIN" },
 ];
   
   export default Links;

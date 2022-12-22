@@ -5,6 +5,8 @@ import CustomInput from '../../shared-components/Inputs/CustomInput'
 import { WorkingStaff } from '../../shared-components/model/shared/WorkingStaff';
 import { MedicalStaff } from '../../shared-components/model/shared/MedicalStaff';
 import { CreateCenterDTO } from '../../shared-components/model/center/CreateCenterDTO';
+import { UserInfo } from '../../shared-components/model/shared/UserInfo';
+import { getDataFromToken } from '../../shared-components/navbar/getToken';
 
 const fetcher = (url: string) => fetch(url,{mode: 'no-cors'}).then((res) => res.json());
 interface props {
@@ -82,6 +84,16 @@ function undooAdmin(assignedAdmin:WorkingStaff){
     collectedCenter.workingMedicalStaff = medicalStaff;
 }
   useEffect(()=>{
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
 
    doSomething();
     

@@ -1,29 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getDataFromToken } from "./getToken";
 import Links from "./Links";
 import NavbarMenuItem from "./NavbarMenuItem";
 
+
+
 const NavbarMenu: React.FC = () => {
-  var roless : String [] = [];
-  if (typeof window !== 'undefined') {
-    var roles : String [] = [];
-    var token = localStorage.getItem("auth")
-    if(token != null)
+  const [role,setRole] = useState('All');
+  console.log(role);
+  useEffect(() => {
+    var rolee = localStorage.getItem("role");
+    if(rolee == null)
     {
-      roles = getDataFromToken(token).roles;
-      roless = roles;
-      console.log(roles.toString().split('"')[1]);
+      setRole("All");
     }
-  }
+    else
+    {
+      setRole(rolee.toString().split('"')[1]);
+    }
+    console.log("role : " + role);
+    
+  },[]);
   return (
     <div className="h-[98px] flex items-center mx-auto justify-between px-6">
       <div className="inline-flex w-full mx-auto">
-            <NavbarMenuItem hidden={roless.length != 0} href="/">
+            <NavbarMenuItem hidden={false} href="/">
               Main Page
             </NavbarMenuItem>
         {Links.map((link, index) => {
           return (
-            <NavbarMenuItem hidden={(link.role != roless.toString().split('"')[1])} href={link.Href} key={index}>
+            <NavbarMenuItem hidden={link.role != role} href={link.Href} key={index}>
               {link.text}
             </NavbarMenuItem>
           );
@@ -32,10 +38,10 @@ const NavbarMenu: React.FC = () => {
       
       <div className="inline-flex mx-auto justify-end mr-10">
             
-            <NavbarMenuItem hidden={roless.length != 0} href="/auth/register">
+            <NavbarMenuItem hidden={role == null} href="/auth/register">
               Register
             </NavbarMenuItem>
-            <NavbarMenuItem hidden={roless.length != 0} href="/auth/login">
+            <NavbarMenuItem hidden={role == null} href="/auth/login">
               Login
             </NavbarMenuItem>
       </div>

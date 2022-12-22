@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { UserInfo } from '../model/shared/userInfo';
+import { UserInfo } from '../model/shared/UserInfo';
 
 const secret = 'isanajjacipredmet';
 export function getDataFromToken(token: string):UserInfo {

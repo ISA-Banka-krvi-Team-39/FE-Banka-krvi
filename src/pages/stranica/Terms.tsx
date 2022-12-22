@@ -4,6 +4,8 @@ import axios from 'axios'
 import { PersonGender } from '../../shared-components/model/user/PersonGender'
 import { Term } from '../../shared-components/model/center/Term'
 import { Center } from '../../shared-components/model/center/center'
+import { UserInfo } from '../../shared-components/model/shared/UserInfo'
+import { getDataFromToken } from '../../shared-components/navbar/getToken'
 
 
 var term : Term;
@@ -32,6 +34,16 @@ export default  function MyProfile() {
 
 
   useEffect(() => {
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
     findTerm();
     findCenter();
     })

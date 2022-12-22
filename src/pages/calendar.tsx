@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -8,6 +7,8 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import {Term} from "../shared-components/model/center/Term"
 import "react-datepicker/dist/react-datepicker.css";
+import { UserInfo } from "../shared-components/model/shared/UserInfo";
+import { getDataFromToken } from "../shared-components/navbar/getToken";
 
 const localizer = momentLocalizer(moment);
 
@@ -26,6 +27,8 @@ const TermCalendar = () => {
         'Authorization': `Bearer ${token}`
         }
         }
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
         axios.get("http://localhost:8080/api/term/all",config).then(res => {
         
         terms = res.data

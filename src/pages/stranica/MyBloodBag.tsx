@@ -1,12 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BloodBag } from "../../shared-components/model/center/BloodBag";
+import { UserInfo } from "../../shared-components/model/shared/UserInfo";
+import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
 var bloodBagList : [BloodBag];
 export default  function MyProfile() {
 
   const [bloodbag,setBloodBag] = useState<BloodBag[]>([]);
   useEffect(()=>{
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
 
     axios.get("http://localhost:8080/api/bloodbag/list")
     .then(res => {
