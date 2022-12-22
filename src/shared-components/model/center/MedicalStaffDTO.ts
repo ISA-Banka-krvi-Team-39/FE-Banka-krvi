@@ -1,9 +1,9 @@
 export class MedicalStaffDTO {
-    Id:number;
-    Name:string;
+    id:number;
+    name:string;
 
-    constructor(Id:number,Name:string) {
-      this.Id = Id;
-      this.Name = Name;
+    constructor(id:number,name:string) {
+      this.id = id;
+      this.name = name;
     }
 }

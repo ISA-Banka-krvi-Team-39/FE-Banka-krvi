@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, HttpStatusCode } from 'axios';
 import classNames from 'classnames';
 import Head from 'next/head'
 import Image from 'next/image'
@@ -12,28 +12,37 @@ import { CenterForTermDTO } from '../../shared-components/model/center/CenterFor
 import { MedicalStaffDTO } from '../../shared-components/model/center/MedicalStaffDTO';
 import { CreateTermDTO } from '../../shared-components/model/center/CreateTermDTO';
 import { getDataFromToken } from '../../shared-components/navbar/getToken';
-import { UserInfo } from '../../shared-components/model/shared/userInfo';
+import { UserInfo } from '../../shared-components/model/shared/UserInfo';
 import { LocalDateTime } from 'js-joda';
+import router from 'next/router';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Register() {
 
   const [name,setName] = useState(LocalDateTime.now().toString().substring(0,19));
   const [duration,setDuration] = useState('');
   const [formValid,setFormValid] = useState(false);
+  const [medicalStaffs,setMedicalStaffs] = useState([] as MedicalStaffDTO[]);
+  const [selectedMS,setSelectedMS] = useState(-1);
 
-  var medicalStaff : MedicalStaffDTO[] = [];
+
+
   var createTermDTO : CreateTermDTO = new CreateTermDTO(0,0,0,LocalDateTime.now());
   
   useEffect(() => {
     validate();
-    
-    // axios.get("http://localhost:8080/api/center/list/")
-    //   .then(res => {
-    //     medicalStaff = res.data;
-    // })
-    // .catch(err => console.log(err));
+    var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+     axios.get("http://localhost:8080/api/person/medicalStaff" + "?adminId=" + userInfo.id )
+       .then(res => {
+        setMedicalStaffs(res.data);
+        if(medicalStaffs != null)
+          setSelectedMS(medicalStaffs[0].id);
+     })
+     .catch(err => console.log(err));
+     
   },[name,duration]);
-
 
   function CreateTerm(){
     createTermDTO.dateTime = LocalDateTime.parse(name);
@@ -48,6 +57,21 @@ export default function Register() {
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     createTermDTO.managerId = userInfo.id;
+    createTermDTO.medicalStaffId = selectedMS;
+    axios.post("http://localhost:8080/api/term/createTerm",createTermDTO,config)
+       .then(res => {
+        if(res.data == "200")
+        toast.success("Success! Go to calendar and check it out!", {
+          position: toast.POSITION.TOP_RIGHT
+      });
+      else
+      toast.error("You cant schadule this term check calendar for free termins!", {
+        position: toast.POSITION.TOP_RIGHT
+      });
+        
+           
+     })
+     .catch(err => console.log(err));
   }
   function validate(){
     var regexNames = new RegExp("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$");
@@ -66,7 +90,6 @@ export default function Register() {
             notValidText='Date is not in valid format, format is YYYY-MM-DDThh:mm:qq'
             onChange={(event) => {
               setName(event.target.value);
-              console.log(event.target.value + "   MAMA!");
             }}
             nameToSet='Date and time'
           ></CustomInput>
@@ -89,12 +112,12 @@ export default function Register() {
             name="center" 
             className="text-emerald-200 text-4xl w-[415px] bg-gray-800 border-2 pb-1 border-emerald-800"
             onChange={(e) => {
-              //setGender(e.target.value);
+              setSelectedMS(Number.parseInt(e.target.value));
             }}
             >
-              <option value="0">Male</option>
-              <option value="1">Female</option>
-              <option value="2">Alien</option>
+              {medicalStaffs.map((medStaff,index) => (
+                <option key={index} value={medStaff.id}>{medStaff.name}</option>
+                ))}
             </select>
           </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
@@ -103,6 +126,7 @@ export default function Register() {
           </button>
           </div>
         </div>
+        <ToastContainer theme="dark" />
       </div>
   )
 }
