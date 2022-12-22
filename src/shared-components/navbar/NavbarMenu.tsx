@@ -7,7 +7,6 @@ import NavbarMenuItem from "./NavbarMenuItem";
 
 const NavbarMenu: React.FC = () => {
   const [role,setRole] = useState('All');
-  console.log(role);
   useEffect(() => {
     var rolee = localStorage.getItem("role");
     if(rolee == null)
@@ -18,7 +17,6 @@ const NavbarMenu: React.FC = () => {
     {
       setRole(rolee.toString().split('"')[1]);
     }
-    console.log("role : " + role);
     
   },[]);
   function logout()
