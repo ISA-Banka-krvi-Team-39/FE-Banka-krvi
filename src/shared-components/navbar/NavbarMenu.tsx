@@ -24,12 +24,17 @@ const NavbarMenu: React.FC = () => {
   function logout()
   {
     localStorage.removeItem("auth");
+    localStorage.removeItem("role");
+    window.location.href = "/";
   }
   return (
     <div className="h-[98px] flex items-center mx-auto justify-between px-6">
       <div className="inline-flex w-full mx-auto">
             <NavbarMenuItem hidden={false} href="/">
-              Main Page
+                Main Page
+            </NavbarMenuItem>
+            <NavbarMenuItem hidden={false} href="/centers">
+                Centers
             </NavbarMenuItem>
         {Links.map((link, index) => {
           return (
@@ -48,7 +53,7 @@ const NavbarMenu: React.FC = () => {
             <NavbarMenuItem hidden={role != "All"} href="/auth/login">
               Login
             </NavbarMenuItem>
-            <NavbarMenuItem hidden={role == "All"} href="/" onClick={()=>{logout}}>
+            <NavbarMenuItem hidden={role == "All"} onClick={()=>{logout()}}>
               Logout
             </NavbarMenuItem>
       </div>
