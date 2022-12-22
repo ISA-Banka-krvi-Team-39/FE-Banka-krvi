@@ -4,12 +4,17 @@ import { GetStaticProps, NextPage } from 'next';
 import { WorkingStaff } from '../shared-components/model/shared/WorkingStaff';
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 
 const MyCenterAdmins = () => {
   const [admins,setAdmins] = useState<WorkingStaff[]>([]);
   const [scheduledAdmins,setScheduledAdmins] = useState<WorkingStaff[]>([]);
+  const router = useRouter();
     useEffect(()=>{
+      if(localStorage.getItem('wasLogged')==='false'){
+        router.push('/stranica/SystemAdminLanding')
+      }
       var token = localStorage.getItem("auth")
       const tokenNotNull = token != null ? token : "";
       const config = {

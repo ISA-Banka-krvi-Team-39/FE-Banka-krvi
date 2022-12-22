@@ -45,7 +45,7 @@ async function RegisterUser(user:User):Promise<Boolean> {
   if(!emailUnique || !uidUnique)
     return false;
   axios.post("http://localhost:8080/api/auth/createSystemAdmin", user,config).then(res => {
-    toast.success('You successfuly registered!', {
+    toast.success('You successfuly registered another system admin!', {
       position: toast.POSITION.TOP_RIGHT
       });
     ;}).catch(err => {
@@ -75,8 +75,12 @@ export default function SystemAdminRegister() {
   const [formValid,setFormValid] = useState(false);
   
   const router = useRouter();
+  if(localStorage.getItem('wasLogged')==='false'){
+    router.push('/stranica/SystemAdminLanding')
+  }
 
   async function Register(){
+    
     var user: User = {address:{city:city,country:country,streetName:streetName,streetNumber:streetNumber},
     name:name,surname:surname,school:school,email:email,password:password,uid:uid,phoneNumber:phoneNumber,
     personGender:Number(gender),personType: 2
@@ -88,7 +92,7 @@ export default function SystemAdminRegister() {
       return;
     }
      if(await RegisterUser(user))
-       router.push("/auth/login");
+       router.push("/");
   }
   useEffect(()=>{
     validate();

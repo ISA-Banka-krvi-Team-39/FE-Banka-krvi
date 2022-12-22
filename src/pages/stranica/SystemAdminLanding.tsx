@@ -11,19 +11,22 @@ import { setTokenSourceMapRange } from 'typescript'
 import { getDataFromToken } from '../../shared-components/navbar/getToken'
 import { UserInfo } from '../../shared-components/model/shared/UserInfo'
 import { AdminUser } from '../../shared-components/model/user/AdminUser'
+import { toast, ToastContainer } from 'react-toastify'
+import { useRouter } from 'next/dist/client/router'
 
 
 
 var admin:AdminUser;
 var user:User;
-export default  function MyProfile() {
+export default  function SystemAdminLanding() {
   
   const [repeatpassword,setRepeatPassword] = useState('');
   const [password,setPassword] = useState('');
   const [userName,setUserName] = useState('');
-
+  const router = useRouter();
 
   useEffect(() => {
+    
     const token = localStorage.getItem("auth");
     const tokenNotNull = token != null ? token : "";
     const config = {
@@ -32,14 +35,27 @@ export default  function MyProfile() {
         'Authorization': `Bearer ${token}`
         }
     }
+    if(localStorage.getItem('wasLogged')==='false'){
+      
+      toast.error('You need to change your password first!', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+
+    }
+    
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     axios.get("http://localhost:8080/api/systemAdmin/"+userInfo.id,config)
       .then(res => {
       admin = res.data;
+      
+     
+      
       user = admin.person
       setUserName(admin.person.name);
     })
-    .catch(err => console.log(err));
+    
+    .catch(err => {
+      console.log(err)});
   }, []);
   function doSomething() {
     const token = localStorage.getItem("auth");
@@ -59,6 +75,7 @@ export default  function MyProfile() {
     .catch(err => console.log(err));
     setPassword("");
     setRepeatPassword("");
+    localStorage.setItem('wasLogged','true')
   }
 
   return (
@@ -91,6 +108,7 @@ export default  function MyProfile() {
       <div id="patient" className='h-[750px] w-[600px] rounded-2xl py-5 px-5 border-4 border-black bg-emerald-800 text-slate-300 text-3xl break-words overflow-hidden'>
         <p>Pozdrav {userName}, Vi ste administrator, nalog vam je kreiran automatski, molimo izaberite svoj password</p>
       </div>
+      <ToastContainer theme="dark" />
     </div>
 )
 }

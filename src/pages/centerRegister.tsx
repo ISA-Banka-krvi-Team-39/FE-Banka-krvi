@@ -6,12 +6,16 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { UserInfo } from '../shared-components/model/shared/UserInfo';
 import { getDataFromToken } from '../shared-components/navbar/getToken';
+import { useRouter } from 'next/router';
 
 
 const CenterRegister = () => {
   const [admins,setAdmins] = useState<WorkingStaff[]>([]);
+  const router = useRouter();
     useEffect(()=>{
-    
+      if(localStorage.getItem('wasLogged')==='false'){
+        router.push('/stranica/SystemAdminLanding')
+      }
     var token = localStorage.getItem("auth")
     const tokenNotNull = token != null ? token : "";
     const config = {
