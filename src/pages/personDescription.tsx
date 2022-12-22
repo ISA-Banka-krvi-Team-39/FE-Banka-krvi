@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
-import { UserInfo } from '../shared-components/model/shared/userInfo';
 import { AppointmentDTO } from '../shared-components/model/user/AppointmentDTO';
 import { Info } from '../shared-components/model/user/Info';
 import { PersonDescription } from '../shared-components/model/user/PersonDescription';
