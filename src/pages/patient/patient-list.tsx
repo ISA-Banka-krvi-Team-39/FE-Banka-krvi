@@ -11,10 +11,18 @@ import { PatientUser } from "../../shared-components/model/PatientUser/PatientUs
 import { UserInfo } from "../../shared-components/model/shared/UserInfo";
 import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
+interface props{
+    patient:PatientDto[];
+}
+
 export default function ScheduleExisting() {
     const [terms,setTerms] = useState([] as Term[]);
     const [patients,setPatients] = useState([] as PatientDto[]);
     const router = useRouter();
+    const [searchText,setSearchText] = useState('');
+    
+
+    
     useEffect(()=>{
         let event:any[] = [];
         var token = localStorage.getItem("auth")
@@ -31,6 +39,13 @@ export default function ScheduleExisting() {
             console.log(err)
         }); 
     },[])
+    const search = (users:PatientDto[]) => {
+        return users.filter(
+          (u) => u.name.toLowerCase().includes(searchText) || u.surname.toLowerCase().includes(searchText) || (u.name + ' ' + u.surname).toLowerCase().includes(searchText))
+      }
+        
+        
+      const filtered = search(patients);
     function schedule(term:PatientDto)
     {
         var token = localStorage.getItem("auth")
@@ -50,8 +65,11 @@ export default function ScheduleExisting() {
   return (
     <Container className="mt-12 mb-32">
       <h1 className="text-5xl text-center mb-12 text font-bold">Possible terms</h1>
-      {patients.map((term, index) =>{
-        return <div key={index} className="text my-6 text-2xl flex border-b-2 pb-6 border-emerald-700 justify-between">
+      <input className="border-2 mt-3 ml-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                onChange={(e)=>setSearchText(e.target.value)} type="search" name="search" placeholder="Search"></input>
+      {filtered.map((term, index) =>{
+        return<div key={index} className="text my-6 text-2xl flex border-b-2 pb-6 border-emerald-700 justify-between">
+            
           <span>
             <span className="font-bold mr-2">Term {" "}{index + 1}:</span>
             <span> {" "}{term.name}</span>
