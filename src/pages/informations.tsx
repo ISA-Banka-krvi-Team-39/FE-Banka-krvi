@@ -170,8 +170,8 @@ export default function MakeInfo() {
             </select>
           </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
-          <button onClick={informat} className={classNames(" rounded-[32px] px-8 py-4 font-medium text-2xl")}>
-            Make info
+          <button onClick={informat} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
+            <a href="/">Make info</a>
           </button>
           </div>
         </div>

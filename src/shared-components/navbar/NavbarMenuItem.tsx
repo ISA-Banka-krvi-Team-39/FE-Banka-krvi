@@ -6,19 +6,19 @@ import classNames from "classnames";
 interface props {
   children: ReactNode;
   href: string;
+  hidden:boolean;
 }
 
 const NavbarMenuItem: React.FC<props> = (props: props) => {
   const router = useRouter();
   const isActive =
     router.pathname === props.href ? "border-b border-emerald-200" : "";
-
   const style = classNames(
     isActive,
     "ml-6 text-md font-bold text-emerald-200"
   );
   return (
-    <Link href={props.href} className={style}>
+    <Link hidden={props.hidden} href={props.href} className={style}>
       {props.children}
     </Link>
   );
