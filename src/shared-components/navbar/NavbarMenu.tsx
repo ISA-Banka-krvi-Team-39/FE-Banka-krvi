@@ -38,10 +38,10 @@ const NavbarMenu: React.FC = () => {
       
       <div className="inline-flex mx-auto justify-end mr-10">
             
-            <NavbarMenuItem hidden={role == null} href="/auth/register">
+            <NavbarMenuItem hidden={role != "All"} href="/auth/register">
               Register
             </NavbarMenuItem>
-            <NavbarMenuItem hidden={role == null} href="/auth/login">
+            <NavbarMenuItem hidden={role != "All"} href="/auth/login">
               Login
             </NavbarMenuItem>
       </div>
