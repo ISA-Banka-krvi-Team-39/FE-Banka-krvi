@@ -1,7 +1,5 @@
 import classNames from "classnames";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Footer from "../footer/Footer";
-import Navbar from "../navbar/Navbar";
+import React, { useState } from "react";
 
 interface CustomInputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

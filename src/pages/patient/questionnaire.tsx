@@ -1,15 +1,18 @@
 import axios from "axios";
+import { useRouter } from "next/dist/client/router";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Container from "../../shared-components/container/Container";
 import { Answer } from "../../shared-components/model/questionnaire/Answer";
 import { Question } from "../../shared-components/model/questionnaire/Question";
 import { QuestionnaireClass } from "../../shared-components/model/questionnaire/QuestionnaireClass";
-import { UserInfo } from "../../shared-components/model/shared/userInfo";
+import { UserInfo } from "../../shared-components/model/shared/UserInfo";
 import { getDataFromToken } from "../../shared-components/navbar/getToken";
 
 export default function Questionnaire() {
     const [questions,setQuestions] = useState([Question]);
     const [answers,setAnswers] = useState([] as Answer[]);
+    const router = useRouter();
     function sendQuestionnaire(){
       var token = localStorage.getItem("auth")
       const tokenNotNull = token != null ? token : "";
@@ -19,20 +22,28 @@ export default function Questionnaire() {
           'Authorization': `Bearer ${token}`
           }
       }
-      var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-      axios.post("http://localhost:8080/api/questionnaire/save", new QuestionnaireClass(userInfo.id,answers),config).then(res => {console.log(res);})
-      .catch(err => {console.log(err)
-        alert(err.toString());
-      })
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        axios.post("http://localhost:8080/api/questionnaire/save", new QuestionnaireClass(userInfo.id,answers),config).then(res => {
+            router.push("/");
+        })
+        .catch(err => {
+            toast.error('Oops! Something went wrong!', {
+                position: toast.POSITION.TOP_RIGHT
+            })
+        })
     }
-    var token = localStorage.getItem("auth")
-    const tokenNotNull = token != null ? token : "";
-    const config = {
-        headers:{
-        'Access-Control-Allow-Origin' : '*',
-        'Authorization': `Bearer ${token}`
+    var tokenNotNull = ""
+    var config = {};
+    if (typeof window !== 'undefined') {
+        var token = localStorage.getItem("auth")
+        tokenNotNull = token != null ? token : "";
+        config = {
+            headers:{
+            'Access-Control-Allow-Origin' : '*',
+            'Authorization': `Bearer ${token}`
+            }
         }
-    }
+      }
     if(questions.length == 1){
     axios.get("http://localhost:8080/api/questionnaire/questions",config)
     .then(res => {
@@ -62,6 +73,7 @@ export default function Questionnaire() {
         Send questionnaire
       </button>
     </div>
+    <ToastContainer theme="dark" />
     </Container>
   )
 }

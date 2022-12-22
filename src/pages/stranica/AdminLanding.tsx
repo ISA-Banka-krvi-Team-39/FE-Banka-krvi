@@ -13,6 +13,7 @@ import { UserInfo } from '../../shared-components/model/shared/UserInfo'
 import { Router } from 'next/dist/client/router'
 
 
+
 var user: PatientUser;
 
 export default  function MyProfile() {
@@ -51,7 +52,7 @@ export default  function MyProfile() {
     const config = {
         headers:{
         'Access-Control-Allow-Origin' : '*',
-        'Authorization': `Basic ${token}`
+        'Authorization': `Bearer ${token}`
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);

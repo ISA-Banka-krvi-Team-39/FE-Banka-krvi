@@ -1,7 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
+import Link from 'next/link';
 import { useEffect, useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
+
+import { UserInfo } from '../shared-components/model/shared/UserInfo';
 import { AppointmentDTO } from '../shared-components/model/user/AppointmentDTO';
 import { Info } from '../shared-components/model/user/Info';
 import { PersonDescription } from '../shared-components/model/user/PersonDescription';
@@ -212,13 +215,13 @@ export default function MakeInfo() {
 
                     <div className='w-full inline-flex justify-center mt-5 mb-28'>
                         <button onClick={cret} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                            <a href="/informations">Continue</a>
+                            <Link href="/informations">Continue</Link>
                         </button>
                         <button onClick={descr} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                            <a href="/">Forbid</a>
+                            <Link href="/">Forbid</Link>
                         </button>
                         <button onClick={penal} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                            <a href="/">Penal</a>
+                            <Link href="/">Penal</Link>
                         </button>
                     </div>
                 </div>
