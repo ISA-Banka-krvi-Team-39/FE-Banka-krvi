@@ -10,6 +10,7 @@ const Links = [
     { Href: "/adminRegister", text: "Register admins" , role:"ROLE_ADMIN" },
     { Href: "/calendar", text: "Calendar" , role:"ROLE_ADMIN" },
     { Href: "/patient/schedule-existing", text: "Schedule term" , role:"ROLE_USER" },
+    { Href: "/patient/terms", text: "My terms" , role:"ROLE_USER" },
 ];
   
   export default Links;
