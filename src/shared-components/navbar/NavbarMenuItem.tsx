@@ -7,6 +7,7 @@ interface props {
   children: ReactNode;
   href: string;
   hidden:boolean;
+  onClick?:Function;
 }
 
 const NavbarMenuItem: React.FC<props> = (props: props) => {
@@ -18,7 +19,7 @@ const NavbarMenuItem: React.FC<props> = (props: props) => {
     "ml-6 text-md font-bold text-emerald-200"
   );
   return (
-    <Link hidden={props.hidden} href={props.href} className={style}>
+    <Link hidden={props.hidden} href={props.href} className={style} onClick={()=>props.onClick}>
       {props.children}
     </Link>
   );

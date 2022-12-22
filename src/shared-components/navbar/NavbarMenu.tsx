@@ -21,6 +21,10 @@ const NavbarMenu: React.FC = () => {
     console.log("role : " + role);
     
   },[]);
+  function logout()
+  {
+    localStorage.removeItem("auth");
+  }
   return (
     <div className="h-[98px] flex items-center mx-auto justify-between px-6">
       <div className="inline-flex w-full mx-auto">
@@ -43,6 +47,9 @@ const NavbarMenu: React.FC = () => {
             </NavbarMenuItem>
             <NavbarMenuItem hidden={role != "All"} href="/auth/login">
               Login
+            </NavbarMenuItem>
+            <NavbarMenuItem hidden={role == "All"} href="/" onClick={()=>{logout}}>
+              Logout
             </NavbarMenuItem>
       </div>
     </div>
