@@ -1,14 +1,17 @@
-import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import React, { ReactEventHandler } from "react";
+import { Calendar, momentLocalizer, View } from "react-big-calendar";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import YearView, { DateCallback } from 'react-calendar';
 import DatePicker from "react-datepicker";
 import {Term} from "../shared-components/model/center/Term"
 import "react-datepicker/dist/react-datepicker.css";
+
 import { UserInfo } from "../shared-components/model/shared/UserInfo";
 import { getDataFromToken } from "../shared-components/navbar/getToken";
+
 
 const localizer = momentLocalizer(moment);
 
@@ -57,10 +60,36 @@ const TermCalendar = () => {
         localStorage.setItem('termId',event.termId)
         router.push('/personDescription')
     }
+    
+    const [dat, setDate] = useState(new Date());
+    const [showYearly,setShowYearly] = useState(true);
+    const onChange = (date:Date) => {
+        
+        setDate(date)
+        let month:number = date.getMonth()
+        
+        setShowYearly(false)
+       
+      };
+    function selectYearly(){
+        setShowYearly(true)
+    }
 
     return (
-        <Calendar className="text-emerald-200" localizer={localizer} startAccessor="start"
-        endAccessor="end" events={events} onSelectEvent={handleSelected} style={{ height: 500, margin: "50px" }} />
+        <div>
+            {showYearly &&(
+        <div className="ml-[32rem] mt-[5rem] mb-[5rem] self-center">
+        <YearView defaultView="year" onClickMonth={onChange}  value={dat} />
+        </div>
+            )}
+        <div className="self-center">
+        {!showYearly &&<button className="ml-[71%] w-[4.7%] h-[3.45%] absolute mt-[0.1%] rounded-l-sm active:bg-slate-600 hover:bg-slate-400 border text-emerald-200" onClick={selectYearly}>Year</button>}
+        {!showYearly &&<Calendar  localizer={localizer} startAccessor="start"
+            endAccessor="end" events={events}   defaultView={"month"} date={dat} onNavigate={dat=>setDate(dat)} onSelectEvent={handleSelected} style={{ height: 500, margin: "50px" }} />
+            }
+        
+        </div>
+        </div>
     );
 }
  
