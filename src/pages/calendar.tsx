@@ -20,7 +20,6 @@ const TermCalendar = () => {
     useEffect(()=>{
         let event:any[] = [];
         var token = localStorage.getItem("auth")
-        const tokenNotNull = token != null ? token : "";
         const config = {
         headers:{
         'Access-Control-Allow-Origin' : '*',
@@ -30,7 +29,6 @@ const TermCalendar = () => {
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
         if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
         axios.get("http://localhost:8080/api/term/all",config).then(res => {
-        
         terms = res.data
         
         terms.forEach(function (term){
@@ -42,7 +40,6 @@ const TermCalendar = () => {
                                          ,termId: term.termId
                                         }
             event.push(ev); 
-            
         
         })
         setEvents(event)

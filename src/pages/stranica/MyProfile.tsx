@@ -8,8 +8,8 @@ import axios from 'axios'
 import { PersonGender } from '../../shared-components/model/user/PersonGender'
 import { PatientUser } from '../../shared-components/model/PatientUser/PatientUser'
 import { getDataFromToken } from '../../shared-components/navbar/getToken'
-import { toast, ToastContainer } from 'react-toastify'
 import { UserInfo } from '../../shared-components/model/shared/UserInfo'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 var user: PatientUser;

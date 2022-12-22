@@ -1,11 +1,11 @@
 import { Answer } from "./Answer";
 
 export class QuestionnaireClass {
-    public patientId:number;
+    public personId:number;
     public answers:Answer[];
 
-    constructor(patientId:number,answers:Answer[]) {
-      this.patientId = patientId;
+    constructor(personId:number,answers:Answer[]) {
+      this.personId = personId;
       this.answers = answers;
     }
   }
