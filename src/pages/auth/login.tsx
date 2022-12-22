@@ -68,6 +68,7 @@ export default function Login() {
             if (user.roles.toString().split('"')[1] == "ROLE_ADMIN"){
                 
                 checkIfWasLogged(user)
+                window.location.href = '/';
                 
             }else{
                 router.push('/');
