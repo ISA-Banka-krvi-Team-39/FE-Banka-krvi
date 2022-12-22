@@ -164,9 +164,9 @@ export default function MakeInfo() {
             }}
             >
             <option value="0"></option>
-              <option value="A+">A+</option>
-              <option value="B+">B+</option>
-              <option value="O-">O-</option>
+              <option value="APLUS">A+</option>
+              <option value="BPLUS">B+</option>
+              <option value="ONEG">O-</option>
             </select>
           </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
