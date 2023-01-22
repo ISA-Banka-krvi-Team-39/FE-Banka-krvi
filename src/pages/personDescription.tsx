@@ -41,7 +41,7 @@ export default function MakeInfo() {
             appointmentDto.personId = Number(localStorage.getItem("personId"));
             appointmentDto.termId = Number(localStorage.getItem("termId"));
             console.log(appointmentDto.personId + " " + appointmentDto.termId);      
-            axios.post("http://localhost:8080/api/appointment/cancel", appointmentDto, config)
+            axios.post("http://localhost:8081/api/appointment/cancel", appointmentDto, config)
                 .then(res => {
                     router.push('/');
                 })
@@ -64,7 +64,7 @@ export default function MakeInfo() {
             appointmentDto.personId = Number(localStorage.getItem("personId"));
             appointmentDto.termId = Number(localStorage.getItem("termId"));
             console.log(appointmentDto.personId + " " + appointmentDto.termId);
-            axios.post("http://localhost:8080/api/appointment/create", appointmentDto, config)
+            axios.post("http://localhost:8081/api/appointment/create", appointmentDto, config)
                 .then(res => {
                     localStorage.setItem('AppointmentId', res.data.appointmentId);
                     router
@@ -92,7 +92,7 @@ export default function MakeInfo() {
             appointmentDto.personId = Number(localStorage.getItem("personId"));
             appointmentDto.termId = Number(localStorage.getItem("termId"));
             console.log(appointmentDto.personId + " " + appointmentDto.termId);
-            axios.post("http://localhost:8080/api/appointment/penal", appointmentDto, config)
+            axios.post("http://localhost:8081/api/appointment/penal", appointmentDto, config)
                 .then(res => {
                     localStorage.setItem('AppointmentId', res.data.appointmentId);
                     if (localStorage.getItem('AppointmentId') == null)
@@ -117,7 +117,7 @@ export default function MakeInfo() {
                 'Authorization': `Bearer ${token}`
                 }
             }
-            axios.get("http://localhost:8080/api/appointment/description/" + appointmentDto.personId, config)
+            axios.get("http://localhost:8081/api/appointment/description/" + appointmentDto.personId, config)
             .then(res => {
                 setAntibiotics(res.data.antibiotics);
                 setInfections(res.data.infections);

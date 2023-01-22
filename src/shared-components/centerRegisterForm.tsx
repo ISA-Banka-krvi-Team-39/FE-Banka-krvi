@@ -33,7 +33,7 @@ const CenterRegisterForm: React.FC<props> = (props) => {
             name:name, description:description, avgGrade:0,workingMedicalStaff:medicalStaff
         }
 
-        fetch('http://localhost:8080/api/center',{
+        fetch('http://localhost:8081/api/center',{
             method:'POST',
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(center)

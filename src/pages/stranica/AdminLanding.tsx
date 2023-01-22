@@ -38,7 +38,7 @@ export default  function MyProfile() {
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-    axios.get("http://localhost:8080/api/person/"+userInfo.id,config)
+    axios.get("http://localhost:8081/api/person/"+userInfo.id,config)
       .then(res => {
       user = res.data;
       console.log(user)
@@ -56,7 +56,7 @@ export default  function MyProfile() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    axios.put("http://localhost:8080/api/person/landing/"+userInfo.id, user,config)
+    axios.put("http://localhost:8081/api/person/landing/"+userInfo.id, user,config)
       .then(res => {
     })
     .catch(err => console.log(err));

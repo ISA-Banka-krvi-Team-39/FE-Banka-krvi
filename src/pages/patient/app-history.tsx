@@ -35,7 +35,7 @@ export default function ScheduleExisting() {
             }
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-        axios.get("http://localhost:8080/api/appointment/patient/" + userInfo.id,config).then(res => {
+        axios.get("http://localhost:8081/api/appointment/patient/" + userInfo.id,config).then(res => {
             setPatients(res.data);
             console.log(res.data)
         }).catch(err => {

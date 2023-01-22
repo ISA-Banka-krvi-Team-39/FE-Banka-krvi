@@ -35,7 +35,7 @@ export default function ScheduleExisting() {
             'Authorization': `Bearer ${token}`
             }
         }
-        axios.get("http://localhost:8080/api/patient/terms",config).then(res => {
+        axios.get("http://localhost:8081/api/patient/terms",config).then(res => {
             setPatients(res.data);
             console.log(res.data)
         }).catch(err => {
