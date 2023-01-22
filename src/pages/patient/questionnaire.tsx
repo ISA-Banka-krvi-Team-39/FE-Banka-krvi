@@ -23,7 +23,7 @@ export default function Questionnaire() {
           }
       }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-        axios.post("http://localhost:8080/api/questionnaire/save", new QuestionnaireClass(userInfo.id,answers),config).then(res => {
+        axios.post("http://localhost:8081/api/questionnaire/save", new QuestionnaireClass(userInfo.id,answers),config).then(res => {
             router.push("/");
         })
         .catch(err => {
@@ -45,7 +45,7 @@ export default function Questionnaire() {
         }
       }
     if(questions.length == 1){
-    axios.get("http://localhost:8080/api/questionnaire/questions",config)
+    axios.get("http://localhost:8081/api/questionnaire/questions",config)
     .then(res => {
         setQuestions(res.data);
         var answersList = [] as Answer[];

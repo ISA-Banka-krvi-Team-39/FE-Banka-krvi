@@ -25,7 +25,7 @@ export default function Terms() {
             }
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-        axios.get("http://localhost:8080/api/term/all/"+ userInfo.id,config).then(res => {
+        axios.get("http://localhost:8081/api/term/all/"+ userInfo.id,config).then(res => {
             setTerms(res.data);
         }).catch(err => {
             console.log(err)
@@ -53,16 +53,18 @@ export default function Terms() {
         else minutes = date.getMinutes().toString();
         return "- " + hours +":" + minutes;
     }
-    function cancel(term:Term)
+    function cancel(term:TermForPatient)
     {
         var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
         const config = {
             headers:{
             'Access-Control-Allow-Origin' : '*',
             'Authorization': `Bearer ${token}`
             }
         }
-        axios.put("http://localhost:8080/api/term/cancel/"+ term.termId,null, config)
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        axios.put("http://localhost:8081/api/term/cancel/"+ term.termId +"/"+userInfo.id,null, config)
         .then(res => {
             toast.success('Your term is evidented!', {
                 position: toast.POSITION.TOP_RIGHT

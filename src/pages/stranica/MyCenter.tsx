@@ -35,7 +35,7 @@ const MyCenter: React.FC<props> = (props: props) => {
   console.log(availableAdmins);
   console.log(scheduledAdmins);
   function doSomething() { 
-    axios.get("http://localhost:8080/api/center/1")
+    axios.get("http://localhost:8081/api/center/1")
     .then(res => {
 
       collectedCenter = res.data;
@@ -99,7 +99,7 @@ function undooAdmin(assignedAdmin:WorkingStaff){
     
     }, [])
   function updateCenter() { 
-    axios.put("http://localhost:8080/api/center/1",collectedCenter)
+    axios.put("http://localhost:8081/api/center/1",collectedCenter)
     .then(res => {
       collectedCenter.name = name;
       collectedCenter.description = description;

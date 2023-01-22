@@ -23,7 +23,7 @@ async function RegisterUser(user:User):Promise<Boolean> {
       'Authorization': `Bearer ${token}`
       }
   }
-  await axios.get<Boolean>("http://localhost:8080/api/person/check-uid/"+user.uid,config).then(res => {
+  await axios.get<Boolean>("http://localhost:8081/api/person/check-uid/"+user.uid,config).then(res => {
     uidUnique=res.data;
     if(!uidUnique)
     {
@@ -33,7 +33,7 @@ async function RegisterUser(user:User):Promise<Boolean> {
     }
   }).catch(err => {console.log(err)})
 
-  await axios.get<Boolean>("http://localhost:8080/api/user/check-email/"+user.email,config).then(res => {
+  await axios.get<Boolean>("http://localhost:8081/api/user/check-email/"+user.email,config).then(res => {
     emailUnique=res.data;
     if(!emailUnique)
     {
@@ -44,7 +44,7 @@ async function RegisterUser(user:User):Promise<Boolean> {
   }).catch(err => {console.log(err)})
   if(!emailUnique || !uidUnique)
     return false;
-  axios.post("http://localhost:8080/api/auth/createSystemAdmin", user,config).then(res => {
+  axios.post("http://localhost:8081/api/auth/createSystemAdmin", user,config).then(res => {
     toast.success('You successfuly registered another system admin!', {
       position: toast.POSITION.TOP_RIGHT
       });

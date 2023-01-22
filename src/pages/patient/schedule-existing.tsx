@@ -23,7 +23,7 @@ export default function ScheduleExisting() {
             'Authorization': `Bearer ${token}`
             }
         }
-        axios.get("http://localhost:8080/api/term/all/free",config).then(res => {
+        axios.get("http://localhost:8081/api/term/all/free",config).then(res => {
             setTerms(res.data);
         }).catch(err => {
             console.log(err)
@@ -62,15 +62,23 @@ export default function ScheduleExisting() {
             }
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-        axios.put("http://localhost:8080/api/term/schedule/"+ userInfo.id, term, config)
+        axios.get("http://localhost:8081/api/canceled-term/"+ userInfo.id+"/"+term.termId, config)
         .then(res => {
-            toast.success('Your term is evidented!', {
-                position: toast.POSITION.TOP_RIGHT
+            axios.put("http://localhost:8081/api/term/schedule/"+ userInfo.id, term, config)
+            .then(res => {
+                toast.success('Your term is evidented!', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                router.push("/");
+            })
+            .catch(err => {
+                toast.error('Seems like you had blood donation in last 6 months or will donate in next 6 months or you didnt fill questionnaire, you cant schedule now!', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
             });
-            router.push("/");
         })
         .catch(err => {
-            toast.error('Seems like you had blood donation in last 6 months or will donate in next 6 months or you didnt fill questionnaire, you cant schedule now!', {
+            toast.error('You already canceled this term so you can schedule it again', {
                 position: toast.POSITION.TOP_RIGHT
             });
         });

@@ -30,7 +30,7 @@ export default function Centers() {
       'Access-Control-Allow-Origin' : '*',
       }
     }
-    axios.get("http://localhost:8080/api/center/list/?page="+ (page-1).toString()+"&size=5&sort=" + sortBy + ","+ sortDirection + "&name=" + searchName + "&city=" + searchCity + "&gradeFilterFrom=" + gradeFilterFrom + "&gradeFilterTo=" + gradeFilterTo  ,config)
+    axios.get("http://localhost:8081/api/center/list/?page="+ (page-1).toString()+"&size=5&sort=" + sortBy + ","+ sortDirection + "&name=" + searchName + "&city=" + searchCity + "&gradeFilterFrom=" + gradeFilterFrom + "&gradeFilterTo=" + gradeFilterTo  ,config)
     .then(res => {
         setLastPage(res.data.totalPages);
         setCenters(res.data.content);

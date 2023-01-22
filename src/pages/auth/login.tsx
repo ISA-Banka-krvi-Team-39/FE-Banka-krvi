@@ -36,7 +36,7 @@ export default function Login() {
         }
         }
         let admin:AdminUser;
-        await axios.get("http://localhost:8080/api/systemAdmin/"+user.id,config)
+        await axios.get("http://localhost:8081/api/systemAdmin/"+user.id,config)
         .then(res => {
             admin = res.data;
             if(admin.wasLoggedIn == false){
@@ -59,7 +59,7 @@ export default function Login() {
             'Access-Control-Allow-Origin' : '*',
             }
         }
-        await axios.post("http://localhost:8080/api/auth/login", new LoginUser(email,password),config).then(res => {
+        await axios.post("http://localhost:8081/api/auth/login", new LoginUser(email,password),config).then(res => {
             localStorage.setItem("auth", res.data.accessToken);
             localStorage.setItem("login", "true");
 

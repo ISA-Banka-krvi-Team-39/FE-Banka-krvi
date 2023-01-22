@@ -44,7 +44,7 @@ export default  function SystemAdminLanding() {
     }
     
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    axios.get("http://localhost:8080/api/systemAdmin/"+userInfo.id,config)
+    axios.get("http://localhost:8081/api/systemAdmin/"+userInfo.id,config)
       .then(res => {
       admin = res.data;
       
@@ -69,7 +69,7 @@ export default  function SystemAdminLanding() {
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     user.password = password
     
-    axios.put("http://localhost:8080/api/person/landing/"+userInfo.id, user,config)
+    axios.put("http://localhost:8081/api/person/landing/"+userInfo.id, user,config)
       .then(res => {
     })
     .catch(err => console.log(err));

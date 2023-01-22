@@ -26,7 +26,7 @@ const CenterRegister = () => {
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-    axios.get("http://localhost:8080/api/person/admins",config).then(res => {
+    axios.get("http://localhost:8081/api/person/admins",config).then(res => {
     
       setAdmins(res.data)
     

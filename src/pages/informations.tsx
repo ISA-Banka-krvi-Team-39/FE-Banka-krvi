@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
+import Link from 'next/link';
 import { useState } from 'react'
 import CustomInput from '../shared-components/Inputs/CustomInput';
 import { Info } from '../shared-components/model/user/Info';
@@ -49,7 +50,7 @@ export default function MakeInfo() {
         else
             retA = '1';
         info.appointmentId = retA;
-        axios.post("http://localhost:8080/api/appointment/info", info,config)
+        axios.post("http://localhost:8081/api/appointment/info", info,config)
         .then(res => {
         console.log(res);
         })
@@ -171,7 +172,7 @@ export default function MakeInfo() {
           </div>
           <div className='w-full inline-flex justify-center mt-5 mb-28'>
           <button onClick={informat} className="mx-4 duration-150 rounded-[48px] pt-4 pb-5 font-bold px-12  hover:scale-105 text-2xl text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-            <a href="/">Make info</a>
+            <Link href="/">Make info</Link>
           </button>
           </div>
         </div>

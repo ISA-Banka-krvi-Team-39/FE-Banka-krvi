@@ -18,7 +18,7 @@ export default function Login() {
         'Access-Control-Allow-Origin' : '*',
         }
     }
-    axios.put(`http://localhost:8080/api/user/activate/${code}` ,config).then(res => {
+    axios.put(`http://localhost:8081/api/user/activate/${code}` ,config).then(res => {
         localStorage.setItem("activationSuccess", "true");
         toast.error('Activation success! You can now login', {
             position: toast.POSITION.TOP_RIGHT

@@ -47,7 +47,7 @@ export default function ScheduleByDateTime() {
             'Authorization': `Bearer ${token}`
             }
         }
-         axios.get("http://localhost:8080/api/center/listDateTime/?localDateTime=" + name,config).then(res => {
+         axios.get("http://localhost:8081/api/center/listDateTime/?localDateTime=" + name,config).then(res => {
              setTerms(res.data);
          }).catch(err => {
              console.log(err)
@@ -64,7 +64,7 @@ export default function ScheduleByDateTime() {
             }
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-        axios.put("http://localhost:8080/api/term/scheduleByDate/"+userInfo.id + "?termId=" + term.termId, config)
+        axios.put("http://localhost:8081/api/term/scheduleByDate/"+userInfo.id + "?termId=" + term.termId, config)
         .then(res => {
             toast.success('Your term is evidented!', {
                 position: toast.POSITION.TOP_RIGHT

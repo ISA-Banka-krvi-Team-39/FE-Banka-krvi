@@ -20,7 +20,7 @@ const Users = () => {
     'Authorization': `Bearer ${token}`
     }
     }
-    axios.get("http://localhost:8080/api/person/all",config).then(res => {
+    axios.get("http://localhost:8081/api/person/all",config).then(res => {
     
       setUsers(res.data)
     

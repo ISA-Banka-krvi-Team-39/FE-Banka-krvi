@@ -35,7 +35,7 @@ const TermCalendar = () => {
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
         if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-        axios.get("http://localhost:8080/api/term/all",config).then(res => {
+        axios.get("http://localhost:8081/api/term/all",config).then(res => {
         terms = res.data
         console.log(terms)
         terms.forEach(function (term){

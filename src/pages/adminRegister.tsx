@@ -54,7 +54,7 @@ export default function RegisterCenterAdmin() {
       'Access-Control-Allow-Origin' : '*',
       }
     }
-    axios.post("http://localhost:8080/api/user/createAdmin", user,config)
+    axios.post("http://localhost:8081/api/user/createAdmin", user,config)
     .then(res => {
       console.log(res);
     })

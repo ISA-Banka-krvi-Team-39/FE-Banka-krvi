@@ -34,7 +34,7 @@ export default function Register() {
     var token = localStorage.getItem("auth")
     const tokenNotNull = token != null ? token : "";
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-     axios.get("http://localhost:8080/api/person/medicalStaff" + "?adminId=" + userInfo.id )
+     axios.get("http://localhost:8081/api/person/medicalStaff" + "?adminId=" + userInfo.id )
        .then(res => {
         setMedicalStaffs(res.data);
         if(medicalStaffs != null)
@@ -58,7 +58,7 @@ export default function Register() {
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     createTermDTO.managerId = userInfo.id;
     createTermDTO.medicalStaffId = selectedMS;
-    axios.post("http://localhost:8080/api/term/createTerm",createTermDTO,config)
+    axios.post("http://localhost:8081/api/term/createTerm",createTermDTO,config)
        .then(res => {
         if(res.data == "200")
         toast.success("Success! Go to calendar and check it out!", {

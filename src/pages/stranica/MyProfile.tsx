@@ -61,7 +61,7 @@ export default  function MyProfile() {
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     if(userInfo.roles.length == 0)window.location.href = '/';
-    axios.get("http://localhost:8080/api/person/"+ userInfo.id,config)
+    axios.get("http://localhost:8081/api/person/"+ userInfo.id,config)
       .then(res => {
       user = res.data;
       setProfile();
@@ -83,7 +83,7 @@ export default  function MyProfile() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    axios.put("http://localhost:8080/api/person/"+ userInfo.id, user, config)
+    axios.put("http://localhost:8081/api/person/"+ userInfo.id, user, config)
       .then(res => {
         toast.success('Your information has been updated!', {
             position: toast.POSITION.TOP_RIGHT
