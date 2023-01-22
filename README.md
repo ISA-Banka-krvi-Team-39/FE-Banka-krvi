@@ -14,6 +14,8 @@ yarn add classnames
 
 to run frontend app run
 ```bash
+yarn install
+then
 npm run dev
 # or
 yarn dev
