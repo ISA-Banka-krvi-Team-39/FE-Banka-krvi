@@ -13,5 +13,6 @@ const Links = [
     { Href: "/patient/schedule-existing", text: "Schedule term" , role:"ROLE_USER" },
     { Href: "/patient/terms", text: "My terms" , role:"ROLE_USER" },
     { Href: "/stranica/CreateTerm", text: "Create Terms", role:"ROLE_ADMIN"},
+    { Href: "/patient/schadule-by-datetime", text: "Schedule term by date" , role:"ROLE_USER" },
 ];
   export default Links;
