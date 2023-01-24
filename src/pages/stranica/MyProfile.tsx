@@ -30,6 +30,7 @@ export default  function MyProfile() {
   const [role,setRole] = useState('');
   const [points,setPoints] = useState('');
   const [gender,setGender] = useState('');
+  const [penals,setPenals]= useState(0);
 
   function setProfile() {
     setName(user.name);
@@ -65,6 +66,11 @@ export default  function MyProfile() {
       .then(res => {
       user = res.data;
       setProfile();
+    })
+    .catch(err => console.log(err));
+    axios.get("http://localhost:8081/api/patient/"+ userInfo.id+"/penals",config)
+    .then(res => {
+        setPenals(res.data)
     })
     .catch(err => console.log(err));
   }, []);
@@ -231,7 +237,9 @@ export default  function MyProfile() {
         </div>
       </div>
       <div id="patient" className='h-[750px] w-[600px] rounded-2xl py-5 px-5 border-4 border-black bg-emerald-800 text-slate-300 text-3xl break-words overflow-hidden'>
-        <p>Vi ste {role} i imate {points} poena, mozete da dobijete cak do 20l krvi :)</p>
+        <p>You are {role} and you have {points} points, you can get up to 20l of blood :)</p>
+        <br/>
+        <p> You have {penals} penals take care to not cross 3!</p>
       </div>
       <ToastContainer theme="dark" />
     </div>
