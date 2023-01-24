@@ -64,18 +64,28 @@ export default function ScheduleExisting() {
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
         axios.get("http://localhost:8081/api/canceled-term/"+ userInfo.id+"/"+term.termId, config)
         .then(res => {
-            axios.put("http://localhost:8081/api/term/schedule/"+ userInfo.id, term, config)
+            axios.get("http://localhost:8081/api/patient/"+ userInfo.id+"/penals",config)
             .then(res => {
-                toast.success('Your term is evidented!', {
-                    position: toast.POSITION.TOP_RIGHT
+                if(res.data >= 3){
+                    toast.error('You have 3 or more penals! You cant schedule!', {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+                    return;
+                }
+                axios.put("http://localhost:8081/api/term/schedule/"+ userInfo.id, term, config)
+                .then(res => {
+                    toast.success('Your term is evidented!', {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+                    router.push("/");
+                })
+                .catch(err => {
+                    toast.error('Seems like you had blood donation in last 6 months or will donate in next 6 months or you didnt fill questionnaire, you cant schedule now!', {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
                 });
-                router.push("/");
             })
-            .catch(err => {
-                toast.error('Seems like you had blood donation in last 6 months or will donate in next 6 months or you didnt fill questionnaire, you cant schedule now!', {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-            });
+            .catch(err => console.log(err));
         })
         .catch(err => {
             toast.error('You already canceled this term so you can schedule it again', {
