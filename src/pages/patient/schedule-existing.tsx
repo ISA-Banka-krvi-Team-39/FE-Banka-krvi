@@ -95,7 +95,6 @@ export default function ScheduleExisting() {
     }
     function sortAsc()
     {
-        console.log("Usao asc!")
         const sortedAsc = terms.sort(
             (objA, objB) =>
             new Date(Number(objA.dateTime[0]),Number(objA.dateTime[1])-1,Number(objA.dateTime[2]),Number(objA.dateTime[3]),Number(objA.dateTime[4])).getTime()
@@ -105,7 +104,6 @@ export default function ScheduleExisting() {
     }
     function sortDesc()
     {
-        console.log("Usao desc!")
         const sortedDesc = terms.sort(
             (objA, objB) =>
             new Date(Number(objB.dateTime[0]),Number(objB.dateTime[1])-1,Number(objB.dateTime[2]),Number(objB.dateTime[3]),Number(objB.dateTime[4])).getTime()
@@ -118,7 +116,7 @@ export default function ScheduleExisting() {
     <Container className="mt-12 mb-32">
         <div className="flex justify-center">
             <h1 className="text-5xl text-center mb-12 text font-bold">Possible terms</h1>
-            <img src={Sort.src} alt="sort" className='w-6 mb-[52px] h-6 my-auto cursor-pointer' onClick={() =>{
+            <img src={Sort.src} alt="sort" className='w-6 mb-[52px] ml-4 h-6 my-auto cursor-pointer' onClick={() =>{
                         if(sortedBy === "DESC"){
                             sortAsc();
                             setSortedBy("ASC");
