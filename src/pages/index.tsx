@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify'
 import styles from '../styles/Home.module.css'
+import Doctors from '../public/Doctors.png'
 
 
 export default function Home() {
@@ -36,11 +38,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
     <main>
-      <div className="h-52 text">
-      Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-      </div>
+        <div className="relative mb-16 h-1/2 rounded-b-[50%] overflow-hidden bg-emerald-800 text">
+            <h1 className="absolute mb-64 text-6xl font-bold text-emerald-900 bg-emerald-300 backdrop-blur-md shadow-[0_0px_64px_43px_rgba(110,231,183,0.5)] py-4 px-8 bg-opacity-50 rounded-[64px] left-1/2 -translate-x-1/2 bottom-0"> We are here for you!</h1>
+            <img src={Doctors.src} alt="Doctors" className=' my-auto'/>
+        </div>
     </main>
     <ToastContainer theme="dark" />
   </div>
