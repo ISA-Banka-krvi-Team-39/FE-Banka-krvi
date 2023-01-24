@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import {  useState, useEffect} from 'react'
 import AssignButton from '../../shared-components/AssignButton';
 import CustomInput from '../../shared-components/Inputs/CustomInput'
@@ -32,10 +32,18 @@ const MyCenter: React.FC<props> = (props: props) => {
   const availableAdmins: WorkingStaff[] = props.admins
   const scheduledAdmins: WorkingStaff[] = props.scheduledAdmins
   let medicalStaff: MedicalStaff[] = []
-  console.log(availableAdmins);
-  console.log(scheduledAdmins);
+
   function doSomething() { 
-    axios.get("http://localhost:8081/api/center/1")
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.get("http://localhost:8081/api/center/1",config)
     .then(res => {
 
       collectedCenter = res.data;
@@ -99,7 +107,16 @@ function undooAdmin(assignedAdmin:WorkingStaff){
     
     }, [])
   function updateCenter() { 
-    axios.put("http://localhost:8081/api/center/1",collectedCenter)
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.put("http://localhost:8081/api/center/1",collectedCenter,config)
     .then(res => {
       collectedCenter.name = name;
       collectedCenter.description = description;

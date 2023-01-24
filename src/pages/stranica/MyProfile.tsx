@@ -239,7 +239,7 @@ export default  function MyProfile() {
       <div id="patient" className='h-[750px] w-[600px] rounded-2xl py-5 px-5 border-4 border-black bg-emerald-800 text-slate-300 text-3xl break-words overflow-hidden'>
         <p>You are {role} and you have {points} points, you can get up to 20l of blood :)</p>
         <br/>
-        <p> You have {penals} penals take care to not cross 3!</p>
+        <p className={(role=="MEDICALSTAFF")? 'hidden' : undefined}> You have {penals} penals take care to not cross 3!</p>
       </div>
       <ToastContainer theme="dark" />
     </div>
