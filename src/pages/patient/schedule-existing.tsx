@@ -80,7 +80,7 @@ export default function ScheduleExisting() {
                     router.push("/");
                 })
                 .catch(err => {
-                    toast.error('Seems like you had blood donation in last 6 months or will donate in next 6 months or you didnt fill questionnaire, you cant schedule now!', {
+                    toast.error(err.response.data.message, {
                         position: toast.POSITION.TOP_RIGHT
                     });
                 });
