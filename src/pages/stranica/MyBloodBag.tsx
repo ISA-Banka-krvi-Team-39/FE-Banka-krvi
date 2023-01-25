@@ -7,8 +7,9 @@ import { getDataFromToken } from "../../shared-components/navbar/getToken";
 var bloodBagList : [BloodBag];
 export default  function MyProfile() {
 
-  const [bloodbag,setBloodBag] = useState<BloodBag[]>([]);
-  useEffect(()=>{
+
+  function getBags(id : number )
+  {
     const token = localStorage.getItem("auth");
     const tokenNotNull = token != null ? token : "";
     const config = {
@@ -18,9 +19,7 @@ export default  function MyProfile() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-
-    axios.get("http://localhost:8081/api/bloodbag/list",config)
+    axios.put("http://localhost:8081/api/bloodbag/list/" + id,id,config)
     .then(res => {
       bloodBagList = res.data;
       setBloodBag(res.data);
@@ -31,6 +30,28 @@ export default  function MyProfile() {
       console.log(err)
     }
       )
+  }
+  const [bloodbag,setBloodBag] = useState<BloodBag[]>([]);
+  const [centerId,setCenterId] = useState(Number);
+  useEffect(()=>{
+    
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
+    axios.put("http://localhost:8081/api/center/find/" + userInfo.id,1,config)
+    .then(res => {
+      setCenterId(res.data);
+      getBags(res.data);
+
+    }).catch(err => console.log(err))
+   
      
      }, [])
   return (
