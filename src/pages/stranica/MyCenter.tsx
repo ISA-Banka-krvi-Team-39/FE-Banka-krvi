@@ -25,6 +25,7 @@ htmvar = "";
 const MyCenter: React.FC<props> = (props: props) => {
 
   const [name,setName] = useState('');
+  const [centerId,setCenterId] = useState('');
   const [description,setDescription] = useState('');
   const [avgGrade,setAvgGrade] = useState('');
   const [country,setCountry] = useState('');
@@ -36,8 +37,7 @@ const MyCenter: React.FC<props> = (props: props) => {
   const [terms,setTerms] = useState([] as TermForPatient[]);
   let medicalStaff: MedicalStaff[] = []
 
-  console.log(availableAdmins.length);
-  function doSomething() { 
+  function doSomething(id:number) { 
     const token = localStorage.getItem("auth");
     const tokenNotNull = token != null ? token : "";
     const config = {
@@ -47,7 +47,8 @@ const MyCenter: React.FC<props> = (props: props) => {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    axios.get("http://localhost:8081/api/center/1",config)
+    
+    axios.get("http://localhost:8081/api/center/" + id,config)
     .then(res => {
 
       collectedCenter = res.data;
@@ -125,8 +126,13 @@ function undoAdmin(assignedAdmin:WorkingStaff){
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
+    axios.put("http://localhost:8081/api/center/find/" + userInfo.id,1,config)
+    .then(res => {
+        setCenterId('' + res.data);
+        doSomething(res.data);
 
-   doSomething();
+    }).catch(err => console.log(err))
+   
    getTerms();
     
     }, [])
@@ -140,7 +146,8 @@ function undoAdmin(assignedAdmin:WorkingStaff){
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    axios.put("http://localhost:8081/api/center/1",collectedCenter,config)
+
+    axios.put("http://localhost:8081/api/center/" + centerId,collectedCenter,config)
     .then(res => {
       collectedCenter.name = name;
       collectedCenter.description = description;
