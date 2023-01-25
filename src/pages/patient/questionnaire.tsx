@@ -69,7 +69,7 @@ export default function Questionnaire() {
         </div>
       })}
     <div className="flex justify-center mb-16 mt-16">
-      <button className="text-emerald-200 bg-emerald-900 rounded-[48px] px-12 py-6 font-medium text-4xl" onClick={sendQuestionnaire}>
+      <button className="duration-150 text-emerald-200 bg-emerald-900 rounded-[48px] px-12 py-6 font-medium text-4xl hover:scale-[1.03] hover:text-emerald-900 hover:bg-emerald-200" onClick={sendQuestionnaire}>
         Send questionnaire
       </button>
     </div>
