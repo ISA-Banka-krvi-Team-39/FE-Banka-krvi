@@ -25,7 +25,8 @@ const MyCenterAdmins = () => {
       }
     axios.get("http://localhost:8081/api/person/admins",config).then(res => {
   
-    setAdmins(res.data)
+    setAdmins(res.data);
+    console.log(admins.length);
   
     }).catch(err => {
       console.log(err)
