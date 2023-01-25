@@ -1,6 +1,7 @@
 import { PatientUser } from "../PatientUser/PatientUser";
 import { Center } from "./center";
 import { State } from "./State";
+import 'rxjs/Rx';
 
 export class TermForPatient {
     termId:number;

@@ -7,6 +7,7 @@ import { MedicalStaff } from '../../shared-components/model/shared/MedicalStaff'
 import { CreateCenterDTO } from '../../shared-components/model/center/CreateCenterDTO';
 import { UserInfo } from '../../shared-components/model/shared/UserInfo';
 import { getDataFromToken } from '../../shared-components/navbar/getToken';
+import { TermForPatient } from '../../shared-components/model/center/TermForPatient';
 
 const fetcher = (url: string) => fetch(url,{mode: 'no-cors'}).then((res) => res.json());
 interface props {
@@ -15,6 +16,7 @@ interface props {
  
 }
 var collectedCenter : CreateCenterDTO;
+var filtered: TermForPatient;
 var pers : string;
 var htmvar : string;
 pers = "";
@@ -31,8 +33,10 @@ const MyCenter: React.FC<props> = (props: props) => {
   const [streetNumber,setStreetNumber] = useState('');
   const availableAdmins: WorkingStaff[] = props.admins
   const scheduledAdmins: WorkingStaff[] = props.scheduledAdmins
+  const [terms,setTerms] = useState([] as TermForPatient[]);
   let medicalStaff: MedicalStaff[] = []
 
+  console.log(availableAdmins.length);
   function doSomething() { 
     const token = localStorage.getItem("auth");
     const tokenNotNull = token != null ? token : "";
@@ -60,9 +64,44 @@ const MyCenter: React.FC<props> = (props: props) => {
     .catch(err => console.log(err))
     
   }
+  function getTerms() { 
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+  axios.get("http://localhost:8081/api/term/admin",config)
+    .then(res => {
+     filtered = res.data;
+     setTerms(res.data);
+
+    }).catch(err => console.log(err))
+  }
+
+  function cancelTerm(id : number) { 
+    const token = localStorage.getItem("auth");
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+  axios.get("http://localhost:8081/api/term/cancel/" + id,config)
+    .then(res => {
+      window.location.reload();
+    }).catch(err => console.log(err))
+  }
+
+
   function assignAdmins(assignedAdmin:WorkingStaff){
     medicalStaff.push(new MedicalStaff(assignedAdmin));
-    console.log(medicalStaff);
+    if(medicalStaff.length != 0)
     collectedCenter.workingMedicalStaff = medicalStaff;
     
 }
@@ -74,22 +113,6 @@ function undoAdmin(assignedAdmin:WorkingStaff){
     }
     
   });
-  console.log(medicalStaff)
-}
-function assignnAdmins(assignedAdmin:WorkingStaff){
-  medicalStaff.forEach((ms,index) => {
-    if(ms.person.personId === assignedAdmin.personId){
-      medicalStaff.splice(index,1)
-    }
-    
-  });
-  
-}
-
-function undooAdmin(assignedAdmin:WorkingStaff){
-  medicalStaff.push(new MedicalStaff(assignedAdmin));
-    console.log(medicalStaff);
-    collectedCenter.workingMedicalStaff = medicalStaff;
 }
   useEffect(()=>{
     const token = localStorage.getItem("auth");
@@ -104,6 +127,7 @@ function undooAdmin(assignedAdmin:WorkingStaff){
     if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
 
    doSomething();
+   getTerms();
     
     }, [])
   function updateCenter() { 
@@ -128,6 +152,7 @@ function undooAdmin(assignedAdmin:WorkingStaff){
       var convertedToNumber: number = +streetNumber;
       collectedCenter.address.streetNumber = streetNumber;
       collectedCenter.workingMedicalStaff = medicalStaff;
+      window.location.reload();
 
     }).catch(err => console.log(err))
   }
@@ -203,7 +228,7 @@ function undooAdmin(assignedAdmin:WorkingStaff){
           }}
           nameToSet='Street Number'
         ></CustomInput>
-        <label className='text-4xl text-emerald-600'>Available administrators:</label>
+        <label style={{ display: ((availableAdmins.length !=0) ? 'block' : 'none')}} className='text-4xl text-emerald-600'>Available administrators:</label>
       {availableAdmins.map((admin,index)=>(
         
           <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col rounded-[15px] text-2xl text-emerald-200" key={index}>       
@@ -214,13 +239,25 @@ function undooAdmin(assignedAdmin:WorkingStaff){
         
       ))}
       <br></br>
-      <label className='text-4xl text-emerald-600'>Working administrators:</label>
+      <label style={{ display: ((scheduledAdmins.length !=0) ? 'block' : 'none')}} className='text-4xl text-emerald-600'>Working administrators:</label>
       {scheduledAdmins.map((admin,index)=>(
         
         <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col rounded-[15px] text-2xl text-emerald-200" key={index}>       
           <p>{admin.name} {admin.surname}</p>
           <AssignButton value="Resign"  handleAssign={()=>assignAdmins(admin)} handleUndo={()=>undoAdmin(admin)}></AssignButton>
         </div>
+    ))}
+      <br></br>
+    <br></br>
+    <label style={{ display: ((terms.length !=0) ? 'block' : 'none')}}  className='text-4xl text-emerald-600'>Terms:</label>
+      {terms.map((admin,index)=>(
+        
+        <div className="bg-emerald-800 px-2 py-1 border-b-2 border-black flex flex-col rounded-[15px] text-2xl text-emerald-200" key={index}>       
+         <p>{"Duration:" + admin.durationInMinutes} {" Date:" + admin.dateTime}{" State:" +admin.state}</p>
+         <button onClick={() =>cancelTerm(admin.termId)}  className="duration-150 rounded-[48px] pt-1 pb-2 font-bold px-12  hover:scale-105 text-md text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
+                Cancel
+            </button>
+          </div>
     ))}
         <div  className='w-full inline-flex justify-center mt-5 mb-28'>
         <button onClick={updateCenter} className="bg-emerald-900 rounded-[32px] px-8 py-4 text-emerald-200 font-medium text-2xl">
@@ -232,6 +269,7 @@ function undooAdmin(assignedAdmin:WorkingStaff){
         <p id='proba'>{pers}</p>
       </div>
     </div>
+    
 )
 }
 export default MyCenter;
