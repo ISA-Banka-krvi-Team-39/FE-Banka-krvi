@@ -46,18 +46,51 @@ export default function Register() {
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-     axios.get("http://localhost:8081/api/term/free",config)
-       .then(res => {
-        setTerms(res.data);
-     })
-     .catch(err => console.log(err));
-     axios.get("http://localhost:8081/api/patient/all",config)
-       .then(res => {
-        setPatients(res.data);
-     })
-     .catch(err => console.log(err));
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
+    axios.put("http://localhost:8081/api/center/find/" + userInfo.id,1,config)
+    .then(res => {
+      findFreeTerms(res.data);
+      findAllPatients(res.data);
+
+    }).catch(err => console.log(err))
+    
+    
      validate();
   },[termDate,lastTermDate]);
+  function findFreeTerms(id : number)
+  {
+    var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.get("http://localhost:8081/api/term/free/" + id,config)
+    .then(res => {
+     setTerms(res.data);
+  })
+  .catch(err => console.log(err));
+  }
+  function findAllPatients(id : number)
+  {
+    var token = localStorage.getItem("auth")
+    const tokenNotNull = token != null ? token : "";
+    const config = {
+        headers:{
+        'Access-Control-Allow-Origin' : '*',
+        'Authorization': `Bearer ${token}`
+        }
+    }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.get("http://localhost:8081/api/patient/all" ,config)
+    .then(res => {
+     setPatients(res.data);
+  })
+  .catch(err => console.log(err));
+  }
   function getLastTerm(id : number)
   {
     var strr;
