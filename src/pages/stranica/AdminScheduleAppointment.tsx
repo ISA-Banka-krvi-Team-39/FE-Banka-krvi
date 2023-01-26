@@ -45,6 +45,7 @@ export default function Register() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
      axios.get("http://localhost:8081/api/term/free",config)
        .then(res => {
         setTerms(res.data);

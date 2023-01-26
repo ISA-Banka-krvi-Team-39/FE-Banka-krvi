@@ -19,6 +19,7 @@ export default  function MyProfile() {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
     axios.put("http://localhost:8081/api/bloodbag/list/" + id,id,config)
     .then(res => {
       bloodBagList = res.data;

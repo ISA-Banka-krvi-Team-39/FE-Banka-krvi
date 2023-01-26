@@ -47,7 +47,7 @@ const MyCenter: React.FC<props> = (props: props) => {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
     axios.get("http://localhost:8081/api/center/" + id,config)
     .then(res => {
 
