@@ -98,7 +98,7 @@ export default function ScheduleExisting() {
             <span> {" "}{term.surname}</span>
             </span>
             <button onClick={() =>schedule(term)} className="duration-150 rounded-[48px] pt-1 pb-2 font-bold px-12  hover:scale-105 text-md text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
-                schedule
+                Start
             </button>
         </div>
       })}

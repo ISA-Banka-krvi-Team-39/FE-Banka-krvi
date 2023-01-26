@@ -4,6 +4,8 @@ import UserList from '../shared-components/UserList';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { getDataFromToken } from '../shared-components/navbar/getToken';
+import { UserInfo } from '../shared-components/model/shared/UserInfo';
 
 const Users = () => {
   const [users,setUsers] = useState<PersonDTO[]>([]);
@@ -20,6 +22,8 @@ const Users = () => {
     'Authorization': `Bearer ${token}`
     }
     }
+    var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
     axios.get("http://localhost:8081/api/person/all",config).then(res => {
     
       setUsers(res.data)
