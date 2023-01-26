@@ -61,7 +61,7 @@ export default function MakeInfo() {
         console.log(err)
         alert(err.toString());
         });
-        axios.post("http://localhost:8081/api/appointment/" + bags +"/" + needle, info,config)
+        axios.post("http://localhost:8081/api/appointment/" + bags +"/" + needle + "/" + info.appointmentId, info,config)
         .then(res => {
         console.log(res);
         })

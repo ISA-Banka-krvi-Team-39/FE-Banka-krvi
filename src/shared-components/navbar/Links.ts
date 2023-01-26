@@ -18,6 +18,7 @@ const Links = [
     { Href: "/stranica/AdminScheduleAppointment", text: "Schedule", role:"ROLE_ADMIN" },
     { Href: "/stranica/AllPatients", text: "Patients", role:"ROLE_ADMIN" },
     { Href: "/findTerm", text: "Create report", role:"ROLE_ADMIN" },
+    { Href: "/stranica/CenterStatistics", text: "Statistics", role:"ROLE_ADMIN"}
     
 ];
   export default Links;
