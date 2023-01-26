@@ -29,12 +29,15 @@ export default function ScheduleExisting() {
       }
         let event:any[] = [];
         var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
         const config = {
             headers:{
             'Access-Control-Allow-Origin' : '*',
             'Authorization': `Bearer ${token}`
             }
         }
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
         axios.get("http://localhost:8081/api/patient/terms",config).then(res => {
             setPatients(res.data);
             console.log(res.data)
