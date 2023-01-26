@@ -23,6 +23,10 @@ export default function ScheduleExisting() {
             'Authorization': `Bearer ${token}`
             }
         }
+        const tokenNotNull = token != null ? token : "";
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        if(userInfo == null)window.location.href = '/';
+        else if(userInfo.roles.toString().split('"')[1] !== "ROLE_USER")window.location.href = '/';
         axios.get("http://localhost:8081/api/term/all/free",config).then(res => {
             setTerms(res.data);
         }).catch(err => {

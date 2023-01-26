@@ -29,6 +29,8 @@ export default function Terms() {
             }
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        if(userInfo == null)window.location.href = '/';
+        else if(userInfo.roles.toString().split('"')[1] !== "ROLE_USER")window.location.href = '/';
         axios.get("http://localhost:8081/api/term/all/"+ userInfo.id,config).then(res => {
             setTerms(res.data);
             setShowTerms(res.data);

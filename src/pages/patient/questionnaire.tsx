@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import Container from "../../shared-components/container/Container";
 import { Answer } from "../../shared-components/model/questionnaire/Answer";
@@ -13,6 +13,14 @@ export default function Questionnaire() {
     const [questions,setQuestions] = useState([Question]);
     const [answers,setAnswers] = useState([] as Answer[]);
     const router = useRouter();
+    
+    useEffect(()=>{
+        var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+        if(userInfo == null)window.location.href = '/';
+        else if(userInfo.roles.toString().split('"')[1] !== "ROLE_USER")window.location.href = '/';
+    })
     function sendQuestionnaire(){
       var token = localStorage.getItem("auth")
       const tokenNotNull = token != null ? token : "";
