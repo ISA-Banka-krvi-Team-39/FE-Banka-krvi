@@ -20,6 +20,9 @@ export default function MakeInfo() {
   const [reason,setReason] = useState('');
   const [startAt,setStartAt] = useState('');
   const [endAt,setEndAt] = useState('');
+  const [needle,setNeedle] = useState('');
+  const [bags,setBags] = useState('');
+  const [usedBags,setUsedBags] = useState('');
   const [appointmentId,setAppointmentId] = useState('');
 
     var info: InfoDTO = {note:note,bakarSulfat:bakarSulfat,bloodType:bloodType,hemoglobin:hemoglobin,
@@ -50,7 +53,15 @@ export default function MakeInfo() {
         else
             retA = '1';
         info.appointmentId = retA;
-        axios.post("http://localhost:8081/api/appointment/info", info,config)
+        axios.post("http://localhost:8081/api/appointment/info/" + usedBags, info,config)
+        .then(res => {
+        console.log(res);
+        })
+        .catch(err => {
+        console.log(err)
+        alert(err.toString());
+        });
+        axios.post("http://localhost:8081/api/appointment/" + bags +"/" + needle, info,config)
         .then(res => {
         console.log(res);
         })
@@ -150,6 +161,27 @@ export default function MakeInfo() {
                 setReason(event.target.value);
             }}
             nameToSet='Reason'
+          ></CustomInput>
+          <CustomInput 
+            type='text'
+            onChange={(event) => {
+                setBags(event.target.value);
+            }}
+            nameToSet='Used Bags'
+          ></CustomInput>
+          <CustomInput 
+            type='text'
+            onChange={(event) => {
+                setNeedle(event.target.value);
+            }}
+            nameToSet='Used needle'
+          ></CustomInput>
+          <CustomInput 
+            type='text'
+            onChange={(event) => {
+                setUsedBags(event.target.value);
+            }}
+            nameToSet='Collected bags'
           ></CustomInput>
 
           <div className="my-5 w-[700px]">
