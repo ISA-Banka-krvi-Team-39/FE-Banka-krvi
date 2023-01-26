@@ -24,9 +24,13 @@ export default  function SystemAdminLanding() {
   const [password,setPassword] = useState('');
   const [userName,setUserName] = useState('');
   const router = useRouter();
+  
+
+  
 
   useEffect(() => {
-    
+ 
+ 
     const token = localStorage.getItem("auth");
     const tokenNotNull = token != null ? token : "";
     const config = {
@@ -35,20 +39,12 @@ export default  function SystemAdminLanding() {
         'Authorization': `Bearer ${token}`
         }
     }
-    if(localStorage.getItem('wasLogged')==='false'){
-      
-      toast.error('You need to change your password first!', {
-        position: toast.POSITION.TOP_RIGHT
-    });
-
-    }
+    
     
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-    axios.get("http://localhost:8081/api/systemAdmin/"+userInfo.id,config)
+    axios.get("http://localhost:8080/api/systemAdmin/"+userInfo.id,config)
       .then(res => {
       admin = res.data;
-      
-     
       
       user = admin.person
       setUserName(admin.person.name);
@@ -69,13 +65,16 @@ export default  function SystemAdminLanding() {
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     user.password = password
     
-    axios.put("http://localhost:8081/api/person/landing/"+userInfo.id, user,config)
+    axios.put("http://localhost:8080/api/person/landing/"+userInfo.id, user,config)
       .then(res => {
     })
     .catch(err => console.log(err));
     setPassword("");
     setRepeatPassword("");
     localStorage.setItem('wasLogged','true')
+    toast.success('Password is successfully changed!', {
+      position: toast.POSITION.TOP_RIGHT
+  });
   }
 
   return (
@@ -108,7 +107,7 @@ export default  function SystemAdminLanding() {
       <div id="patient" className='h-[750px] w-[600px] rounded-2xl py-5 px-5 border-4 border-black bg-emerald-800 text-slate-300 text-3xl break-words overflow-hidden'>
         <p>Pozdrav {userName}, Vi ste administrator, nalog vam je kreiran automatski, molimo izaberite svoj password</p>
       </div>
-      <ToastContainer theme="dark" />
+      <ToastContainer limit={2} theme="dark" />
     </div>
 )
 }
