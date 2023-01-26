@@ -15,6 +15,7 @@ import { LocalDateTime } from "js-joda";
 import classNames from "classnames";
 import { TermByDate } from "../../shared-components/model/center/TermByDate";
 import { TermForPatient } from "../../shared-components/model/center/TermForPatient";
+import { CreateTermWithPatientDTO } from "../../shared-components/model/center/CreateTermWithPatientDTO";
 
 export default function ScheduleByDateTime() {
     const [terms,setTerms] = useState([] as TermByDate[]);
@@ -22,6 +23,10 @@ export default function ScheduleByDateTime() {
     const router = useRouter();
     const [name,setName] = useState(LocalDateTime.now().toString().substring(0,19));
     const [formValid,setFormValid] = useState(false);
+    const [duration,setDuration] = useState('');
+    const [centerId,setCenterId] = useState('');
+
+    var createTermDTO : CreateTermWithPatientDTO = new CreateTermWithPatientDTO(0,0,0,LocalDateTime.now(),0);
 
     useEffect(()=>{
         validate();
@@ -47,13 +52,13 @@ export default function ScheduleByDateTime() {
             'Authorization': `Bearer ${token}`
             }
         }
-         axios.get("http://localhost:8081/api/center/listDateTime/?localDateTime=" + name,config).then(res => {
+         axios.get("http://localhost:8081/api/center/listDateTime/?localDateTime=" + name + "&duration=" + duration,config).then(res => {
              setTerms(res.data);
          }).catch(err => {
              console.log(err)
          }); 
     }
-    function schedule(term:TermByDate)
+    function schedule(id:number)
     {
         var token = localStorage.getItem("auth")
         const tokenNotNull = token != null ? token : "";
@@ -64,17 +69,20 @@ export default function ScheduleByDateTime() {
             }
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-        axios.get("http://localhost:8081/api/canceled-term/"+ userInfo.id+"/"+term.termId, config)
+        axios.get("http://localhost:8081/api/patient/"+ userInfo.id+"/penals",config)
         .then(res => {
-            axios.get("http://localhost:8081/api/patient/"+ userInfo.id+"/penals",config)
-            .then(res => {
+            
                 if(res.data >= 3){
                     toast.error('You have 3 or more penals! You cant schedule!', {
                         position: toast.POSITION.TOP_RIGHT
                     });
                     return;
                 }
-                axios.put("http://localhost:8081/api/term/scheduleByDate/"+userInfo.id + "?termId=" + term.termId, config)
+                createTermDTO.dateTime = LocalDateTime.parse(name);
+                createTermDTO.durationInMinutes = Number.parseInt(duration);
+                createTermDTO.patientId = userInfo.id;
+                createTermDTO.centerId = id;
+                axios.post("http://localhost:8081/api/term/createTermWithPatient",createTermDTO, config)
                 .then(res => {
                     toast.success('Your term is evidented!', {
                         position: toast.POSITION.TOP_RIGHT
@@ -86,14 +94,8 @@ export default function ScheduleByDateTime() {
                         position: toast.POSITION.TOP_RIGHT
                     });
                 });
-            })
-            .catch(err => console.log(err));
         })
-        .catch(err => {
-            toast.error('You already canceled this term so you can schedule it again', {
-                position: toast.POSITION.TOP_RIGHT
-            });
-        });
+        .catch(err => console.log(err));
     }
 
     function validate(){
@@ -131,8 +133,18 @@ export default function ScheduleByDateTime() {
             }}
             nameToSet='Date and time'
           ></CustomInput>
+          <CustomInput
+            value={duration}
+            type='number'
+            regex='^.+$'
+            notValidText='Duration is in minutes insert only numbers!'
+            onChange={(event) => {
+              setDuration(event.target.value);
+            }}
+            nameToSet='Duration'
+          ></CustomInput>
           <button onClick={SearchTerm} disabled={!formValid} className={classNames(" rounded-[32px] px-8 py-4 font-medium text-2xl",validButton)}>
-            Search Term
+            Search Centers
           </button>
         </div>
     <Container className="mt-12 mb-32">
@@ -155,9 +167,8 @@ export default function ScheduleByDateTime() {
                 <span> {" "}{term.name}</span>
                 <span> {" "}{term.city}</span>
                 <span> {" "}{term.avgGrade}</span>
-                <span> {" - "}{getDateTimeStart(term.termDateTime)}</span>
                 </span>
-                <button onClick={() =>schedule(term)} className="duration-150 rounded-[48px] pt-1 pb-2 font-bold px-12  hover:scale-105 text-md text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
+                <button onClick={() =>schedule(term.id)} className="duration-150 rounded-[48px] pt-1 pb-2 font-bold px-12  hover:scale-105 text-md text-emerald-200 bg-emerald-900 hover:text-emerald-900 hover:bg-emerald-200">
                     schedule
                 </button>
             </div>

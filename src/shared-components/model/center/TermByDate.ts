@@ -4,14 +4,12 @@ export class TermByDate {
     name:string;
     city:string;
     avgGrade:number;
-    termId:number;
-    termDateTime:String;
+    id:number;
 
-    constructor(name:string,city:string,avgGrade:number,termId:number,termDateTime:String) {
+    constructor(name:string,city:string,avgGrade:number,termId:number,id:number) {
       this.name = name;
       this.city = city;
       this.avgGrade = avgGrade;
-      this.termId = termId;
-      this.termDateTime = termDateTime;
+      this.id = id;
     }
   }

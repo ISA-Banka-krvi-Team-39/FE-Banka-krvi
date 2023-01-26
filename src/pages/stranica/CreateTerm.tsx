@@ -31,10 +31,17 @@ export default function Register() {
   
   useEffect(() => {
     validate();
+    
     var token = localStorage.getItem("auth")
     const tokenNotNull = token != null ? token : "";
+    const config = {
+      headers:{
+      'Access-Control-Allow-Origin' : '*',
+      'Authorization': `Bearer ${token}`
+      }
+  }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-     axios.get("http://localhost:8081/api/person/medicalStaff" + "?adminId=" + userInfo.id )
+     axios.get("http://localhost:8081/api/person/medicalStaff" + "?adminId=" + userInfo.id ,config)
        .then(res => {
         setMedicalStaffs(res.data);
         if(medicalStaffs != null)
