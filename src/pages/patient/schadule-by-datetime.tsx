@@ -52,6 +52,7 @@ export default function ScheduleByDateTime() {
             'Authorization': `Bearer ${token}`
             }
         }
+        console.log(name);
          axios.get("http://localhost:8081/api/center/listDateTime/?localDateTime=" + name + "&duration=" + duration,config).then(res => {
              setTerms(res.data);
          }).catch(err => {
