@@ -7,17 +7,12 @@ First, run the development server:
 before running use this commands
 ```bash
 npm istall --global yarn
-yarn add next react react-dom
-yarn add axios
-yarn add classnames
 ```
 
 to run frontend app run
 ```bash
 yarn install
 then
-npm run dev
-# or
 yarn dev
 ```
 
