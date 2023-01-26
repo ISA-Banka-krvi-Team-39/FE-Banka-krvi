@@ -86,6 +86,16 @@ export default function ScheduleExisting() {
             
         setTerms(sortedData);
     }
+    function getDateFromString(str:string)
+    {
+        var retStr = "";
+        for(let i = 0 ; i < str.length;i++ )
+        {
+                retStr += str.charAt(i);
+                if(i == 3 || i == 5 || i == 7)retStr += " ";
+        }
+        console.log(retStr);
+    }
     function schedule(term:PatientDto)
     {
         var token = localStorage.getItem("auth")
@@ -120,7 +130,7 @@ export default function ScheduleExisting() {
             
             <ul>
 
-            Term {" "}{index + 1}:{term.bloodDonor.name} {term.bloodDonor.surname} {term.dateTime}
+            Term {" "}{index + 1}:{term.bloodDonor.name} {term.bloodDonor.surname} {term.dateTime.toString().split(",")[0] + " " + term.dateTime.toString().split(",")[1] + " " + term.dateTime.toString().split(",")[2]   }
             </ul>
           {/* <span>
             <span className="font-bold mr-2">Term {" "}{index + 1}:</span>
