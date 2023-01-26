@@ -46,7 +46,6 @@ export default function Register() {
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
     if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-    if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
     axios.put("http://localhost:8081/api/center/find/" + userInfo.id,1,config)
     .then(res => {
       findFreeTerms(res.data);
@@ -204,7 +203,7 @@ export default function Register() {
             }}
             >
               {terms.map((medStaff,index) => (
-                <option key={index} value={medStaff.termId}>{medStaff.dateTime} {medStaff.durationInMinutes}</option>
+                <option key={index} value={medStaff.termId}>{medStaff.dateTime.toString().split(",")[2]+"/"+ medStaff.dateTime.toString().split(",")[1] + "/" + medStaff.dateTime.toString().split(",")[0] }</option>
                 ))}
             </select>
           </div>

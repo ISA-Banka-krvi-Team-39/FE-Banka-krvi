@@ -42,7 +42,6 @@ export default function ScheduleExisting() {
         axios.put("http://localhost:8081/api/center/find/" + userInfo.id,1,config)
         .then(res => {
             setCenterId(res.data);
-            console.log(res.data);
             findAllDone(res.data);
     
         }).catch(err => console.log(err))
