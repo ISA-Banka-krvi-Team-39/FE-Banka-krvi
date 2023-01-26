@@ -20,6 +20,7 @@ export default function ScheduleExisting() {
     const [patients,setPatients] = useState([] as PatientDto[]);
     const router = useRouter();
     const [searchText,setSearchText] = useState('');
+    const [centerId,setCenterId] = useState('');
     
 
     
@@ -38,13 +39,33 @@ export default function ScheduleExisting() {
         }
         var userInfo:UserInfo = getDataFromToken(tokenNotNull);
         if(userInfo.roles.toString().split('"')[1] !== "ROLE_ADMIN")window.location.href = '/';
-        axios.get("http://localhost:8081/api/term/all/done",config).then(res => {
+        axios.put("http://localhost:8081/api/center/find/" + userInfo.id,1,config)
+        .then(res => {
+            setCenterId(res.data);
+            console.log(res.data);
+            findAllDone(res.data);
+    
+        }).catch(err => console.log(err))
+        
+    },[])
+    function findAllDone(id : number)
+    {
+      var token = localStorage.getItem("auth")
+        const tokenNotNull = token != null ? token : "";
+        const config = {
+            headers:{
+            'Access-Control-Allow-Origin' : '*',
+            'Authorization': `Bearer ${token}`
+            }
+        }
+        var userInfo:UserInfo = getDataFromToken(tokenNotNull);
+    axios.get("http://localhost:8081/api/term/all/done/" + id,config).then(res => {
             setTerms(res.data);
             console.log(res.data)
         }).catch(err => {
             console.log(err)
         }); 
-    },[])
+      }
     const search = (users:PatientDto[]) => {
         return users.filter(
           (u) => u.name.toLowerCase().includes(searchText) || u.surname.toLowerCase().includes(searchText) || (u.name + ' ' + u.surname).toLowerCase().includes(searchText))

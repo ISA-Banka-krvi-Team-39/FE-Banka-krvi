@@ -65,7 +65,7 @@ const MyCenter: React.FC<props> = (props: props) => {
     .catch(err => console.log(err))
     
   }
-  function getTerms() { 
+  function getTerms(id : number) { 
     const token = localStorage.getItem("auth");
     const tokenNotNull = token != null ? token : "";
     const config = {
@@ -75,7 +75,7 @@ const MyCenter: React.FC<props> = (props: props) => {
         }
     }
     var userInfo:UserInfo = getDataFromToken(tokenNotNull);
-  axios.get("http://localhost:8081/api/term/admin",config)
+  axios.get("http://localhost:8081/api/term/admin/" + id,config)
     .then(res => {
      filtered = res.data;
      setTerms(res.data);
@@ -130,10 +130,11 @@ function undoAdmin(assignedAdmin:WorkingStaff){
     .then(res => {
         setCenterId('' + res.data);
         doSomething(res.data);
+        getTerms(res.data);
 
     }).catch(err => console.log(err))
    
-   getTerms();
+   
     
     }, [])
   function updateCenter() { 
